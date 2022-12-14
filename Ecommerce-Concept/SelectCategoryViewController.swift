@@ -20,7 +20,6 @@ class SelectCategoryViewController: UIViewController {
     private lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: generateCollectionViewLayout())
         collectionView.backgroundColor = .white
-        //collectionView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
         collectionView.register(SelectCategoryCell.self,
                                 forCellWithReuseIdentifier: SelectCategoryCell.reuseID)
         collectionView.register(SelectCategoryHeader.self,
@@ -54,6 +53,7 @@ class SelectCategoryViewController: UIViewController {
     }
     
     private func setupView() {
+    
     }
 }
 
@@ -64,18 +64,19 @@ extension SelectCategoryViewController: UICollectionViewDelegate, UICollectionVi
     // MARK: - CollectionView configure
         
     private func generateCollectionViewLayout() -> UICollectionViewLayout {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(17/100),
+        let itemSize = NSCollectionLayoutSize(widthDimension: .absolute(Metrics.selectCategoryItemWidth),
                                                 heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
          
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                               heightDimension: .fractionalHeight(17/100))
+        let groupWidth = Metrics.selectCategoryItemWidth * 15 + (15 * Metrics.spacingBetweenItemsInCategory)
+        let groupSize = NSCollectionLayoutSize(widthDimension: .absolute(groupWidth),
+                                               heightDimension: .fractionalHeight(12/100))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,
                                                             subitems: [item])
         group.contentInsets = Metrics.selectCategoryGroupInsets
-        group.interItemSpacing = NSCollectionLayoutSpacing.fixed(Metrics.spacingBetweenItemsInCategory)
+        group.interItemSpacing = .fixed(Metrics.spacingBetweenItemsInCategory)
         let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
-                                            heightDimension: .fractionalHeight(1/10))
+                                                heightDimension: .fractionalHeight(1/10))
         let header = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize,
                                                                  elementKind: Sections.selectCategory.rawValue,
                                                                  alignment: .top)
@@ -91,7 +92,7 @@ extension SelectCategoryViewController: UICollectionViewDelegate, UICollectionVi
     // Delegate methods
     #warning("Delete that")
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 5
+        return 15
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {

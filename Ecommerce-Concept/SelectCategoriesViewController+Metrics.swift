@@ -9,6 +9,7 @@ import UIKit
 
 extension SelectCategoryViewController {
     enum Metrics {
+        static let selectCategoryItemWidth: CGFloat = 71
         static let spacingBetweenItemsInCategory: CGFloat = 23
         static let selectCategoryGroupInsets = NSDirectionalEdgeInsets(top: 0,
                                                                        leading: 10,
@@ -18,6 +19,8 @@ extension SelectCategoryViewController {
                                                                          leading: 17,
                                                                          bottom: 0,
                                                                          trailing: 0)
+        static let windowWidth = UIScreen.main.bounds.width
+        static let windowHeight = UIScreen.main.bounds.height
     }
 }
 

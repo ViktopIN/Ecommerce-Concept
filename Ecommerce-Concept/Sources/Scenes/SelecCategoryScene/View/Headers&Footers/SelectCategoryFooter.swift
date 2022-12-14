@@ -1,5 +1,5 @@
 //
-//  HotSalesHeader.swift
+//  SelectCategoryFooter.swift
 //  Ecommerce-Concept
 //
 //  Created by Виктор on 14.12.2022.
@@ -7,16 +7,16 @@
 
 import UIKit
 
-class HotSalesHeader: UICollectionReusableView {
+class SelectCategoryFooter: UICollectionReusableView {
     
     // MARK: - Properties
     
-    static let sectionHeader = "section-header-element-kind"
-    static let reuseID = "HotSalesHeader"
+    static let sectionFooter = "selectCategory-section-footer-element-kind"
+    static let reuseID = "SelectCategoryFooter"
     
     //  MARK: - Views
     
-    let placeholderView = UIView(background: .brown)
+    let placeholderView = UIView(background: .lightGray)
     
     // MARK: - Init
 
@@ -45,5 +45,3 @@ class HotSalesHeader: UICollectionReusableView {
         
     }
 }
-
-

@@ -1,5 +1,5 @@
 //
-//  SelectCategoryFooter.swift
+//  BestSellerHeader.swift
 //  Ecommerce-Concept
 //
 //  Created by Виктор on 14.12.2022.
@@ -7,16 +7,16 @@
 
 import UIKit
 
-class SelectCategoryFooter: UICollectionReusableView {
+class BestSellerHeader: UICollectionReusableView {
     
     // MARK: - Properties
     
-    static let sectionFooter = "section-footer-element-kind"
-    static let reuseID = "SelectCategoryFooter"
+    static let sectionHeader = "bestSeller-section-header-element-kind"
+    static let reuseID = "BestSellerHeader"
     
     //  MARK: - Views
     
-    let placeholderView = UIView(background: .lightGray)
+    let placeholderView = UIView(background: .blue)
     
     // MARK: - Init
 
@@ -45,3 +45,5 @@ class SelectCategoryFooter: UICollectionReusableView {
         
     }
 }
+
+

@@ -18,7 +18,7 @@ struct ItemModel: Hashable {
             ItemModel(name: "Name", image: UIImage()),
             ItemModel(name: "Name", image: UIImage()),
             ItemModel(name: "Name", image: UIImage()),
-            ItemModel(name: "Name", image: UIImage())
+            ItemModel(name: "Name", image: UIImage()),
         ]
         return model
     }
@@ -27,9 +27,23 @@ struct ItemModel: Hashable {
             ItemModel(name: "Name", image: UIImage()),
             ItemModel(name: "Name", image: UIImage()),
             ItemModel(name: "Name", image: UIImage())
-
         ]
         return model
     }
-
+    
+    static func getValueBestSeller() -> [Self] {
+        let model: [ItemModel] = [
+            ItemModel(name: "Name", image: UIImage()),
+            ItemModel(name: "Name", image: UIImage()),
+            ItemModel(name: "Name", image: UIImage()),
+            ItemModel(name: "Name", image: UIImage()),
+            ItemModel(name: "Name", image: UIImage()),
+            ItemModel(name: "Name", image: UIImage()),
+            ItemModel(name: "Name", image: UIImage()),
+            ItemModel(name: "Name", image: UIImage()),
+            ItemModel(name: "Name", image: UIImage()),
+            ItemModel(name: "Name", image: UIImage())
+        ]
+        return model
+    }
 }

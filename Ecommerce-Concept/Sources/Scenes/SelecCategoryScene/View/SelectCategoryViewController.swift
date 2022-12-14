@@ -14,6 +14,7 @@ class SelectCategoryViewController: UIViewController {
     enum Sections: String, CaseIterable {
         case selectCategory
         case hotSales
+        case bestSeller
     }
     
     // MARK: - Views
@@ -35,6 +36,12 @@ class SelectCategoryViewController: UIViewController {
         collectionView.register(HotSalesHeader.self,
                                 forSupplementaryViewOfKind: HotSalesHeader.sectionHeader,
                                 withReuseIdentifier: HotSalesHeader.reuseID)
+        collectionView.register(BestSellerCell.self,
+                                forCellWithReuseIdentifier: BestSellerCell.reuseID)
+        collectionView.register(BestSellerHeader.self,
+                                forSupplementaryViewOfKind: BestSellerHeader.sectionHeader,
+                                withReuseIdentifier: BestSellerHeader.reuseID)
+
 
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
@@ -81,6 +88,8 @@ extension SelectCategoryViewController {
                 return self.selectCategoryLayout()
             case .hotSales:
                 return self.hotSalesLayout()
+            case .bestSeller:
+                return self.bestSellerLayout()
             }
         }
         return layout
@@ -93,6 +102,8 @@ extension SelectCategoryViewController {
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
         // Group
+        #warning("todo")
+        // TODO: - change form below
         let groupWidth = Metrics.selectCategoryItemWidth * 15 + (15 * Metrics.spacingBetweenItemsInCategory)
         let groupSize = NSCollectionLayoutSize(widthDimension: .absolute(groupWidth),
                                                heightDimension: .fractionalHeight(12/100))
@@ -132,6 +143,7 @@ extension SelectCategoryViewController {
                                                heightDimension: .fractionalHeight(1/5))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,
                                                             subitems: [item])
+        group.contentInsets = Metrics.hotSalesGroupInsets
         
         // Header & footer
         let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
@@ -148,6 +160,32 @@ extension SelectCategoryViewController {
         return section
     }
     
+    private func bestSellerLayout() -> NSCollectionLayoutSection {
+        // Item
+        let itemSize = NSCollectionLayoutSize(widthDimension: .estimated(181),
+                                                heightDimension: .estimated(227))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        item.contentInsets = Metrics.bestSellerItemInsets
+        
+        // Group
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
+                                               heightDimension: .estimated(1))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 2)
+        // Header & footer
+        let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
+                                                heightDimension: .fractionalHeight(1/10))
+        let header = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize,
+                                                                 elementKind: BestSellerHeader.sectionHeader,
+                                                                 alignment: .top)
+        // Section
+        let section = NSCollectionLayoutSection(group: group)
+        section.boundarySupplementaryItems = [header]
+        section.contentInsets = Metrics.bestSellerSectionInsets
+
+        return section
+    }
+
+    
     /// Data source configure
     private func dataSourceConfigure() {
         dataSource = UICollectionViewDiffableDataSource<Sections, ItemModel>(collectionView: self.collectionView) {
@@ -161,6 +199,9 @@ extension SelectCategoryViewController {
                 return cell
             case .hotSales:
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HotSalesCell.reuseID, for: indexPath) as? HotSalesCell else { fatalError("change HotSalesCell class") }
+                return cell
+            case .bestSeller:
+                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BestSellerCell.reuseID, for: indexPath) as? BestSellerCell else { fatalError("change HotSalesCell class") }
                 return cell
             }
         }
@@ -183,6 +224,11 @@ extension SelectCategoryViewController {
                                                                                    withReuseIdentifier: HotSalesHeader.reuseID,
                                                                                    for: indexPath) as? HotSalesHeader else { fatalError("error in HotSalesHeader class") }
                 return header
+            case BestSellerHeader.sectionHeader:
+                guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: elementKind,
+                                                                                   withReuseIdentifier: BestSellerHeader.reuseID,
+                                                                                   for: indexPath) as? BestSellerHeader else { fatalError("error in HotSalesHeader class") }
+                return header
 
 
             default:
@@ -199,6 +245,9 @@ extension SelectCategoryViewController {
         
         snapshot.appendSections([Sections.hotSales])
         snapshot.appendItems(ItemModel.getValueShopSales())
+        
+        snapshot.appendSections([Sections.bestSeller])
+        snapshot.appendItems(ItemModel.getValueBestSeller())
         
         return snapshot
     }

@@ -26,6 +26,19 @@ extension SelectCategoryViewController {
                                                                    leading: 15,
                                                                    bottom: 0,
                                                                    trailing: 20)
+        static let hotSalesGroupInsets = NSDirectionalEdgeInsets(top: 0,
+                                                                 leading: 0,
+                                                                 bottom: 0,
+                                                                 trailing: 35)
+
+        static let bestSellerSectionInsets = NSDirectionalEdgeInsets(top: 7,
+                                                                     leading: 17,
+                                                                     bottom: 7,
+                                                                     trailing: 21)
+        static let bestSellerItemInsets = NSDirectionalEdgeInsets(top: 7,
+                                                                  leading: 6,
+                                                                  bottom: 7,
+                                                                  trailing: 6)
     }
 }
 

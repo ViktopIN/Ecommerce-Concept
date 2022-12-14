@@ -1,5 +1,5 @@
 //
-//  SelectCategoryCell.swift
+//  HotSalesHeader.swift
 //  Ecommerce-Concept
 //
 //  Created by Виктор on 14.12.2022.
@@ -7,15 +7,16 @@
 
 import UIKit
 
-class SelectCategoryCell: UICollectionViewCell {
+class HotSalesHeader: UICollectionReusableView {
     
     // MARK: - Properties
     
-    static let reuseID = "SelectCategoryCell"
-        
+    static let sectionHeader = "section-header-element-kind"
+    static let reuseID = "HotSalesHeader"
+    
     //  MARK: - Views
     
-    let placeholderView = UIView(background: #colorLiteral(red: 0.9098039269, green: 0.4784313738, blue: 0.6431372762, alpha: 1))
+    let placeholderView = UIView(background: .brown)
     
     // MARK: - Init
 
@@ -41,7 +42,8 @@ class SelectCategoryCell: UICollectionViewCell {
     }
     
     private func setupView() {
-        placeholderView.layer.borderColor = #colorLiteral(red: 0.7450980544, green: 0.1568627506, blue: 0.07450980693, alpha: 1)
-        placeholderView.layer.borderWidth = 2
+        
     }
 }
+
+

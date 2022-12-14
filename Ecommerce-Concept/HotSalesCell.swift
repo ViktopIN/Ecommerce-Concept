@@ -1,21 +1,22 @@
 //
-//  SelectCategoryCell.swift
+//  HotSalesCell.swift
 //  Ecommerce-Concept
 //
 //  Created by Виктор on 14.12.2022.
 //
 
+
 import UIKit
 
-class SelectCategoryCell: UICollectionViewCell {
+class HotSalesCell: UICollectionViewCell {
     
     // MARK: - Properties
     
-    static let reuseID = "SelectCategoryCell"
-        
+    static let reuseID = "HotSalesCell"
+    
     //  MARK: - Views
     
-    let placeholderView = UIView(background: #colorLiteral(red: 0.9098039269, green: 0.4784313738, blue: 0.6431372762, alpha: 1))
+    let placeholderView = UIView(background: #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1))
     
     // MARK: - Init
 

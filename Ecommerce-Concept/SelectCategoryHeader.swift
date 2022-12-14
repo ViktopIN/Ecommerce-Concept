@@ -11,6 +11,7 @@ class SelectCategoryHeader: UICollectionReusableView {
     
     // MARK: - Properties
     
+    static let sectionHeader = "section-header-element-kind"
     static let reuseID = "SelectCategoryHeader"
     
     //  MARK: - Views

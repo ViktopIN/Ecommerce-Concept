@@ -21,6 +21,11 @@ extension SelectCategoryViewController {
                                                                          trailing: 0)
         static let windowWidth = UIScreen.main.bounds.width
         static let windowHeight = UIScreen.main.bounds.height
+        
+        static let hotSalesSectionInsets = NSDirectionalEdgeInsets(top: 0,
+                                                                   leading: 15,
+                                                                   bottom: 0,
+                                                                   trailing: 20)
     }
 }
 

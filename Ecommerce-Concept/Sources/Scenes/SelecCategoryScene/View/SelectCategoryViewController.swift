@@ -162,8 +162,8 @@ extension SelectCategoryViewController {
     
     private func bestSellerLayout() -> NSCollectionLayoutSection {
         // Item
-        let itemSize = NSCollectionLayoutSize(widthDimension: .estimated(181),
-                                                heightDimension: .estimated(227))
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1/2),
+                                                heightDimension: .fractionalWidth(13/20))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         item.contentInsets = Metrics.bestSellerItemInsets
         
@@ -171,6 +171,7 @@ extension SelectCategoryViewController {
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
                                                heightDimension: .estimated(1))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 2)
+        
         // Header & footer
         let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
                                                 heightDimension: .fractionalHeight(1/10))

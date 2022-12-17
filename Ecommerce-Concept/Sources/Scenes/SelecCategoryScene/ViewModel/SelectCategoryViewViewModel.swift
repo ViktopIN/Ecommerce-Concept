@@ -69,6 +69,7 @@ final class SelectCategoryViewViewModel: SelectCategoryViewViewModelType {
         let header = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize,
                                                                  elementKind: SelectCategoryHeader.sectionHeader,
                                                                  alignment: .top)
+        header.contentInsets = Metrics.selectCategoryHeaderInsets
         let footerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
                                                 heightDimension: .fractionalHeight(1/10))
         let footer = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: footerSize,
@@ -193,6 +194,10 @@ extension SelectCategoryViewViewModel {
     enum Metrics {
         static let selectCategoryItemWidth: CGFloat = 71
         static let spacingBetweenItemsInCategory: CGFloat = 23
+        static let selectCategoryHeaderInsets = NSDirectionalEdgeInsets(top: 0,
+                                                                       leading: 0,
+                                                                       bottom: 18,
+                                                                       trailing: 0)
         static let selectCategoryGroupInsets = NSDirectionalEdgeInsets(top: 0,
                                                                        leading: 10,
                                                                        bottom: 0,
@@ -200,7 +205,7 @@ extension SelectCategoryViewViewModel {
         static let selectCategorySectionInsets = NSDirectionalEdgeInsets(top: 0,
                                                                          leading: 17,
                                                                          bottom: 0,
-                                                                         trailing: 0)
+                                                                         trailing: 30)
         static let windowWidth = UIScreen.main.bounds.width
         static let windowHeight = UIScreen.main.bounds.height
         

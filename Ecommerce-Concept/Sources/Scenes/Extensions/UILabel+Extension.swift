@@ -8,12 +8,27 @@
 import UIKit.UILabel
 
 extension UILabel {
-    convenience init(with textSize: CGFloat,
-                     and textWeight: UIFont.Weight,
+    enum MarkProFonts {
+        case heavy, bold, medium, regular
+    }
+    convenience init(constant text: String = "",
+                     with textSize: CGFloat,
+                     and markProFontType: MarkProFonts,
                      _ fontColor: UIColor = .black) {
         self.init()
         translatesAutoresizingMaskIntoConstraints = false
+        self.text = text
         self.textColor = fontColor
-        self.font = UIFont.systemFont(ofSize: textSize, weight: textWeight)
+        adjustsFontSizeToFitWidth = true
+        switch markProFontType {
+        case .heavy:
+            self.font = UIFont.markProHeavy(ofSize: textSize)
+        case .bold:
+            self.font = UIFont.markProBold(ofSize: textSize)
+        case .medium:
+            self.font = UIFont.markProMedium(ofSize: textSize)
+        case .regular:
+            self.font = UIFont.markProRegular(ofSize: textSize)
+        }
     }
 }

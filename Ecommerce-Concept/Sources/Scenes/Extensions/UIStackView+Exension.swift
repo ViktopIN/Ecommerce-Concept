@@ -22,4 +22,8 @@ extension UIStackView {
             self.layoutMargins = layoutMargins
         }
     }
+    
+    func addArrangedSubviews(_ views: UIView...) {
+        views.forEach { self.addArrangedSubview($0) }
+    }
 }

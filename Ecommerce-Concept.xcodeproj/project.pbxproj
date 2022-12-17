@@ -15,6 +15,11 @@
 		8469A84F294DC83F00FFA281 /* UIStackView+Exension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8469A84E294DC83F00FFA281 /* UIStackView+Exension.swift */; };
 		8469A851294DC90100FFA281 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8469A850294DC90100FFA281 /* UIColor+Extension.swift */; };
 		8469A853294DCD1800FFA281 /* UILabel+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8469A852294DCD1800FFA281 /* UILabel+Extension.swift */; };
+		8469A85B294DCE8900FFA281 /* MarkPro-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8469A857294DCE8900FFA281 /* MarkPro-Medium.ttf */; };
+		8469A85C294DCE8900FFA281 /* MarkPro-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8469A858294DCE8900FFA281 /* MarkPro-Bold.ttf */; };
+		8469A85D294DCE8900FFA281 /* MarkPro-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8469A859294DCE8900FFA281 /* MarkPro-Regular.ttf */; };
+		8469A85E294DCE8900FFA281 /* MarkPro-Heavy.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8469A85A294DCE8900FFA281 /* MarkPro-Heavy.ttf */; };
+		8469A860294DCFBE00FFA281 /* UIFont+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8469A85F294DCFBE00FFA281 /* UIFont+Extension.swift */; };
 		84DD1FA4294CB641009C766F /* SelectCategoryViewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84DD1FA3294CB641009C766F /* SelectCategoryViewViewModel.swift */; };
 		84DD1FA6294CB6EE009C766F /* SectionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84DD1FA5294CB6EE009C766F /* SectionModel.swift */; };
 		84E9123D2949FFEC00812437 /* SelectCategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E9123C2949FFEC00812437 /* SelectCategoryCell.swift */; };
@@ -39,6 +44,11 @@
 		8469A84E294DC83F00FFA281 /* UIStackView+Exension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView+Exension.swift"; sourceTree = "<group>"; };
 		8469A850294DC90100FFA281 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		8469A852294DCD1800FFA281 /* UILabel+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Extension.swift"; sourceTree = "<group>"; };
+		8469A857294DCE8900FFA281 /* MarkPro-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MarkPro-Medium.ttf"; sourceTree = "<group>"; };
+		8469A858294DCE8900FFA281 /* MarkPro-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MarkPro-Bold.ttf"; sourceTree = "<group>"; };
+		8469A859294DCE8900FFA281 /* MarkPro-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MarkPro-Regular.ttf"; sourceTree = "<group>"; };
+		8469A85A294DCE8900FFA281 /* MarkPro-Heavy.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MarkPro-Heavy.ttf"; sourceTree = "<group>"; };
+		8469A85F294DCFBE00FFA281 /* UIFont+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Extension.swift"; sourceTree = "<group>"; };
 		84DD1FA3294CB641009C766F /* SelectCategoryViewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectCategoryViewViewModel.swift; sourceTree = "<group>"; };
 		84DD1FA5294CB6EE009C766F /* SectionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionModel.swift; sourceTree = "<group>"; };
 		84E9123C2949FFEC00812437 /* SelectCategoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectCategoryCell.swift; sourceTree = "<group>"; };
@@ -66,6 +76,7 @@
 		843954B72941FCBE00651BAC = {
 			isa = PBXGroup;
 			children = (
+				8469A85F294DCFBE00FFA281 /* UIFont+Extension.swift */,
 				843954C22941FCBE00651BAC /* Ecommerce-Concept */,
 				843954C12941FCBE00651BAC /* Products */,
 			);
@@ -96,9 +107,21 @@
 			path = Protocols;
 			sourceTree = "<group>";
 		};
+		8469A854294DCDF400FFA281 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				8469A858294DCE8900FFA281 /* MarkPro-Bold.ttf */,
+				8469A85A294DCE8900FFA281 /* MarkPro-Heavy.ttf */,
+				8469A857294DCE8900FFA281 /* MarkPro-Medium.ttf */,
+				8469A859294DCE8900FFA281 /* MarkPro-Regular.ttf */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
 		84E9124A294A38D000812437 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				8469A854294DCDF400FFA281 /* Fonts */,
 				843954D12941FCBF00651BAC /* Info.plist */,
 				843954CC2941FCBF00651BAC /* Assets.xcassets */,
 				843954CE2941FCBF00651BAC /* LaunchScreen.storyboard */,
@@ -261,7 +284,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				843954D02941FCBF00651BAC /* LaunchScreen.storyboard in Resources */,
+				8469A85D294DCE8900FFA281 /* MarkPro-Regular.ttf in Resources */,
 				843954CD2941FCBF00651BAC /* Assets.xcassets in Resources */,
+				8469A85E294DCE8900FFA281 /* MarkPro-Heavy.ttf in Resources */,
+				8469A85C294DCE8900FFA281 /* MarkPro-Bold.ttf in Resources */,
+				8469A85B294DCE8900FFA281 /* MarkPro-Medium.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -278,6 +305,7 @@
 				84E91241294A005100812437 /* UIView+Extension.swift in Sources */,
 				84E91258294A3A3700812437 /* BestSellerCell.swift in Sources */,
 				84DD1FA6294CB6EE009C766F /* SectionModel.swift in Sources */,
+				8469A860294DCFBE00FFA281 /* UIFont+Extension.swift in Sources */,
 				84E91247294A113400812437 /* SelectCategoryFooter.swift in Sources */,
 				8469A84F294DC83F00FFA281 /* UIStackView+Exension.swift in Sources */,
 				8469A851294DC90100FFA281 /* UIColor+Extension.swift in Sources */,

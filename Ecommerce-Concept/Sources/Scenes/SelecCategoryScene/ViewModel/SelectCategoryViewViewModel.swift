@@ -8,6 +8,11 @@
 import UIKit
 
 final class SelectCategoryViewViewModel: SelectCategoryViewViewModelType {
+    
+    // MARK: Properties
+    
+    private var selectedCategorySelectedIndexPath: IndexPath!
+    
     // MARK: - Snapshot configure
 
     var selectCategoryItems = CategoryItemModel.getConstantValue()
@@ -180,6 +185,7 @@ final class SelectCategoryViewViewModel: SelectCategoryViewViewModelType {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SelectCategoryCell.reuseID,
                                                                 for: indexPath) as? SelectCategoryCell else { fatalError("change SelectCategoryCell class") }
             if indexPath.row == 0 {
+                selectedCategorySelectedIndexPath = indexPath
                 cell.configureCell(configure: itemIdentifier.image,
                                    isSelected: true,
                                    and: itemIdentifier.name)
@@ -198,6 +204,29 @@ final class SelectCategoryViewViewModel: SelectCategoryViewViewModelType {
                                                                 for: indexPath) as? BestSellerCell else { fatalError("change HotSalesCell class") }
             return cell
         }
+    }
+    
+    // MARK: - Selected Category Select Method
+    
+    func changeColorWithState(in indexPath: IndexPath,
+                              collectionView: UICollectionView,
+                              dataSource: UICollectionViewDiffableDataSource<Sections,CategoryItemModel >) {
+        let section = Sections.allCases[indexPath.section]
+        if section == .selectCategory {
+            guard indexPath != selectedCategorySelectedIndexPath else { return } 
+            guard let cell = collectionView.cellForItem(at: indexPath) as? SelectCategoryCell,
+                  let data = dataSource.itemIdentifier(for: indexPath) else { fatalError() }
+            cell.configureCell(configure: data.image,
+                               isSelected: true,
+                               and: data.name)
+           guard let unSelectedCell = collectionView.cellForItem(at: selectedCategorySelectedIndexPath) as?  SelectCategoryCell,
+                 let unSelectedData = dataSource.itemIdentifier(for: selectedCategorySelectedIndexPath) else { fatalError() }
+            unSelectedCell.configureCell(configure: unSelectedData.image,
+                                         isSelected: false,
+                                         and: unSelectedData.name)
+            selectedCategorySelectedIndexPath = indexPath
+        }
+
     }
 
 }

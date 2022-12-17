@@ -100,8 +100,8 @@
 		843954C22941FCBE00651BAC /* Ecommerce-Concept */ = {
 			isa = PBXGroup;
 			children = (
-				84E9124B294A390300812437 /* Sources */,
 				84E9124A294A38D000812437 /* Resources */,
+				84E9124B294A390300812437 /* Sources */,
 			);
 			path = "Ecommerce-Concept";
 			sourceTree = "<group>";
@@ -148,8 +148,8 @@
 		84E9124B294A390300812437 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				84E9124D294A390F00812437 /* Scenes */,
 				84E9124C294A390A00812437 /* App */,
+				84E9124D294A390F00812437 /* Scenes */,
 			);
 			path = Sources;
 			sourceTree = "<group>";

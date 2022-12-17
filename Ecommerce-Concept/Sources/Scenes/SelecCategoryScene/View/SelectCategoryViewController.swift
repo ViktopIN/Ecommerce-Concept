@@ -101,9 +101,17 @@ extension SelectCategoryViewController {
                                 forSupplementaryViewOfKind: BestSellerHeader.sectionHeader,
                                 withReuseIdentifier: BestSellerHeader.reuseID)
 
-
+        collectionView.delegate = self
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
     }
+}
 
+extension SelectCategoryViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView,
+                        didSelectItemAt indexPath: IndexPath) {
+        viewModel.changeColorWithState(in: indexPath,
+                                       collectionView: collectionView,
+                                       dataSource: dataSource)
+    }
 }

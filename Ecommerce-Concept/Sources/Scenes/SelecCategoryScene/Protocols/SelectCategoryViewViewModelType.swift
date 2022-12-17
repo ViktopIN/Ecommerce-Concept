@@ -18,5 +18,8 @@ protocol SelectCategoryViewViewModelType {
                                  elementKind: String,
                                  in collectionView: UICollectionView) -> UICollectionReusableView
     func recieveSnapShot() -> NSDiffableDataSourceSnapshot<Section, Item>
+    func changeColorWithState(in indexPath: IndexPath,
+                              collectionView: UICollectionView,
+                              dataSource: UICollectionViewDiffableDataSource<Sections,CategoryItemModel >)
 }
 

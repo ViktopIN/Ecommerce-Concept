@@ -8,13 +8,14 @@
 import UIKit
 
 final class SelectCategoryViewViewModel: SelectCategoryViewViewModelType {
+    // MARK: - Snapshot configure
 
-    var selectCategoryItems = ItemModel.getValueSelectCategory()
-    var hotSalesItems = ItemModel.getValueShopSales()
-    var bestSellerItem = ItemModel.getValueBestSeller()
+    var selectCategoryItems = CategoryItemModel.getConstantValue()
+    var hotSalesItems = CategoryItemModel.getValueShopSales()
+    var bestSellerItem = CategoryItemModel.getValueBestSeller()
         
-    func recieveSnapShot() -> NSDiffableDataSourceSnapshot<Sections, ItemModel> {
-        var snapshot = NSDiffableDataSourceSnapshot<Sections, ItemModel>()
+    func recieveSnapShot() -> NSDiffableDataSourceSnapshot<Sections, CategoryItemModel> {
+        var snapshot = NSDiffableDataSourceSnapshot<Sections, CategoryItemModel>()
         snapshot.appendSections([Sections.selectCategory])
         snapshot.appendItems(selectCategoryItems)
         
@@ -171,17 +172,30 @@ final class SelectCategoryViewViewModel: SelectCategoryViewViewModelType {
     
     
     func recieveCellView(with indexPath: IndexPath,
-                         in collectionView: UICollectionView) -> UICollectionViewCell {
+                         in collectionView: UICollectionView,
+                         itemIdentifier: CategoryItemModel) -> UICollectionViewCell {
         let section = Sections.allCases[indexPath.section]
         switch section {
         case .selectCategory:
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SelectCategoryCell.reuseID, for: indexPath) as? SelectCategoryCell else { fatalError("change SelectCategoryCell class") }
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SelectCategoryCell.reuseID,
+                                                                for: indexPath) as? SelectCategoryCell else { fatalError("change SelectCategoryCell class") }
+            if indexPath.row == 0 {
+                cell.configureCell(configure: itemIdentifier.image,
+                                   isSelected: true,
+                                   and: itemIdentifier.name)
+            } else {
+                cell.configureCell(configure: itemIdentifier.image,
+                                   isSelected: false,
+                                   and: itemIdentifier.name)
+            }
             return cell
         case .hotSales:
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HotSalesCell.reuseID, for: indexPath) as? HotSalesCell else { fatalError("change HotSalesCell class") }
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HotSalesCell.reuseID,
+                                                                for: indexPath) as? HotSalesCell else { fatalError("change HotSalesCell class") }
             return cell
         case .bestSeller:
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BestSellerCell.reuseID, for: indexPath) as? BestSellerCell else { fatalError("change HotSalesCell class") }
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BestSellerCell.reuseID,
+                                                                for: indexPath) as? BestSellerCell else { fatalError("change HotSalesCell class") }
             return cell
         }
     }

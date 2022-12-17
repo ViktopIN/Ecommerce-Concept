@@ -18,16 +18,17 @@ class SelectCategoryHeader: UICollectionReusableView {
         
     private lazy var parentStack = UIStackView(with: .vertical,
                                                spacing: Metrics.parentStackSpacing)
-    private lazy var locationAndFilterView = UIView(background: .systemBackground)
+    private lazy var locationAndFilterView = UIView(background: .clear)
     private lazy var locationStackView = UIStackView(with: .horizontal,
                                                      spacing: Metrics.locationStackSpacing)
-    private lazy var titleView = UIView(background: .systemBackground)
+    private lazy var titleView = UIView(background: .clear)
     private lazy var locationImageView = UIImageView(baseImage: UIImage(named: "location"),
                                                      with: UIColor.customOrange)
     private lazy var locationNameLabel = UILabel(constant: Strings.locationNameLabelText,
                                                  with: Metrics.locationNameLabelSize,
                                                  and: .medium,
-                                                 UIColor.customDarkBlue)
+                                                 UIColor.customDarkBlue,
+                                                 adjustFontSizeToFit: true)
     private lazy var locationChangeButton = CustomButton(internalImage: UIImage(systemName: "chevron.down"),
                                                          imageColor: .lightGray,
                                                          backgroundView: .none)
@@ -47,7 +48,6 @@ class SelectCategoryHeader: UICollectionReusableView {
         super.init(frame: .zero)
         setupHierarchy()
         setupLayout()
-        setupView()
     }
     
     required init?(coder: NSCoder) {
@@ -102,7 +102,7 @@ class SelectCategoryHeader: UICollectionReusableView {
         ])
         
         NSLayoutConstraint.activate([
-            selectCategoryTitleLabel.widthAnchor.constraint(equalTo: titleView.widthAnchor, multiplier: 11/20),
+            selectCategoryTitleLabel.widthAnchor.constraint(equalTo: titleView.widthAnchor, multiplier: 3/4),
             selectCategoryTitleLabel.heightAnchor.constraint(equalTo: titleView.heightAnchor),
             selectCategoryTitleLabel.leftAnchor.constraint(equalTo: titleView.leftAnchor),
             selectCategoryTitleLabel.centerYAnchor.constraint(equalTo: titleView.centerYAnchor)
@@ -114,10 +114,6 @@ class SelectCategoryHeader: UICollectionReusableView {
             viewAllButton.centerYAnchor.constraint(equalTo: titleView.centerYAnchor),
             viewAllButton.rightAnchor.constraint(equalTo: titleView.rightAnchor)
         ])
-    }
-    
-    private func setupView() {
-        
     }
 }
 

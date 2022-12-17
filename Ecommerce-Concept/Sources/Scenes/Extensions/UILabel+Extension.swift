@@ -14,12 +14,13 @@ extension UILabel {
     convenience init(constant text: String = "",
                      with textSize: CGFloat,
                      and markProFontType: MarkProFonts,
-                     _ fontColor: UIColor = .black) {
+                     _ fontColor: UIColor = .black,
+                     adjustFontSizeToFit: Bool = false) {
         self.init()
         translatesAutoresizingMaskIntoConstraints = false
         self.text = text
         self.textColor = fontColor
-        adjustsFontSizeToFitWidth = true
+        self.adjustsFontSizeToFitWidth = adjustFontSizeToFit
         switch markProFontType {
         case .heavy:
             self.font = UIFont.markProHeavy(ofSize: textSize)

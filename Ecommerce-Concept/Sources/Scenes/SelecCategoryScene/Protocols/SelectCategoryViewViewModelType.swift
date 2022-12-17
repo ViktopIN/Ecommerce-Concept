@@ -12,7 +12,8 @@ protocol SelectCategoryViewViewModelType {
     associatedtype Item: Hashable
     func generateCollectionViewLayout() -> UICollectionViewLayout
     func recieveCellView(with indexPath: IndexPath,
-                         in collectionView: UICollectionView) -> UICollectionViewCell
+                         in collectionView: UICollectionView,
+                         itemIdentifier: CategoryItemModel) -> UICollectionViewCell
     func recieveHeaderFooterView(with indexPath: IndexPath,
                                  elementKind: String,
                                  in collectionView: UICollectionView) -> UICollectionReusableView

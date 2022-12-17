@@ -15,7 +15,7 @@ class SelectCategoryViewController: UIViewController {
     
     // MARK: - Views
     
-    private lazy var dataSource: UICollectionViewDiffableDataSource<Sections, ItemModel>! = nil
+    private lazy var dataSource: UICollectionViewDiffableDataSource<Sections, CategoryItemModel>! = nil
     private lazy var collectionView: UICollectionView! = nil
     
     // MARK: - Lifecycle
@@ -59,11 +59,13 @@ extension SelectCategoryViewController {
     
     /// Data source configure
     private func dataSourceConfigure() {
-        dataSource = UICollectionViewDiffableDataSource<Sections, ItemModel>(collectionView: self.collectionView) {
+        dataSource = UICollectionViewDiffableDataSource<Sections, CategoryItemModel>(collectionView: self.collectionView) {
             (collectionView: UICollectionView,
              indexPath: IndexPath,
-             itemIdentifier: ItemModel) -> UICollectionViewCell? in
-            return self.viewModel.recieveCellView(with: indexPath, in: collectionView)
+             itemIdentifier: CategoryItemModel) -> UICollectionViewCell? in
+            return self.viewModel.recieveCellView(with: indexPath,
+                                                  in: collectionView,
+                                                  itemIdentifier: itemIdentifier)
         }
         dataSource.supplementaryViewProvider = { (collectionView: UICollectionView,
                                                   elementKind: String,
@@ -79,7 +81,7 @@ extension SelectCategoryViewController {
     func collectionViewConfigure() -> UICollectionView {
         let collectionView = UICollectionView(frame: .zero,
                                               collectionViewLayout: viewModel.generateCollectionViewLayout())
-        collectionView.backgroundColor = .white
+        collectionView.backgroundColor = #colorLiteral(red: 0.9725490196, green: 0.9725490196, blue: 0.9725490196, alpha: 1)
         collectionView.register(SelectCategoryCell.self,
                                 forCellWithReuseIdentifier: SelectCategoryCell.reuseID)
         collectionView.register(SelectCategoryHeader.self,

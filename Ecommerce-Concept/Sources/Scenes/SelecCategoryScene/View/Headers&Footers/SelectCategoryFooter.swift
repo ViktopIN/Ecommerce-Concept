@@ -19,7 +19,7 @@ class SelectCategoryFooter: UICollectionReusableView {
     let placeholderView = UIView(background: .lightGray)
     
     // MARK: - Init
-
+    
     override init(frame: CGRect) {
         super.init(frame: .zero)
         setupHierarchy()

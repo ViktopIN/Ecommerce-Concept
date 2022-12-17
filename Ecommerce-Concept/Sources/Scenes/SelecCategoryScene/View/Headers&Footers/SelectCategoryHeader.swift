@@ -15,8 +15,12 @@ class SelectCategoryHeader: UICollectionReusableView {
     static let reuseID = "SelectCategoryHeader"
     
     //  MARK: - Views
-    
-    let placeholderView = UIView(background: .darkGray)
+        
+    private lazy var parentStack = UIStackView(with: .vertical,
+                                               spacing: Metrics.parentStackSpacing,
+                                               layoutMargins: Metrics.parentStackLayoutMargin)
+    private lazy var locationAndFilterView = UIView(background: .systemBackground)
+    private lazy var titleView = UIView(background: .systemBackground)
     
     // MARK: - Init
 
@@ -34,15 +38,25 @@ class SelectCategoryHeader: UICollectionReusableView {
     // MARK: - Settings
     
     private func setupHierarchy() {
-        addSubview(placeholderView)
     }
     
     private func setupLayout() {
-        placeholderView.fillSuperview()
     }
     
     private func setupView() {
         
+    }
+}
+
+extension SelectCategoryHeader {
+    enum Metrics {
+        static let parentStackSpacing: CGFloat = 18
+        static let parentStackLayoutMargin = UIEdgeInsets(top: 0,
+                                                          left: 17,
+                                                          bottom: 0,
+                                                          right: 33)
+        
+        static let locationStackSpacing: CGFloat = 11
     }
 }
 

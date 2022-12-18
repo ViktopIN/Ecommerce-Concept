@@ -1,7 +1,7 @@
 {
   "images" : [
     {
-      "filename" : "Vector-11.pdf",
+      "filename" : "Vector-14.pdf",
       "idiom" : "universal",
       "scale" : "1x"
     },
@@ -17,8 +17,5 @@
   "info" : {
     "author" : "xcode",
     "version" : 1
-  },
-  "properties" : {
-    "preserves-vector-representation" : true
   }
 }

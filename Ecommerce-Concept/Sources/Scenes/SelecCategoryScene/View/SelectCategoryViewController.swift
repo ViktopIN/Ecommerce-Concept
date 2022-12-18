@@ -15,7 +15,7 @@ class SelectCategoryViewController: UIViewController {
     
     // MARK: - Views
     
-    private lazy var dataSource: UICollectionViewDiffableDataSource<Sections, CategoryItemModel>! = nil
+    private lazy var dataSource: UICollectionViewDiffableDataSource<Sections, CommonItemModel>! = nil
     private lazy var collectionView: UICollectionView! = nil
     
     // MARK: - Lifecycle
@@ -40,7 +40,7 @@ class SelectCategoryViewController: UIViewController {
     }
     
     private func setupView() {
-        viewModel = modelViewConfigure() as? SelectCategoryViewViewModel
+        viewModel = SelectCategoryViewViewModel()
         collectionView = collectionViewConfigure()
         dataSourceConfigure()
     }
@@ -48,39 +48,32 @@ class SelectCategoryViewController: UIViewController {
 
 // MARK: - Extensions
 
-/// ViewModel configure
-extension SelectCategoryViewController {
-    private func modelViewConfigure() -> some SelectCategoryViewViewModelType {
-        return SelectCategoryViewViewModel()
-    }
-}
-
 extension SelectCategoryViewController {
     
     /// Data source configure
     private func dataSourceConfigure() {
-        dataSource = UICollectionViewDiffableDataSource<Sections, CategoryItemModel>(collectionView: self.collectionView) {
+        dataSource = UICollectionViewDiffableDataSource<Sections, CommonItemModel>(collectionView: self.collectionView) {
             (collectionView: UICollectionView,
              indexPath: IndexPath,
-             itemIdentifier: CategoryItemModel) -> UICollectionViewCell? in
-            return self.viewModel.recieveCellView(with: indexPath,
-                                                  in: collectionView,
-                                                  itemIdentifier: itemIdentifier)
+             itemIdentifier: CommonItemModel) -> UICollectionViewCell? in
+            return self.viewModel.cellViewModel.recieveCellView(with: indexPath,
+                                                                in: collectionView,
+                                                                itemIdentifier: itemIdentifier)
         }
         dataSource.supplementaryViewProvider = { (collectionView: UICollectionView,
                                                   elementKind: String,
                                                   indexPath: IndexPath) -> UICollectionReusableView? in
-            return self.viewModel.recieveHeaderFooterView(with: indexPath,
-                                                          elementKind: elementKind,
-                                                          in: collectionView)
+            return self.viewModel.reusableViewModel.recieveHeaderFooterView(with: indexPath,
+                                                                            elementKind: elementKind,
+                                                                            in: collectionView)
         }
-        dataSource.apply(viewModel.recieveSnapShot(), animatingDifferences: false)
+        dataSource.apply(viewModel.collectionViewDataSourceConfigure.recieveSnapShot(), animatingDifferences: false)
     }
     
     /// CollectionView Configure
     func collectionViewConfigure() -> UICollectionView {
         let collectionView = UICollectionView(frame: .zero,
-                                              collectionViewLayout: viewModel.generateCollectionViewLayout())
+                                              collectionViewLayout: viewModel.collectionViewViewModel.generateCollectionViewLayout())
         collectionView.backgroundColor = #colorLiteral(red: 0.9725490196, green: 0.9725490196, blue: 0.9725490196, alpha: 1)
         collectionView.register(SelectCategoryCell.self,
                                 forCellWithReuseIdentifier: SelectCategoryCell.reuseID)
@@ -100,7 +93,7 @@ extension SelectCategoryViewController {
         collectionView.register(BestSellerHeader.self,
                                 forSupplementaryViewOfKind: BestSellerHeader.sectionHeader,
                                 withReuseIdentifier: BestSellerHeader.reuseID)
-
+        
         collectionView.delegate = self
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
@@ -110,8 +103,8 @@ extension SelectCategoryViewController {
 extension SelectCategoryViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView,
                         didSelectItemAt indexPath: IndexPath) {
-        viewModel.changeColorWithState(in: indexPath,
-                                       collectionView: collectionView,
-                                       dataSource: dataSource)
+        viewModel.cellViewModel.changeItemColorForSelectCategoryGroup(in: indexPath,
+                                                                      collectionView: collectionView,
+                                                                      dataSource: dataSource)
     }
 }

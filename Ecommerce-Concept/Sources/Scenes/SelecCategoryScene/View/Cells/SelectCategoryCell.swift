@@ -29,8 +29,7 @@ class SelectCategoryCell: UICollectionViewCell {
         return imageView
     }()
     
-    private lazy var mainLabel = UILabel(constant: "Phones",
-                                         with: Metrics.mainLabelTextSize,
+    private lazy var mainLabel = UILabel(with: Metrics.mainLabelTextSize,
                                          and: .medium,
                                          UIColor.customDarkBlue)
     
@@ -86,7 +85,7 @@ class SelectCategoryCell: UICollectionViewCell {
             mainLabel.textColor = UIColor.customOrange
             mainImageView.backgroundColor = UIColor.customOrange
         } else {
-            mainImageView.image = image.withTintColor(.gray,
+            mainImageView.image = image.withTintColor(.lightGray,
                                                       renderingMode: .alwaysOriginal)
             mainLabel.textColor = UIColor.customDarkBlue
             mainImageView.backgroundColor = .white

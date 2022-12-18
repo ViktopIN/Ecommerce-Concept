@@ -7,11 +7,11 @@
 
 import UIKit.UIImage
 
-class CategoryItemModel: Hashable, ItemModelProtocol {
+class CommonItemModel: Hashable {
     
     // MARK: - Protocol conforming methods
     
-    static func == (lhs: CategoryItemModel, rhs: CategoryItemModel) -> Bool {
+    static func == (lhs: CommonItemModel, rhs: CommonItemModel) -> Bool {
         return lhs.name == rhs.name
     }
     
@@ -23,6 +23,8 @@ class CategoryItemModel: Hashable, ItemModelProtocol {
     
     var name: String
     var image: UIImage
+    var description: String?
+    var isNew: Bool?
     
     // MARK: - Initialise
     
@@ -31,48 +33,68 @@ class CategoryItemModel: Hashable, ItemModelProtocol {
         self.name = name
         self.image = image
     }
+    
+    init(name: String,
+         image: UIImage,
+         description: String,
+         isNew: Bool) {
+        self.name = name
+        self.image = image
+        self.description = description
+        self.isNew = isNew
+    }
 
-    // MARK: - Methods
-    
-    static func getValueShopSales() -> [CategoryItemModel] {
-        let model: [CategoryItemModel] = [
-            CategoryItemModel(name: "Name", image: UIImage()),
-            CategoryItemModel(name: "Name", image: UIImage()),
-            CategoryItemModel(name: "Name", image: UIImage())
+    // MARK: - Constant
+        
+    static func getValueBestSeller() -> [CommonItemModel] {
+        let model: [CommonItemModel] = [
+            CommonItemModel(name: "Name", image: UIImage()),
+            CommonItemModel(name: "Name", image: UIImage()),
+            CommonItemModel(name: "Name", image: UIImage()),
+            CommonItemModel(name: "Name", image: UIImage()),
+            CommonItemModel(name: "Name", image: UIImage()),
+            CommonItemModel(name: "Name", image: UIImage()),
+            CommonItemModel(name: "Name", image: UIImage()),
+            CommonItemModel(name: "Name", image: UIImage()),
+            CommonItemModel(name: "Name", image: UIImage()),
+            CommonItemModel(name: "Name", image: UIImage())
         ]
         return model
     }
     
-    static func getValueBestSeller() -> [CategoryItemModel] {
-        let model: [CategoryItemModel] = [
-            CategoryItemModel(name: "Name", image: UIImage()),
-            CategoryItemModel(name: "Name", image: UIImage()),
-            CategoryItemModel(name: "Name", image: UIImage()),
-            CategoryItemModel(name: "Name", image: UIImage()),
-            CategoryItemModel(name: "Name", image: UIImage()),
-            CategoryItemModel(name: "Name", image: UIImage()),
-            CategoryItemModel(name: "Name", image: UIImage()),
-            CategoryItemModel(name: "Name", image: UIImage()),
-            CategoryItemModel(name: "Name", image: UIImage()),
-            CategoryItemModel(name: "Name", image: UIImage())
-        ]
-        return model
-    }
-    
-    static func getConstantValue() -> [CategoryItemModel] {
+    static func getConstantValue() -> [CommonItemModel] {
         return [
-            CategoryItemModel(name: "Phones",
+            CommonItemModel(name: "Phones",
                               image: UIImage(named: "phone")!),
-            CategoryItemModel(name: "Computers",
+            CommonItemModel(name: "Computers",
                               image: UIImage(named: "computer")!),
-            CategoryItemModel(name: "Health",
+            CommonItemModel(name: "Health",
                               image: UIImage(named: "health")!),
-            CategoryItemModel(name: "Books",
+            CommonItemModel(name: "Books",
                               image: UIImage(named: "book")!),
-            CategoryItemModel(name: "Phones",
+            CommonItemModel(name: "Phones",
                               image: UIImage(named: "phone")!),
         ]
     }
+    
+    static func getValueHotSales() -> [CommonItemModel] {
+        let model: [CommonItemModel] = [
+            CommonItemModel(name: "Iphone 12",
+                            image: UIImage(named: "hotSales") ?? UIImage(),
+                            description: "Super. Mega. Rapido.",
+                            isNew: true),
+            CommonItemModel(name: "Iphone 11",
+                            image: UIImage(named: "hotSales") ?? UIImage(),
+                            description: "Super. Mega. Rapido.",
+                            isNew: false),
+            CommonItemModel(name: "Iphone XR",
+                            image: UIImage(named: "hotSales") ?? UIImage(),
+                            description: "Super. Mega. Rapido.",
+                            isNew: false)
+        ]
+        return model
+    }
+
 
 }
 

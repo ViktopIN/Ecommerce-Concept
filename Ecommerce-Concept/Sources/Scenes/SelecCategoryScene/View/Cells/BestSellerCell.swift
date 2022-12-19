@@ -15,7 +15,39 @@ class BestSellerCell: UICollectionViewCell {
     
     //  MARK: - Views
     
-    let placeholderView = UIView(background: #colorLiteral(red: 0.2745098174, green: 0.4862745106, blue: 0.1411764771, alpha: 1))
+    private lazy var fillingView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = .white
+        view.layer.cornerRadius = Metrics.fillingViewCornerRadius
+        view.layer.masksToBounds = true
+        return view
+    }()
+    
+    private lazy var parentStack = UIStackView(with: .vertical,
+                                               spacing: Metrics.parentStackSpacing)
+    private lazy var mainImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.contentMode = .scaleAspectFill
+        return imageView
+    }()
+    
+    private lazy var descriptionStack = UIStackView(with: .vertical,
+                                                    spacing: Metrics.descriptionStackSpacing,
+                                                    layoutMargins: Metrics.descriptionStackLayoutMargins)
+    
+    private lazy var priceStack = UIStackView(with: .horizontal,
+                                              spacing: Metrics.priceStackSpacing)
+    private lazy var currentPriceLabel = UILabel(with: Metrics.currentPriceLabelTextSize,
+                                                 and: .bold)
+    private lazy var oldPriceLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    private lazy var nameLabel = UILabel(with: Metrics.nameLabelTextSize,
+                                         and: .regular)
     
     // MARK: - Init
 
@@ -33,15 +65,72 @@ class BestSellerCell: UICollectionViewCell {
     // MARK: - Settings
     
     private func setupHierarchy() {
-        addSubview(placeholderView)
+        addSubview(fillingView)
+        fillingView.addSubview(parentStack)
+        parentStack.addArrangedSubviews(mainImageView, descriptionStack)
+        descriptionStack.addArrangedSubviews(priceStack, nameLabel)
+        priceStack.addArrangedSubviews(currentPriceLabel, oldPriceLabel)
     }
     
     private func setupLayout() {
-        placeholderView.fillSuperview()
+        fillingView.fillSuperview()
+        parentStack.fillSuperview()
+        NSLayoutConstraint.activate([
+            mainImageView.widthAnchor.constraint(equalTo: parentStack.widthAnchor),
+            mainImageView.heightAnchor.constraint(equalTo: parentStack.heightAnchor, multiplier: 3/4)
+        ])
+        
+        NSLayoutConstraint.activate([
+            priceStack.widthAnchor.constraint(equalTo: descriptionStack.widthAnchor),
+            priceStack.heightAnchor.constraint(equalTo: descriptionStack.heightAnchor, multiplier: 1/2)
+        ])
+        
+        NSLayoutConstraint.activate([
+            currentPriceLabel.widthAnchor.constraint(equalToConstant: Metrics.currentPriceLabelWidth),
+            currentPriceLabel.heightAnchor.constraint(equalToConstant: Metrics.currentPriceLabelHeight),
+            currentPriceLabel.bottomAnchor.constraint(equalTo: priceStack.bottomAnchor)
+        ])
+        
+        NSLayoutConstraint.activate([
+            oldPriceLabel.widthAnchor.constraint(equalToConstant: Metrics.oldPriceLabelWidth),
+            oldPriceLabel.heightAnchor.constraint(equalToConstant: Metrics.oldPriceLabelHeight),
+            oldPriceLabel.bottomAnchor.constraint(equalTo: priceStack.bottomAnchor)
+        ])
+
     }
     
     private func setupView() {
-        placeholderView.layer.borderColor = #colorLiteral(red: 0.7450980544, green: 0.1568627506, blue: 0.07450980693, alpha: 1)
-        placeholderView.layer.borderWidth = 2
+        descriptionStack.alignment = .leading
+    }
+    
+    // MARK: - Configure method
+    
+    func configureCell(model: ItemModel) {
+        let model = model as BestSellerItemModelType
+        mainImageView.image = model.image
+        currentPriceLabel.text = model.currentPrice
+        oldPriceLabel.text = model.oldPrice
+        nameLabel.text = model.name
+    }
+}
+
+// MARK: - Extension
+
+extension BestSellerCell {
+    enum Metrics {
+        static let fillingViewCornerRadius: CGFloat = 10
+        static let parentStackSpacing: CGFloat = 7
+        static let descriptionStackSpacing: CGFloat = 5
+        static let descriptionStackLayoutMargins = UIEdgeInsets(top: 5,
+                                                          left: 20,
+                                                          bottom: 15,
+                                                          right: 0)
+        static let priceStackSpacing: CGFloat = 7
+        static let currentPriceLabelTextSize: CGFloat = 16
+        static let currentPriceLabelWidth: CGFloat = 42
+        static let currentPriceLabelHeight: CGFloat = 20
+        static let nameLabelTextSize: CGFloat = 10
+        static let oldPriceLabelWidth: CGFloat = 27
+        static let oldPriceLabelHeight: CGFloat = 27
     }
 }

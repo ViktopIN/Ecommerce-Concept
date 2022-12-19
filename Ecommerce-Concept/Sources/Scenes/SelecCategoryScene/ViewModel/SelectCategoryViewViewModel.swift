@@ -11,9 +11,9 @@ final class SelectCategoryViewViewModel: SelectCategoryViewViewModelType {
     
     // MARK: - Properties
     
-    private var selectCategoryItems = CommonItemModel.getConstantValue()
-    private var hotSalesItems = CommonItemModel.getValueHotSales()
-    private var bestSellerItem = CommonItemModel.getValueBestSeller()
+    private var selectCategoryItems = ItemModel.getConstantValue()
+    private var hotSalesItems = ItemModel.getValueHotSales()
+    private var bestSellerItem = ItemModel.getValueBestSeller()
     
     lazy var collectionViewViewModel: CollectionViewViewModelType = CollectionViewViewModel()
     lazy var collectionViewDataSourceConfigure: CollectionViewDataSourceConfigureClass = CollectionViewDataSourceConfigureClass(selectCategoryItems: selectCategoryItems,

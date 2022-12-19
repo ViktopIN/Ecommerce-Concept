@@ -57,7 +57,6 @@ class HotSalesHeader: UICollectionReusableView {
             seeMoreButton.centerYAnchor.constraint(equalTo: centerYAnchor),
             seeMoreButton.rightAnchor.constraint(equalTo: rightAnchor)
         ])
-
     }
 }
 

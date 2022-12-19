@@ -13,15 +13,15 @@ final class CollectionViewDataSourceConfigureClass: CollectionViewDataSourceConf
 
     // MARK: - Properties
     
-    private var selectCategoryItems: [CommonItemModel]
-    private var hotSalesItems: [CommonItemModel]
-    private var bestSellerItem: [CommonItemModel]
+    private var selectCategoryItems: [ItemModel]
+    private var hotSalesItems: [ItemModel]
+    private var bestSellerItem: [ItemModel]
     
     // MARK: - Initialise
     
-    init(selectCategoryItems: [CommonItemModel],
-         hotSalesItems: [CommonItemModel],
-         bestSellerItem: [CommonItemModel]) {
+    init(selectCategoryItems: [ItemModel],
+         hotSalesItems: [ItemModel],
+         bestSellerItem: [ItemModel]) {
         self.selectCategoryItems = selectCategoryItems
         self.hotSalesItems = hotSalesItems
         self.bestSellerItem = bestSellerItem
@@ -29,8 +29,8 @@ final class CollectionViewDataSourceConfigureClass: CollectionViewDataSourceConf
     
     // MARK: - Methods
     
-    func recieveSnapShot() -> NSDiffableDataSourceSnapshot<Sections, CommonItemModel> {
-        var snapshot = NSDiffableDataSourceSnapshot<Sections, CommonItemModel>()
+    func recieveSnapShot() -> NSDiffableDataSourceSnapshot<Sections, ItemModel> {
+        var snapshot = NSDiffableDataSourceSnapshot<Sections, ItemModel>()
         snapshot.appendSections([Sections.selectCategory])
         snapshot.appendItems(selectCategoryItems)
         

@@ -10,9 +10,9 @@ import UIKit
 protocol CellViewModelType {
     func recieveCellView(with indexPath: IndexPath,
                          in collectionView: UICollectionView,
-                         itemIdentifier: CommonItemModel) -> UICollectionViewCell
+                         itemIdentifier: ItemModel) -> UICollectionViewCell
     func changeItemColorForSelectCategoryGroup(in indexPath: IndexPath,
                                                collectionView: UICollectionView,
                                                dataSource: UICollectionViewDiffableDataSource<Sections,
-                                               CommonItemModel>)
+                                               ItemModel>)
 }

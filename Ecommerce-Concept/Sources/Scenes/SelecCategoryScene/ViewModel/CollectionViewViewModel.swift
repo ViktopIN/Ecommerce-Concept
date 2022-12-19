@@ -110,7 +110,7 @@ final class CollectionViewViewModel: CollectionViewViewModelType {
         
         // Header & footer
         let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
-                                                heightDimension: .fractionalHeight(1/10))
+                                                heightDimension: .fractionalHeight(1/23))
         let header = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize,
                                                                  elementKind: BestSellerHeader.sectionHeader,
                                                                  alignment: .top)

@@ -15,7 +15,7 @@ class CellViewModel: CellViewModelType {
     
     func changeItemColorForSelectCategoryGroup(in indexPath: IndexPath,
                                                collectionView: UICollectionView,
-                                               dataSource: UICollectionViewDiffableDataSource<Sections,CommonItemModel >) {
+                                               dataSource: UICollectionViewDiffableDataSource<Sections,ItemModel >) {
         let section = Sections.allCases[indexPath.section]
         if section == .selectCategory {
             guard indexPath != selectedCategorySelectedIndexPath else { return }
@@ -37,7 +37,7 @@ class CellViewModel: CellViewModelType {
     
     func recieveCellView(with indexPath: IndexPath,
                          in collectionView: UICollectionView,
-                         itemIdentifier: CommonItemModel) -> UICollectionViewCell {
+                         itemIdentifier: ItemModel) -> UICollectionViewCell {
         let section = Sections.allCases[indexPath.section]
         switch section {
         case .selectCategory:

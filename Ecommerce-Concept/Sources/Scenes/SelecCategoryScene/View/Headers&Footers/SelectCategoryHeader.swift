@@ -79,14 +79,12 @@ class SelectCategoryHeader: UICollectionReusableView {
         NSLayoutConstraint.activate([
             locationStackView.widthAnchor.constraint(equalTo: locationAndFilterView.widthAnchor,
                                                      multiplier: 11/25),
-            locationStackView.heightAnchor.constraint(equalToConstant: Metrics.locationStackHeight),
             locationStackView.centerYAnchor.constraint(equalTo: locationAndFilterView.centerYAnchor),
             locationStackView.centerXAnchor.constraint(equalTo: locationAndFilterView.centerXAnchor)
         ])
         
         NSLayoutConstraint.activate([
             filterButton.widthAnchor.constraint(equalToConstant: Metrics.filterButtonWidth),
-            filterButton.heightAnchor.constraint(equalToConstant: Metrics.filterButtonHeight),
             filterButton.centerYAnchor.constraint(equalTo: locationAndFilterView.centerYAnchor),
             filterButton.rightAnchor.constraint(equalTo: locationAndFilterView.rightAnchor)
         ])

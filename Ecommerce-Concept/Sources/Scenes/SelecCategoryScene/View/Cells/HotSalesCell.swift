@@ -129,7 +129,7 @@ class HotSalesCell: UICollectionViewCell {
     
     // MARK: - Configure Method
     
-    func configureCell(model: CommonItemModel) {
+    func configureCell(model: ItemModel) {
         mainImageView.image = model.image
         hotSalesNameLabel.text = model.name
         hotSalesDescriptionLabel.text = model.description ?? "" 

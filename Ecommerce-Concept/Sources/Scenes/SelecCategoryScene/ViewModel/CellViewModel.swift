@@ -62,6 +62,7 @@ class CellViewModel: CellViewModelType {
         case .bestSeller:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BestSellerCell.reuseID,
                                                                 for: indexPath) as? BestSellerCell else { fatalError("change HotSalesCell class") }
+            cell.configureCell(model: itemIdentifier)
             return cell
         }
     }

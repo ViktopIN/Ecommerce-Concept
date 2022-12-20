@@ -116,7 +116,7 @@ extension ItemModel: BestSellerItemModelType {
             ItemModel(name: "Xiaomi Mi 10 Pro",
                       image: UIImage(named: "samsung") ?? UIImage(),
                       currentPrice: 300,
-                      oldPrice: 400,
+                      oldPrice: 1200,
                       isFavorite: true),
             ItemModel(name: "Xiaomi Mi 10 Pro",
                       image: UIImage(named: "samsung") ?? UIImage(),
@@ -125,13 +125,13 @@ extension ItemModel: BestSellerItemModelType {
                       isFavorite: false),
             ItemModel(name: "Xiaomi Mi 10 Pro",
                       image: UIImage(named: "samsung") ?? UIImage(),
-                      currentPrice: 300,
+                      currentPrice: 1500,
                       oldPrice: 400,
                       isFavorite: true),
             ItemModel(name: "Xiaomi Mi 10 Pro",
                       image: UIImage(named: "samsung") ?? UIImage(),
                       currentPrice: 300,
-                      oldPrice: 400,
+                      oldPrice: 1000,
                       isFavorite: false)
         ]
         return model

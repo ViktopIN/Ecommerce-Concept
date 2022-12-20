@@ -24,8 +24,7 @@ class BestSellerCell: UICollectionViewCell {
         return view
     }()
     
-    private lazy var parentStack = UIStackView(with: .vertical,
-                                               spacing: Metrics.parentStackSpacing)
+    private lazy var parentStack = UIStackView(with: .vertical)
     private lazy var mainImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -36,9 +35,13 @@ class BestSellerCell: UICollectionViewCell {
     private lazy var descriptionStack = UIStackView(with: .vertical,
                                                     spacing: Metrics.descriptionStackSpacing,
                                                     layoutMargins: Metrics.descriptionStackLayoutMargins)
+    private var priceView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .clear
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
     
-    private lazy var priceStack = UIStackView(with: .horizontal,
-                                              spacing: Metrics.priceStackSpacing)
     private lazy var currentPriceLabel = UILabel(with: Metrics.currentPriceLabelTextSize,
                                                  and: .bold)
     private lazy var oldPriceLabel: UILabel = {
@@ -68,8 +71,8 @@ class BestSellerCell: UICollectionViewCell {
         addSubview(fillingView)
         fillingView.addSubview(parentStack)
         parentStack.addArrangedSubviews(mainImageView, descriptionStack)
-        descriptionStack.addArrangedSubviews(priceStack, nameLabel)
-        priceStack.addArrangedSubviews(currentPriceLabel, oldPriceLabel)
+        descriptionStack.addArrangedSubviews(priceView, nameLabel)
+        priceView.addSubviews(currentPriceLabel, oldPriceLabel)
     }
     
     private func setupLayout() {
@@ -81,22 +84,21 @@ class BestSellerCell: UICollectionViewCell {
         ])
         
         NSLayoutConstraint.activate([
-            priceStack.widthAnchor.constraint(equalTo: descriptionStack.widthAnchor),
-            priceStack.heightAnchor.constraint(equalTo: descriptionStack.heightAnchor, multiplier: 1/2)
+            priceView.heightAnchor.constraint(equalTo: descriptionStack.heightAnchor, multiplier: 1/2)
         ])
         
         NSLayoutConstraint.activate([
-            currentPriceLabel.widthAnchor.constraint(equalToConstant: Metrics.currentPriceLabelWidth),
             currentPriceLabel.heightAnchor.constraint(equalToConstant: Metrics.currentPriceLabelHeight),
-            currentPriceLabel.bottomAnchor.constraint(equalTo: priceStack.bottomAnchor)
+            currentPriceLabel.bottomAnchor.constraint(equalTo: priceView.bottomAnchor),
+            currentPriceLabel.leftAnchor.constraint(equalTo: priceView.leftAnchor),
+            currentPriceLabel.rightAnchor.constraint(equalTo: oldPriceLabel.leftAnchor, constant: Metrics.oldPriceLabelLeftInset)
         ])
         
         NSLayoutConstraint.activate([
-            oldPriceLabel.widthAnchor.constraint(equalToConstant: Metrics.oldPriceLabelWidth),
             oldPriceLabel.heightAnchor.constraint(equalToConstant: Metrics.oldPriceLabelHeight),
-            oldPriceLabel.bottomAnchor.constraint(equalTo: priceStack.bottomAnchor)
+            oldPriceLabel.bottomAnchor.constraint(equalTo: priceView.bottomAnchor),
+            oldPriceLabel.rightAnchor.constraint(lessThanOrEqualTo: priceView.rightAnchor)
         ])
-
     }
     
     private func setupView() {
@@ -105,12 +107,17 @@ class BestSellerCell: UICollectionViewCell {
     
     // MARK: - Configure method
     
-    func configureCell(model: ItemModel) {
-        let model = model as BestSellerItemModelType
+    func configureCell(model: BestSellerItemModelType) {
         mainImageView.image = model.image
         currentPriceLabel.text = model.currentPrice
-        oldPriceLabel.text = model.oldPrice
         nameLabel.text = model.name
+        let oldPriceLabelTextAttribute: [NSAttributedString.Key: Any]
+        = [NSAttributedString.Key.font: UIFont.markProMedium(ofSize: Metrics.oldPriceLabelTextSize),
+           NSAttributedString.Key.foregroundColor: UIColor.lightGray,
+           NSAttributedString.Key.strikethroughStyle: NSUnderlineStyle.single.rawValue]
+        let oldPriceLabelText = NSAttributedString(string: model.oldPrice ?? "0",
+                                              attributes: oldPriceLabelTextAttribute)
+        oldPriceLabel.attributedText = oldPriceLabelText
     }
 }
 
@@ -119,18 +126,16 @@ class BestSellerCell: UICollectionViewCell {
 extension BestSellerCell {
     enum Metrics {
         static let fillingViewCornerRadius: CGFloat = 10
-        static let parentStackSpacing: CGFloat = 7
         static let descriptionStackSpacing: CGFloat = 5
-        static let descriptionStackLayoutMargins = UIEdgeInsets(top: 5,
+        static let descriptionStackLayoutMargins = UIEdgeInsets(top: 0,
                                                           left: 20,
                                                           bottom: 15,
                                                           right: 0)
-        static let priceStackSpacing: CGFloat = 7
         static let currentPriceLabelTextSize: CGFloat = 16
-        static let currentPriceLabelWidth: CGFloat = 42
         static let currentPriceLabelHeight: CGFloat = 20
         static let nameLabelTextSize: CGFloat = 10
-        static let oldPriceLabelWidth: CGFloat = 27
-        static let oldPriceLabelHeight: CGFloat = 27
+        static let oldPriceLabelHeight: CGFloat = 13
+        static let oldPriceLabelTextSize: CGFloat = 10
+        static let oldPriceLabelLeftInset: CGFloat = -7
     }
 }

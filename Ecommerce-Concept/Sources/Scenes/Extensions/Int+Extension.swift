@@ -9,6 +9,8 @@ import Foundation
 
 extension Int {
     var withDollar: String {
-        String(self) + " \u{0024}"
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        return (formatter.string(for: self) ?? "0") + " \u{0024}"
     }
 }

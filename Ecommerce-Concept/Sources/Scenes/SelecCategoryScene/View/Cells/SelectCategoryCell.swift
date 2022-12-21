@@ -75,17 +75,16 @@ class SelectCategoryCell: UICollectionViewCell {
     
     // MARK: - Methods
     
-    func configureCell(configure image: UIImage,
-                       isSelected state: Bool,
-                       and text: String) {
-        mainLabel.text = text
-        if state {
-            mainImageView.image = image.withTintColor(.white,
+    func configureCell(model: ItemModelType,
+                       selectedState: Bool) {
+        mainLabel.text = model.name
+        if selectedState {
+            mainImageView.image = model.image.withTintColor(.white,
                                                       renderingMode: .alwaysOriginal)
             mainLabel.textColor = UIColor.customOrange
             mainImageView.backgroundColor = UIColor.customOrange
         } else {
-            mainImageView.image = image.withTintColor(.lightGray,
+            mainImageView.image = model.image.withTintColor(.lightGray,
                                                       renderingMode: .alwaysOriginal)
             mainLabel.textColor = UIColor.customDarkBlue
             mainImageView.backgroundColor = .white

@@ -15,7 +15,7 @@ class SelectCategoryViewController: UIViewController {
     
     // MARK: - Views
     
-    private lazy var dataSource: UICollectionViewDiffableDataSource<Sections, ItemModel>! = nil
+    private lazy var dataSource: UICollectionViewDiffableDataSource<Sections, AnyHashable>! = nil
     private lazy var collectionView: UICollectionView! = nil
     
     // MARK: - Lifecycle
@@ -41,6 +41,7 @@ class SelectCategoryViewController: UIViewController {
     
     private func setupView() {
         viewModel = SelectCategoryViewViewModel()
+        viewModel.recieveData()
         collectionView = collectionViewConfigure()
         dataSourceConfigure()
     }
@@ -52,10 +53,10 @@ extension SelectCategoryViewController {
     
     /// Data source configure
     private func dataSourceConfigure() {
-        dataSource = UICollectionViewDiffableDataSource<Sections, ItemModel>(collectionView: self.collectionView) {
+        dataSource = UICollectionViewDiffableDataSource<Sections, AnyHashable>(collectionView: self.collectionView) {
             (collectionView: UICollectionView,
              indexPath: IndexPath,
-             itemIdentifier: ItemModel) -> UICollectionViewCell? in
+             itemIdentifier: AnyHashable) -> UICollectionViewCell? in
             return self.viewModel.cellViewModel.recieveCellView(with: indexPath,
                                                                 in: collectionView,
                                                                 itemIdentifier: itemIdentifier)

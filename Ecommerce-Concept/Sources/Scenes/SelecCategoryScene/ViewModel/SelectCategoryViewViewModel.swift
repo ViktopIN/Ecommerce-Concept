@@ -11,15 +11,27 @@ final class SelectCategoryViewViewModel: SelectCategoryViewViewModelType {
     
     // MARK: - Properties
     
-    private var selectCategoryItems = ItemModel.getConstantValue()
-    private var hotSalesItems = ItemModel.getValueHotSales()
-    private var bestSellerItem = ItemModel.getValueBestSeller()
-    
+    private var selectCategoryItems: [AnyHashable]!
+    private var hotSalesItems: [AnyHashable]!
+    private var bestSellerItem: [AnyHashable]!
+        
     lazy var collectionViewViewModel: CollectionViewViewModelType = CollectionViewViewModel()
     lazy var collectionViewDataSourceConfigure: CollectionViewDataSourceConfigureClass = CollectionViewDataSourceConfigureClass(selectCategoryItems: selectCategoryItems,
-                                                                                                                                hotSalesItems: hotSalesItems,
+                                                hotSalesItems: hotSalesItems,
                                                                                                                                 bestSellerItem: bestSellerItem)
     lazy var cellViewModel: CellViewModelType = CellViewModel()
     lazy var reusableViewModel: ReusableViewModelType = ReusableViewModel()
+    
+    // MARK: - Method
+    
+    func recieveData() {
+        selectCategoryItems = ItemModel.getConstantValue()
+        DispatchQueue.global().sync {
+            let networkData = MainPageNetworkService.shared
+            networkData.getData()
+            hotSalesItems = networkData.bestSellerData
+            bestSellerItem = networkData.hotSalesData
+        }
+    }
 }
 

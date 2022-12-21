@@ -129,10 +129,13 @@ class HotSalesCell: UICollectionViewCell {
     
     // MARK: - Configure Method
     
-    func configureCell(model: ItemModel) {
-        mainImageView.image = model.image
-        hotSalesNameLabel.text = model.name
-        hotSalesDescriptionLabel.text = model.description ?? "" 
+    func configureCell(model: HotSalesModel) {
+        let imageRecieveNetworkService = ImageRecieveNetworkService.shared
+        imageRecieveNetworkService.imageURL = URL(string: model.picture)
+        imageRecieveNetworkService.getData()
+        mainImageView.image = imageRecieveNetworkService.image
+        hotSalesNameLabel.text = model.title
+        hotSalesDescriptionLabel.text = model.subtitle
         newLogo.isHidden = !(model.isNew ?? false)
     }
 }

@@ -107,16 +107,19 @@ class BestSellerCell: UICollectionViewCell {
     
     // MARK: - Configure method
     
-    func configureCell(model: BestSellerItemModelType) {
-        mainImageView.image = model.image
-        currentPriceLabel.text = model.currentPrice
-        nameLabel.text = model.name
+    func configureCell(model: BestSellerModel) {
+        let imageRecieveNetworkService = ImageRecieveNetworkService.shared
+        imageRecieveNetworkService.imageURL = URL(string: model.picture)
+        imageRecieveNetworkService.getData()
+        mainImageView.image = imageRecieveNetworkService.image
+        currentPriceLabel.text = model.discountPrice.withDollar
+        nameLabel.text = model.title
         let oldPriceLabelTextAttribute: [NSAttributedString.Key: Any]
         = [NSAttributedString.Key.font: UIFont.markProMedium(ofSize: Metrics.oldPriceLabelTextSize),
            NSAttributedString.Key.foregroundColor: UIColor.lightGray,
            NSAttributedString.Key.strikethroughStyle: NSUnderlineStyle.single.rawValue]
-        let oldPriceLabelText = NSAttributedString(string: model.oldPrice ?? "0",
-                                              attributes: oldPriceLabelTextAttribute)
+        let oldPriceLabelText = NSAttributedString(string: model.priceWithoutDiscount.withDollar ,
+                                                   attributes: oldPriceLabelTextAttribute)
         oldPriceLabel.attributedText = oldPriceLabelText
     }
 }

@@ -38,7 +38,7 @@ class HomeStoreControllerView: UIViewController {
         collectionView.register(BestSellerHeader.self,
                                 forSupplementaryViewOfKind: BestSellerHeader.sectionHeader,
                                 withReuseIdentifier: BestSellerHeader.reuseID)
-
+        collectionView.delegate = self
 
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
@@ -88,5 +88,13 @@ extension HomeStoreControllerView {
     
     private func generateCollectionViewLayout() -> UICollectionViewLayout {
         viewModel.collectionViewLayoutProvider()
+    }
+}
+
+extension HomeStoreControllerView: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView,
+                        didSelectItemAt indexPath: IndexPath) {
+        viewModel.selectItemHighlighting(collectionView: collectionView,
+                                         indexPath: indexPath)
     }
 }

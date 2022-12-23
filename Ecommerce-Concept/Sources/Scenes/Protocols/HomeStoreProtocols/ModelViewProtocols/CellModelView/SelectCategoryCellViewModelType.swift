@@ -7,8 +7,11 @@
 
 import UIKit.UIImage
 
-protocol SelectCategoryCellViewModelType {
-    var image: UIImage { get set }
-    var title: String { get set }
-    var isSelected: Bool { get set }
+protocol SelectCategoryCellViewModelType: AnyObject {
+    var selectCategoryModel: CategoryItemModel { get set }
+    var image: UIImage { get }
+    var title: String { get }
+    var viewColor: UIColor? { get }
+    var textColor: UIColor? { get }
+    var isSelected: Bool { get }
 }

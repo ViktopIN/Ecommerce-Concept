@@ -8,12 +8,28 @@
 import UIKit
 
 class HomeStoreViewModel: HomeStoreViewModelType {
+    var selectedCategorySelectedIndexPath: IndexPath = [0, 0]
+    
+    func selectItemHighlighting(collectionView: UICollectionView,
+                                indexPath: IndexPath) {
+        if indexPath != selectedCategorySelectedIndexPath {
+            let cell = collectionView.cellForItem(at: indexPath) as! SelectCategoryCell
+            var model = categoryItems[indexPath.item] as! CategoryItemModel
+            model.isSelected = true
+            cell.modelView = SelectCategoryCellViewModel(selectCategoryModel: model)
+            let unhighlightedCell = collectionView.cellForItem(at: selectedCategorySelectedIndexPath) as! SelectCategoryCell
+            let unhighlightedmodel = categoryItems[selectedCategorySelectedIndexPath.item] as! CategoryItemModel
+            unhighlightedCell.modelView = SelectCategoryCellViewModel(selectCategoryModel: unhighlightedmodel)
+            selectedCategorySelectedIndexPath = indexPath
+        }
+    }
+    
     
     // MARK: - Properties
     var homeStoreNetworkManager: HomeStoreNetworkManager = HomeStoreNetworkManager()
 
     var homeStoreSections = HomeStoreSectionsModel.allCases
-    var categoryItems: [AnyHashable] = []
+    var categoryItems: [AnyHashable] = CategoryItemModel.getValueSelectCategory()
     var hotSalesItems: [AnyHashable] = []
     var bestSellerItems: [AnyHashable] = []
 
@@ -24,17 +40,24 @@ class HomeStoreViewModel: HomeStoreViewModelType {
             self.bestSellerItems = networkModel.bestSeller
         }
     }
-//    func selectCategoryCellViewModel(indexPath: IndexPath) -> SelectCategoryCellViewModelType {
-//        
-//    }
-//    
+    func selectCategoryCellViewModel(indexPath: IndexPath) -> SelectCategoryCellViewModelType {
+        if indexPath.item == 0 {
+            var model = categoryItems[indexPath.item] as! CategoryItemModel
+            model.isSelected = true
+            return SelectCategoryCellViewModel(selectCategoryModel: model)
+        } else {
+            let model = categoryItems[indexPath.item] as! CategoryItemModel
+            return SelectCategoryCellViewModel(selectCategoryModel: model)
+        }
+    }
+    
 //    func hotSalesCellViewModel(indexPath: IndexPath) -> HotSalesCellViewModelType {
 //
 //    }
 //    
     func bestSellerCellViewModel(indexPath: IndexPath) -> BestSellerCellViewModelType {
         let model = bestSellerItems[indexPath.item] as! BestSellerModel
-        return BestSellerCellViewModel(bestSellerModel: model) as BestSellerCellViewModelType
+        return BestSellerCellViewModel(bestSellerModel: model)
     }
     
     /// CollectionView dataSource drovider
@@ -47,6 +70,7 @@ class HomeStoreViewModel: HomeStoreViewModelType {
             switch section {
             case .selectCategory:
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SelectCategoryCell.reuseID, for: indexPath) as? SelectCategoryCell else { fatalError("change SelectCategoryCell class") }
+                cell.modelView = self.selectCategoryCellViewModel(indexPath: indexPath)
                 return cell
             case .hotSales:
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HotSalesCell.reuseID, for: indexPath) as? HotSalesCell else { fatalError("change HotSalesCell class") }
@@ -140,7 +164,7 @@ class HomeStoreViewModel: HomeStoreViewModelType {
         
         // Header & footer
         let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
-                                                heightDimension: .fractionalHeight(1/10))
+                                                heightDimension: .fractionalHeight(1/12))
         let header = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize,
                                                                  elementKind: SelectCategoryHeader.sectionHeader,
                                                                  alignment: .top)
@@ -218,7 +242,7 @@ extension HomeStoreViewModel {
     enum Metrics {
         static let selectCategoryItemWidth: CGFloat = 71
         static let spacingBetweenItemsInCategory: CGFloat = 23
-        static let selectCategoryGroupInsets = NSDirectionalEdgeInsets(top: 0,
+        static let selectCategoryGroupInsets = NSDirectionalEdgeInsets(top: 7,
                                                                        leading: 10,
                                                                        bottom: 0,
                                                                        trailing: 0)

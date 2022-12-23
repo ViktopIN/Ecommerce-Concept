@@ -11,11 +11,6 @@ class SelectCategoryViewController: UIViewController {
     
     // MARK: - Properties
     
-    enum Sections: String, CaseIterable {
-        case selectCategory
-        case hotSales
-        case bestSeller
-    }
     
     // MARK: - Views
     

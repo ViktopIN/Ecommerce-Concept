@@ -8,6 +8,11 @@
 import UIKit.UICollectionViewLayout
 
 protocol HomeStoreViewModelType {
+    
+    //Network manager and fetch data method
+    var homeStoreNetworkManager: HomeStoreNetworkManager { get }
+    func fetchData(completion: @escaping () -> Void)
+    
     // Section model
     var homeStoreSections: [HomeStoreSectionsModel] { get }
     

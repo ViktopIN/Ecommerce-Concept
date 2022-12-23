@@ -67,6 +67,11 @@ class HomeStoreControllerView: UIViewController {
     
     private func setupView() {
         viewModel = HomeStoreViewModel()
+        viewModel.fetchData { [weak self] in
+            DispatchQueue.main.async {
+                self?.collectionView.reloadData()
+            }
+        }
         dataSourceConfigure()
     }
 }

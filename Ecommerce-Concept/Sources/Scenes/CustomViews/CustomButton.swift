@@ -20,10 +20,10 @@ class CustomButton: UIButton {
                                                    renderingMode: .alwaysOriginal), for: .normal)
         self.imageView?.contentMode = .center
         switch backgroundView {
-        case .circle(let color):
+        case .circle(let color, let buttonHeight):
             layer.masksToBounds = true
             layer.backgroundColor = color.cgColor
-            layer.cornerRadius = bounds.height / 2
+            layer.cornerRadius = buttonHeight / 2
         case .roundedCorner(let color):
             layer.masksToBounds = true
             layer.backgroundColor = color.cgColor
@@ -40,7 +40,8 @@ class CustomButton: UIButton {
 
 extension CustomButton {
     enum BackgroundViewStyle {
-        case circle(color: UIColor)
+        case circle(color: UIColor,
+                    buttonHeight: CGFloat)
         case roundedCorner(color: UIColor)
         case none
     }

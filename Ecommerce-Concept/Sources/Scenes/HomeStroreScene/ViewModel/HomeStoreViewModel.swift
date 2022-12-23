@@ -129,9 +129,8 @@ class HomeStoreViewModel: HomeStoreViewModelType {
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
         // Group
-        #warning("todo")
-        // TODO: - change form below
-        let groupWidth = Metrics.selectCategoryItemWidth * 15 + (15 * Metrics.spacingBetweenItemsInCategory)
+        let categoryItemsCount = CGFloat(categoryItems.count)
+        let groupWidth = Metrics.selectCategoryItemWidth * 5 + (5 * Metrics.spacingBetweenItemsInCategory)
         let groupSize = NSCollectionLayoutSize(widthDimension: .absolute(groupWidth),
                                                heightDimension: .fractionalHeight(12/100))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,
@@ -146,7 +145,7 @@ class HomeStoreViewModel: HomeStoreViewModelType {
                                                                  elementKind: SelectCategoryHeader.sectionHeader,
                                                                  alignment: .top)
         let footerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
-                                                heightDimension: .fractionalHeight(1/10))
+                                                heightDimension: .fractionalHeight(1/12))
         let footer = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: footerSize,
                                                                  elementKind: SelectCategoryFooter.sectionFooter,
                                                                  alignment: .bottom)
@@ -174,7 +173,7 @@ class HomeStoreViewModel: HomeStoreViewModelType {
         
         // Header & footer
         let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
-                                                heightDimension: .fractionalHeight(1/10))
+                                                heightDimension: .fractionalHeight(1/23))
         let header = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize,
                                                                  elementKind: HotSalesHeader.sectionHeader,
                                                                  alignment: .top)
@@ -201,7 +200,7 @@ class HomeStoreViewModel: HomeStoreViewModelType {
         
         // Header & footer
         let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
-                                                heightDimension: .fractionalHeight(1/10))
+                                                heightDimension: .fractionalHeight(1/23))
         let header = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize,
                                                                  elementKind: BestSellerHeader.sectionHeader,
                                                                  alignment: .top)
@@ -226,7 +225,7 @@ extension HomeStoreViewModel {
         static let selectCategorySectionInsets = NSDirectionalEdgeInsets(top: 0,
                                                                          leading: 17,
                                                                          bottom: 0,
-                                                                         trailing: 0)
+                                                                         trailing: 30)
         static let windowWidth = UIScreen.main.bounds.width
         static let windowHeight = UIScreen.main.bounds.height
         

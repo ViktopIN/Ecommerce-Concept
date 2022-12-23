@@ -19,7 +19,7 @@ class HomeStoreControllerView: UIViewController {
     private lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero,
                                               collectionViewLayout: generateCollectionViewLayout())
-        collectionView.backgroundColor = .white
+        collectionView.backgroundColor = #colorLiteral(red: 0.9725490196, green: 0.9725490196, blue: 0.9725490196, alpha: 1)
         collectionView.register(SelectCategoryCell.self,
                                 forCellWithReuseIdentifier: SelectCategoryCell.reuseID)
         collectionView.register(SelectCategoryHeader.self,

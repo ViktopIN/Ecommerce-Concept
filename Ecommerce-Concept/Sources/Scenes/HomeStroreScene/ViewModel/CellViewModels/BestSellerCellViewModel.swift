@@ -36,10 +36,8 @@ class BestSellerCellViewModel: BestSellerCellViewModelType {
     }
     var picture: UIImage {
         var image = UIImage()
-        DispatchQueue.global(qos: .utility).sync {
-            let data = try? Data(contentsOf: URL(string: self.bestSellerModel.picture)!)
-            image = UIImage(data: data ?? Data()) ?? UIImage()
-        }
+        let data = try? Data(contentsOf: URL(string: self.bestSellerModel.picture)!)
+        image = UIImage(data: data ?? Data()) ?? UIImage()
         return image
     }
     

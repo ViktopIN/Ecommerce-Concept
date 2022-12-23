@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum Sections: CaseIterable {
+enum HomeStoreSectionsModel: CaseIterable {
     
     case selectCategory
     case hotSales

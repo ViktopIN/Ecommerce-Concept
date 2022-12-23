@@ -12,6 +12,7 @@ class SelectCategoryCell: UICollectionViewCell {
     // MARK: - Properties
     
     static let reuseID = "SelectCategoryCell"
+    var modelView: SelectCategoryCellViewModelType!
         
     //  MARK: - Views
     

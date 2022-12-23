@@ -7,7 +7,7 @@
 
 import UIKit
 
-extension SelectCategoryViewController {
+extension HomeStoreControllerView {
     enum Metrics {
         static let selectCategoryItemWidth: CGFloat = 71
         static let spacingBetweenItemsInCategory: CGFloat = 23

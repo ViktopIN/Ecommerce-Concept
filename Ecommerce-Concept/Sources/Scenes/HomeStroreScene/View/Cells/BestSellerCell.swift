@@ -1,22 +1,22 @@
 //
-//  HotSalesCell.swift
+//  BestSellerCell.swift
 //  Ecommerce-Concept
 //
 //  Created by Виктор on 14.12.2022.
 //
 
-
 import UIKit
 
-class HotSalesCell: UICollectionViewCell {
+class BestSellerCell: UICollectionViewCell {
     
     // MARK: - Properties
     
-    static let reuseID = "HotSalesCell"
+    static let reuseID = "BestSellerCell"
+    var modelView: BestSellerCellViewModelType!
     
     //  MARK: - Views
     
-    let placeholderView = UIView(background: #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1))
+    let placeholderView = UIView(background: #colorLiteral(red: 0.2745098174, green: 0.4862745106, blue: 0.1411764771, alpha: 1))
     
     // MARK: - Init
 

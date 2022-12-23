@@ -1,5 +1,5 @@
 //
-//  SelectCategoryViewController.swift
+//  HomeStoreControllerView.swift
 //  Ecommerce-Concept
 //
 //  Created by Виктор on 08.12.2022.
@@ -7,14 +7,15 @@
 
 import UIKit
 
-class SelectCategoryViewController: UIViewController {
+class HomeStoreControllerView: UIViewController {
     
     // MARK: - Properties
     
+    private var viewModel: HomeStoreViewModelType!
     
     // MARK: - Views
     
-    private lazy var dataSource: UICollectionViewDiffableDataSource<Sections, ItemModel>! = nil
+    private lazy var dataSource: UICollectionViewDiffableDataSource<HomeStoreSectionsModel, AnyHashable>! = nil
     private lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: generateCollectionViewLayout())
         collectionView.backgroundColor = .white
@@ -70,14 +71,14 @@ class SelectCategoryViewController: UIViewController {
 
 // MARK: - Extensions
 
-extension SelectCategoryViewController {
+extension HomeStoreControllerView {
     
     // MARK: - CollectionView configure
         
     private func generateCollectionViewLayout() -> UICollectionViewLayout {
         let layout = UICollectionViewCompositionalLayout { (sectionIndex: Int,
                                                             layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection? in
-            let sectionIdentifier = Sections.allCases[sectionIndex]
+            let sectionIdentifier = HomeStoreSectionsModel.allCases[sectionIndex]
             switch sectionIdentifier {
             case .selectCategory:
                 return self.selectCategoryLayout()
@@ -184,11 +185,11 @@ extension SelectCategoryViewController {
     
     /// Data source configure
     private func dataSourceConfigure() {
-        dataSource = UICollectionViewDiffableDataSource<Sections, ItemModel>(collectionView: self.collectionView) {
+        dataSource = UICollectionViewDiffableDataSource<HomeStoreSectionsModel, AnyHashable>(collectionView: self.collectionView) {
             (collectionView: UICollectionView,
              indexPath: IndexPath,
-             itemIdentifier: ItemModel) -> UICollectionViewCell? in
-            let section = Sections.allCases[indexPath.section]
+             itemIdentifier: AnyHashable) -> UICollectionViewCell? in
+            let section = HomeStoreSectionsModel.allCases[indexPath.section]
             switch section {
             case .selectCategory:
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SelectCategoryCell.reuseID, for: indexPath) as? SelectCategoryCell else { fatalError("change SelectCategoryCell class") }
@@ -234,16 +235,16 @@ extension SelectCategoryViewController {
         dataSource.apply(recieveSnapShot(), animatingDifferences: false)
     }
     
-    private func recieveSnapShot() -> NSDiffableDataSourceSnapshot<Sections, ItemModel> {
-        var snapshot = NSDiffableDataSourceSnapshot<Sections, ItemModel>()
-        snapshot.appendSections([Sections.selectCategory])
-        snapshot.appendItems(ItemModel.getValueSelectCategory())
+    private func recieveSnapShot() -> NSDiffableDataSourceSnapshot<HomeStoreSectionsModel, AnyHashable> {
+        var snapshot = NSDiffableDataSourceSnapshot<HomeStoreSectionsModel, AnyHashable>()
+        snapshot.appendSections([HomeStoreSectionsModel.selectCategory])
+        snapshot.appendItems(CategoryItemModel.getValueSelectCategory())
         
-        snapshot.appendSections([Sections.hotSales])
-        snapshot.appendItems(ItemModel.getValueShopSales())
+        snapshot.appendSections([HomeStoreSectionsModel.hotSales])
+        snapshot.appendItems(CategoryItemModel.getValueShopSales())
         
-        snapshot.appendSections([Sections.bestSeller])
-        snapshot.appendItems(ItemModel.getValueBestSeller())
+        snapshot.appendSections([HomeStoreSectionsModel.bestSeller])
+        snapshot.appendItems(CategoryItemModel.getValueBestSeller())
         
         return snapshot
     }

@@ -5,19 +5,23 @@
 //  Created by Виктор on 23.12.2022.
 //
 
-import Foundation
+import UIKit.UICollectionViewLayout
 
 protocol HomeStoreViewModelType {
     // Section model
-    var homeStoreSectionsModel: [HomeStoreSectionsModel] { get }
+    var homeStoreSections: [HomeStoreSectionsModel] { get }
     
     // Item models
-    var categoryItemModel: [AnyHashable] { get set }
-    var hotSalesItemModel: [AnyHashable] { get set }
-    var bestSellerItemModel: [AnyHashable] { get set }
+    var categoryItems: [AnyHashable] { get set }
+    var hotSalesItems: [AnyHashable] { get set }
+    var bestSellerItems: [AnyHashable] { get set }
     
-    // Cell viewModels
-    var selectCategoryCellViewModel: SelectCategoryCellViewModelType { get set }
-    var hotSalesCellViewModel: HotSalesCellViewModelType { get set }
-    var bestSellerCellViewModel: BestSellerCellViewModelType { get set }
+    // Cell viewModel providers
+//    func selectCategoryCellViewModel(indexPath: IndexPath) -> SelectCategoryCellViewModelType
+//    func hotSalesCellViewModel(indexPath: IndexPath) -> HotSalesCellViewModelType
+//    func bestSellerCellViewModel(indexPath: IndexPath) -> BestSellerCellViewModelType
+    
+    // CollectionView setups
+    func collectionViewLayoutProvider() -> UICollectionViewLayout
+    func collectionViewDataSourceProvider(collectionView: UICollectionView) -> UICollectionViewDiffableDataSource<HomeStoreSectionsModel, AnyHashable>
 }

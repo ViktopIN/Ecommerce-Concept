@@ -31,7 +31,6 @@
 		8469A862294DD69100FFA281 /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8469A861294DD69100FFA281 /* CustomButton.swift */; };
 		8469A864294DD95800FFA281 /* UIImageView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8469A863294DD95800FFA281 /* UIImageView+Extension.swift */; };
 		8469A867294DDE9C00FFA281 /* UIButton+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8469A866294DDE9C00FFA281 /* UIButton+Extension.swift */; };
-		8470C976295346DA006EA227 /* ImageRecieveNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8470C975295346DA006EA227 /* ImageRecieveNetworkService.swift */; };
 		8470C97829534717006EA227 /* NetworkServiceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8470C97729534717006EA227 /* NetworkServiceType.swift */; };
 		84A33C9929509DE10019BB1E /* ItemModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A33C9829509DE10019BB1E /* ItemModels.swift */; };
 		84A33C9B2950A5970019BB1E /* Int+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A33C9A2950A5970019BB1E /* Int+Extension.swift */; };
@@ -79,7 +78,6 @@
 		8469A861294DD69100FFA281 /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
 		8469A863294DD95800FFA281 /* UIImageView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Extension.swift"; sourceTree = "<group>"; };
 		8469A866294DDE9C00FFA281 /* UIButton+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Extension.swift"; sourceTree = "<group>"; };
-		8470C975295346DA006EA227 /* ImageRecieveNetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageRecieveNetworkService.swift; sourceTree = "<group>"; };
 		8470C97729534717006EA227 /* NetworkServiceType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkServiceType.swift; sourceTree = "<group>"; };
 		84A33C9829509DE10019BB1E /* ItemModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemModels.swift; sourceTree = "<group>"; };
 		84A33C9A2950A5970019BB1E /* Int+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+Extension.swift"; sourceTree = "<group>"; };
@@ -191,7 +189,6 @@
 			isa = PBXGroup;
 			children = (
 				84E581FC2953128800AEA09B /* MainPageNetworkService.swift */,
-				8470C975295346DA006EA227 /* ImageRecieveNetworkService.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -392,7 +389,6 @@
 				8469A853294DCD1800FFA281 /* UILabel+Extension.swift in Sources */,
 				842AB2C3294F30C200C53988 /* CollectionViewDataSourceConfigureClass.swift in Sources */,
 				84E91249294A17CA00812437 /* CategoryModel.swift in Sources */,
-				8470C976295346DA006EA227 /* ImageRecieveNetworkService.swift in Sources */,
 				842AB2CB294F3BDA00C53988 /* ReusableViewModelType.swift in Sources */,
 				84E91245294A0F5C00812437 /* HotSalesCell.swift in Sources */,
 				84E91241294A005100812437 /* UIView+Extension.swift in Sources */,

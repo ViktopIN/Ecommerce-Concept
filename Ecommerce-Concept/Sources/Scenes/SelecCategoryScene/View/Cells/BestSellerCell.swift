@@ -108,10 +108,8 @@ class BestSellerCell: UICollectionViewCell {
     // MARK: - Configure method
     
     func configureCell(model: BestSellerModel) {
-        let imageRecieveNetworkService = ImageRecieveNetworkService.shared
-        imageRecieveNetworkService.imageURL = URL(string: model.picture)
-        imageRecieveNetworkService.getData()
-        mainImageView.image = imageRecieveNetworkService.image
+        let data = try? Data(contentsOf: URL(string: model.picture)!)
+        mainImageView.image = UIImage(data: data!)
         currentPriceLabel.text = model.discountPrice.withDollar
         nameLabel.text = model.title
         let oldPriceLabelTextAttribute: [NSAttributedString.Key: Any]

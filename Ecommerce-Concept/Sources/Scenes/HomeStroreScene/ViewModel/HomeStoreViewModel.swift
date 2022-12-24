@@ -8,23 +8,7 @@
 import UIKit
 
 class HomeStoreViewModel: HomeStoreViewModelType {
-    var selectedCategorySelectedIndexPath: IndexPath = [0, 0]
-    
-    func selectItemHighlighting(collectionView: UICollectionView,
-                                indexPath: IndexPath) {
-        if indexPath != selectedCategorySelectedIndexPath {
-            let cell = collectionView.cellForItem(at: indexPath) as! SelectCategoryCell
-            var model = categoryItems[indexPath.item] as! CategoryItemModel
-            model.isSelected = true
-            cell.modelView = SelectCategoryCellViewModel(selectCategoryModel: model)
-            let unhighlightedCell = collectionView.cellForItem(at: selectedCategorySelectedIndexPath) as! SelectCategoryCell
-            let unhighlightedmodel = categoryItems[selectedCategorySelectedIndexPath.item] as! CategoryItemModel
-            unhighlightedCell.modelView = SelectCategoryCellViewModel(selectCategoryModel: unhighlightedmodel)
-            selectedCategorySelectedIndexPath = indexPath
-        }
-    }
-    
-    
+        
     // MARK: - Properties
     var homeStoreNetworkManager: HomeStoreNetworkManager = HomeStoreNetworkManager()
 
@@ -32,11 +16,14 @@ class HomeStoreViewModel: HomeStoreViewModelType {
     var categoryItems: [AnyHashable] = CategoryItemModel.getValueSelectCategory()
     var hotSalesItems: [AnyHashable] = []
     var bestSellerItems: [AnyHashable] = []
+    
+    var selectedCategorySelectedIndexPath: IndexPath = [0, 0]
 
     // Methods
     
     func fetchData(completion: @escaping () -> Void) { 
         homeStoreNetworkManager.getData { networkModel in
+            self.hotSalesItems = networkModel.homeStore
             self.bestSellerItems = networkModel.bestSeller
         }
     }
@@ -51,14 +38,30 @@ class HomeStoreViewModel: HomeStoreViewModelType {
         }
     }
     
-//    func hotSalesCellViewModel(indexPath: IndexPath) -> HotSalesCellViewModelType {
-//
-//    }
-//    
+    func hotSalesCellViewModel(indexPath: IndexPath) -> HotSalesCellViewModelType {
+        let model = hotSalesItems[indexPath.item] as! HotSalesModel
+        return HotSalesCellViewModel(model: model)
+    }
+    
     func bestSellerCellViewModel(indexPath: IndexPath) -> BestSellerCellViewModelType {
         let model = bestSellerItems[indexPath.item] as! BestSellerModel
         return BestSellerCellViewModel(bestSellerModel: model)
     }
+    
+    func selectItemHighlighting(collectionView: UICollectionView,
+                                indexPath: IndexPath) {
+        if indexPath != selectedCategorySelectedIndexPath {
+            let cell = collectionView.cellForItem(at: indexPath) as! SelectCategoryCell
+            var model = categoryItems[indexPath.item] as! CategoryItemModel
+            model.isSelected = true
+            cell.modelView = SelectCategoryCellViewModel(selectCategoryModel: model)
+            let unhighlightedCell = collectionView.cellForItem(at: selectedCategorySelectedIndexPath) as! SelectCategoryCell
+            let unhighlightedmodel = categoryItems[selectedCategorySelectedIndexPath.item] as! CategoryItemModel
+            unhighlightedCell.modelView = SelectCategoryCellViewModel(selectCategoryModel: unhighlightedmodel)
+            selectedCategorySelectedIndexPath = indexPath
+        }
+    }
+
     
     /// CollectionView dataSource drovider
     func collectionViewDataSourceProvider(collectionView: UICollectionView) -> UICollectionViewDiffableDataSource<HomeStoreSectionsModel, AnyHashable> {
@@ -74,6 +77,7 @@ class HomeStoreViewModel: HomeStoreViewModelType {
                 return cell
             case .hotSales:
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HotSalesCell.reuseID, for: indexPath) as? HotSalesCell else { fatalError("change HotSalesCell class") }
+                cell.modelView = self.hotSalesCellViewModel(indexPath: indexPath)
                 return cell
             case .bestSeller:
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BestSellerCell.reuseID, for: indexPath) as? BestSellerCell else { fatalError("change HotSalesCell class") }

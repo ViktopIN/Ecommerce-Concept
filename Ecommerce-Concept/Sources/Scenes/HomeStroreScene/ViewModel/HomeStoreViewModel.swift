@@ -10,7 +10,7 @@ import UIKit
 class HomeStoreViewModel: HomeStoreViewModelType {
         
     // MARK: - Properties
-    var homeStoreNetworkManager: HomeStoreNetworkManager = HomeStoreNetworkManager()
+    var homeStoreNetworkManager: NetworkManager = NetworkManager(url: URL(string: "https://run.mocky.io/v3/654bd15e-b121-49ba-a588-960956b15175")!)
 
     var homeStoreSections = HomeStoreSectionsModel.allCases
     var categoryItems: [AnyHashable] = CategoryItemModel.getValueSelectCategory()
@@ -21,8 +21,9 @@ class HomeStoreViewModel: HomeStoreViewModelType {
 
     // Methods
     
-    func fetchData(completion: @escaping () -> Void) { 
-        homeStoreNetworkManager.getData { networkModel in
+    func fetchData(completion: @escaping () -> Void) {
+        homeStoreNetworkManager.getData { (networkModel: MainNetworkModel) in
+
             self.hotSalesItems = networkModel.homeStore
             self.bestSellerItems = networkModel.bestSeller
         }

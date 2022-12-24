@@ -15,7 +15,7 @@ class SelectCategoryHeader: UICollectionReusableView {
     static let reuseID = "SelectCategoryHeader"
     
     //  MARK: - Views
-        
+    
     private lazy var parentStack = UIStackView(with: .vertical,
                                                spacing: Metrics.parentStackSpacing)
     private lazy var locationAndFilterView = UIView(background: .clear)
@@ -41,7 +41,7 @@ class SelectCategoryHeader: UICollectionReusableView {
     private lazy var viewAllButton = UIButton(title: Strings.viewAllButtonTitleConstantText,
                                               and: UIColor.customOrange,
                                               font: UIFont.markProRegular(ofSize: Metrics.viewAllButtonTitleTextSize))
-    
+
     // MARK: - Init
 
     override init(frame: CGRect) {
@@ -139,4 +139,5 @@ extension SelectCategoryHeader {
         static let locationNameLabelText = "Zihuatanejo, Gro"
     }
 }
+
 

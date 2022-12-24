@@ -13,6 +13,15 @@ class HotSalesCell: UICollectionViewCell {
     // MARK: - Properties
     
     static let reuseID = "HotSalesCell"
+    weak var modelView: HotSalesCellViewModelType? {
+        willSet(modelView) {
+            mainImageView.image = modelView?.picture
+            newLogo.isHidden = modelView?.isNew ?? false
+            hotSalesNameLabel.text = modelView?.title
+            hotSalesDescriptionLabel.text = modelView?.subtitle
+            buyNowButton.isHidden = modelView?.isNotBuy ?? false
+        }
+    }
     
     //  MARK: - Views
     
@@ -55,7 +64,7 @@ class HotSalesCell: UICollectionViewCell {
 
         return button
     }()
-    
+
     // MARK: - Init
 
     override init(frame: CGRect) {
@@ -116,7 +125,6 @@ class HotSalesCell: UICollectionViewCell {
             buyNowButton.leftAnchor.constraint(equalTo: hotSalesContentView.leftAnchor),
             buyNowButton.widthAnchor.constraint(equalToConstant: Metrics.buyNowButtonWidht)
         ])
-
     }
     
     private func setupView() {
@@ -125,16 +133,6 @@ class HotSalesCell: UICollectionViewCell {
         newLogo.layer.cornerRadius = Metrics.newLogoHeight / 2
         newLogo.layer.masksToBounds = true
         newLogo.textAlignment = .center
-    }
-    
-    // MARK: - Configure Method
-    
-    func configureCell(model: HotSalesModel) {
-        let data = try? Data(contentsOf: URL(string: model.picture)!)
-        mainImageView.image = UIImage(data: data!)
-        hotSalesNameLabel.text = model.title
-        hotSalesDescriptionLabel.text = model.subtitle
-        newLogo.isHidden = !(model.isNew ?? false)
     }
 }
 

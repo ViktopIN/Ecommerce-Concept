@@ -12,6 +12,15 @@ class BestSellerCell: UICollectionViewCell {
     // MARK: - Properties
     
     static let reuseID = "BestSellerCell"
+    weak var modelView: BestSellerCellViewModelType? {
+        willSet(modelView) {
+            guard let modelView = modelView else { return }
+            mainImageView.image = modelView.picture
+            currentPriceLabel.text = modelView.discountPrice
+            oldPriceLabel.attributedText = modelView.priceWithoutDiscount
+            nameLabel.text = modelView.title
+        }
+    }
     
     //  MARK: - Views
     
@@ -28,7 +37,7 @@ class BestSellerCell: UICollectionViewCell {
     private lazy var mainImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.contentMode = .scaleAspectFill
+        imageView.contentMode = .scaleAspectFit
         return imageView
     }()
     
@@ -51,7 +60,7 @@ class BestSellerCell: UICollectionViewCell {
     }()
     private lazy var nameLabel = UILabel(with: Metrics.nameLabelTextSize,
                                          and: .regular)
-    
+
     // MARK: - Init
 
     override init(frame: CGRect) {
@@ -104,22 +113,6 @@ class BestSellerCell: UICollectionViewCell {
     private func setupView() {
         descriptionStack.alignment = .leading
     }
-    
-    // MARK: - Configure method
-    
-    func configureCell(model: BestSellerModel) {
-        let data = try? Data(contentsOf: URL(string: model.picture)!)
-        mainImageView.image = UIImage(data: data!)
-        currentPriceLabel.text = model.discountPrice.withDollar
-        nameLabel.text = model.title
-        let oldPriceLabelTextAttribute: [NSAttributedString.Key: Any]
-        = [NSAttributedString.Key.font: UIFont.markProMedium(ofSize: Metrics.oldPriceLabelTextSize),
-           NSAttributedString.Key.foregroundColor: UIColor.lightGray,
-           NSAttributedString.Key.strikethroughStyle: NSUnderlineStyle.single.rawValue]
-        let oldPriceLabelText = NSAttributedString(string: model.priceWithoutDiscount.withDollar ,
-                                                   attributes: oldPriceLabelTextAttribute)
-        oldPriceLabel.attributedText = oldPriceLabelText
-    }
 }
 
 // MARK: - Extension
@@ -136,7 +129,6 @@ extension BestSellerCell {
         static let currentPriceLabelHeight: CGFloat = 20
         static let nameLabelTextSize: CGFloat = 10
         static let oldPriceLabelHeight: CGFloat = 13
-        static let oldPriceLabelTextSize: CGFloat = 10
         static let oldPriceLabelLeftInset: CGFloat = -7
     }
 }

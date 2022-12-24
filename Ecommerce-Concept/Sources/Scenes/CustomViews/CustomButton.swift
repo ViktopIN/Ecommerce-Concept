@@ -12,18 +12,18 @@ class CustomButton: UIButton {
     // MARK: - Initialise
 
     init(internalImage: UIImage?,
-         imageColor: UIColor?,
+         imageColor: UIColor,
          backgroundView: BackgroundViewStyle) {
         super.init(frame: .zero)
         translatesAutoresizingMaskIntoConstraints = false
-        self.setImage(internalImage?.withTintColor(imageColor ?? .clear,
+        self.setImage(internalImage?.withTintColor(imageColor,
                                                    renderingMode: .alwaysOriginal), for: .normal)
         self.imageView?.contentMode = .center
         switch backgroundView {
         case .circle(let color, let buttonHeight):
             layer.masksToBounds = true
-            layer.cornerRadius = buttonHeight / 2
             layer.backgroundColor = color.cgColor
+            layer.cornerRadius = buttonHeight / 2
         case .roundedCorner(let color):
             layer.masksToBounds = true
             layer.backgroundColor = color.cgColor
@@ -40,7 +40,8 @@ class CustomButton: UIButton {
 
 extension CustomButton {
     enum BackgroundViewStyle {
-        case circle(color: UIColor, buttonHeight: CGFloat)
+        case circle(color: UIColor,
+                    buttonHeight: CGFloat)
         case roundedCorner(color: UIColor)
         case none
     }

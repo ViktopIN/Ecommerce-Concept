@@ -12,6 +12,14 @@ class SelectCategoryCell: UICollectionViewCell {
     // MARK: - Properties
     
     static let reuseID = "SelectCategoryCell"
+    var modelView: SelectCategoryCellViewModelType! {
+        willSet(modelView) {
+            mainImageView.image = modelView.image
+            mainImageView.backgroundColor = modelView.viewColor
+            mainLabel.text = modelView.title
+            mainLabel.textColor = modelView.textColor
+        }
+    }
         
     //  MARK: - Views
     
@@ -32,7 +40,7 @@ class SelectCategoryCell: UICollectionViewCell {
     private lazy var mainLabel = UILabel(with: Metrics.mainLabelTextSize,
                                          and: .medium,
                                          UIColor.customDarkBlue)
-    
+
     // MARK: - Init
 
     override init(frame: CGRect) {
@@ -71,24 +79,6 @@ class SelectCategoryCell: UICollectionViewCell {
     private func setupView() {
         backgroundColor = .clear
         mainLabel.textAlignment = .center
-    }
-    
-    // MARK: - Methods
-    
-    func configureCell(model: ItemModelType,
-                       selectedState: Bool) {
-        mainLabel.text = model.name
-        if selectedState {
-            mainImageView.image = model.image.withTintColor(.white,
-                                                      renderingMode: .alwaysOriginal)
-            mainLabel.textColor = UIColor.customOrange
-            mainImageView.backgroundColor = UIColor.customOrange
-        } else {
-            mainImageView.image = model.image.withTintColor(.lightGray,
-                                                      renderingMode: .alwaysOriginal)
-            mainLabel.textColor = UIColor.customDarkBlue
-            mainImageView.backgroundColor = .white
-        }
     }
 }
 

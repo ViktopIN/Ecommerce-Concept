@@ -39,11 +39,34 @@ class HomeStoreControllerView: UIViewController {
                                 forSupplementaryViewOfKind: BestSellerHeader.sectionHeader,
                                 withReuseIdentifier: BestSellerHeader.reuseID)
         collectionView.delegate = self
-
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
     }()
+    private lazy var homeStoreTabBar = UIView(background: .customDarkBlue,
+                                              cornerType: .rounded)
+    private lazy var tabBarStack = UIStackView(with: .horizontal)
+    private lazy var buttonStack = UIStackView(with: .horizontal,
+                                               distribution: .fillEqually)
+    private lazy var explorerLabel: UILabel = {
+        let label = UILabel()
+        label.attributedText = viewModel.makeAttributedText(with: UIImage(named: "round") ?? UIImage(),
+                                                            text: Strings.explorerLabelText,
+                                                            textAttributes: [.foregroundColor : UIColor.white,
+                                                                             .font: UIFont.markProBold(ofSize: Metrics.explorerLabelTextSize)],
+                                                            textIsFirst: false)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    private lazy var cartButton = makeButton(image: UIImage(named: "cart") ?? UIImage(),
+                                             action: action)
+    private lazy var favoritesButton = makeButton(image: UIImage(named: "heart") ?? UIImage(),
+                                                  action: action)
+    private lazy var profileButton = makeButton(image: UIImage(named: "profile") ?? UIImage(),
+                                                action: action)
     
+    let action = UIAction {_ in
+        print("action")
+    }
     // MARK: - Lifecycle
     
     override func viewDidLoad() {
@@ -58,11 +81,35 @@ class HomeStoreControllerView: UIViewController {
     private func setupHierarchy() {
         
         view.addSubviews(collectionView)
+        view.addSubview(homeStoreTabBar)
+        homeStoreTabBar.addSubview(tabBarStack)
+        tabBarStack.addArrangedSubviews(explorerLabel,
+                                        buttonStack)
+        buttonStack.addArrangedSubviews(cartButton,
+                                        favoritesButton,
+                                        profileButton)
     }
     
     private func setupLayout() {
         
         collectionView.fillSuperview()
+        NSLayoutConstraint.activate([
+            homeStoreTabBar.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            homeStoreTabBar.widthAnchor.constraint(equalTo: view.widthAnchor),
+            homeStoreTabBar.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.085)
+        ])
+        NSLayoutConstraint.activate([
+            tabBarStack.centerYAnchor.constraint(equalTo: homeStoreTabBar.centerYAnchor),
+            tabBarStack.heightAnchor.constraint(equalTo: homeStoreTabBar.heightAnchor,
+                                                multiplier: 1/4),
+            tabBarStack.leftAnchor.constraint(equalTo: homeStoreTabBar.leftAnchor,
+                                              constant: Metrics.tabBarStackLeftInset),
+            tabBarStack.rightAnchor.constraint(equalTo: homeStoreTabBar.rightAnchor,
+                                               constant: Metrics.tabBarStackRightInset)
+        ])
+        NSLayoutConstraint.activate([
+            explorerLabel.widthAnchor.constraint(equalToConstant: Metrics.explorerLabelWidth)
+        ])
     }
     
     private func setupView() {
@@ -73,15 +120,28 @@ class HomeStoreControllerView: UIViewController {
             }
         }
         dataSourceConfigure()
+        // Explorer label setup
+        explorerLabel.textAlignment = .left
+    }
+    
+    // MARK: - Private Methods
+    
+    private func makeButton(image: UIImage,
+                            action: UIAction) -> UIButton {
+        let button = UIButton(primaryAction: action)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setImage(image.withTintColor(.white,
+                                            renderingMode: .alwaysOriginal),
+                        for: .normal)
+        return button
     }
 }
 
 // MARK: - Extensions
 
+/// CollectionView configure
 extension HomeStoreControllerView {
-    
-    // MARK: - CollectionView configure
-    
+        
     private func dataSourceConfigure() {
         dataSource = viewModel.collectionViewDataSourceProvider(collectionView: collectionView)
     }
@@ -91,6 +151,7 @@ extension HomeStoreControllerView {
     }
 }
 
+/// Collection view delegate
 extension HomeStoreControllerView: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView,
                         didSelectItemAt indexPath: IndexPath) {
@@ -98,3 +159,17 @@ extension HomeStoreControllerView: UICollectionViewDelegate {
                                          indexPath: indexPath)
     }
 }
+
+/// Metrics and Strings
+extension HomeStoreControllerView {
+    enum Metrics {
+        static let explorerLabelTextSize: CGFloat = 15
+        static let tabBarStackLeftInset: CGFloat = 67
+        static let tabBarStackRightInset: CGFloat = -42
+        static let explorerLabelWidth: CGFloat = 90
+    }
+    enum Strings {
+        static let explorerLabelText = "Explorer"
+    }
+}
+

@@ -133,6 +133,9 @@ class HotSalesCell: UICollectionViewCell {
         newLogo.layer.cornerRadius = Metrics.newLogoHeight / 2
         newLogo.layer.masksToBounds = true
         newLogo.textAlignment = .center
+        
+        // Name label setup
+        hotSalesNameLabel.adjustsFontSizeToFitWidth = true
     }
 }
 
@@ -145,12 +148,12 @@ extension HotSalesCell {
         static let hotSalesContentViewBottomInset: CGFloat = -10
         static let hotSalesContentViewLeftInset: CGFloat = 24
         static let hotSalesNameLabelTextSize: CGFloat = 25
-        static let hotSalesNameLabelTopInset: CGFloat = 18
+        static let hotSalesNameLabelTopInset: CGFloat = 34
         static let hotSalesNameLabelHeight: CGFloat = 30
         static let hotSalesDescriptionLabelTextSize: CGFloat = 11
         static let hotSalesDescriptionLabelTopInset: CGFloat = 5
         static let hotSalesDescriptionLabelHeight: CGFloat = 13
-        static let buyNowButtonTopInset: CGFloat = 26
+        static let buyNowButtonTopInset: CGFloat = 10
         static let buyNowButtonWidht: CGFloat = 98
         static let buyNowButtonTextSize: CGFloat = 11
         static let buyNowButtonCornerRadius: CGFloat = 5

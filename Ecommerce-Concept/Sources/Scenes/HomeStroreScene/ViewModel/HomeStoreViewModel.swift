@@ -51,6 +51,7 @@ class HomeStoreViewModel: HomeStoreViewModelType {
     
     func selectItemHighlighting(collectionView: UICollectionView,
                                 indexPath: IndexPath) {
+        guard homeStoreSections[indexPath.section] == .selectCategory else { return }
         if indexPath != selectedCategorySelectedIndexPath {
             let cell = collectionView.cellForItem(at: indexPath) as! SelectCategoryCell
             var model = categoryItems[indexPath.item] as! CategoryItemModel
@@ -83,6 +84,7 @@ class HomeStoreViewModel: HomeStoreViewModelType {
             case .bestSeller:
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BestSellerCell.reuseID, for: indexPath) as? BestSellerCell else { fatalError("change HotSalesCell class") }
                 cell.modelView = self.bestSellerCellViewModel(indexPath: indexPath)
+                
                 return cell
             }
         }
@@ -240,7 +242,30 @@ class HomeStoreViewModel: HomeStoreViewModelType {
 
         return section
     }
-
+    
+    /// Views configure
+    func makeAttributedText(with image: UIImage,
+                            text: String,
+                            textAttributes: [NSAttributedString.Key: Any]?,
+                            textIsFirst boolProperty: Bool) -> NSAttributedString {
+        let imageAttachment = NSTextAttachment()
+        imageAttachment.image = image
+        let completeText = NSMutableAttributedString(string: "")
+        let text = NSAttributedString(string: text, attributes: textAttributes)
+        let space = NSAttributedString(string: "  ")
+        let attachmentImage = NSAttributedString(attachment: imageAttachment)
+        
+        if boolProperty {
+            completeText.append(text)
+            completeText.append(space)
+            completeText.append(attachmentImage)
+        } else {
+            completeText.append(attachmentImage)
+            completeText.append(space)
+            completeText.append(text)
+        }
+        return completeText
+    }
 }
 
 extension HomeStoreViewModel {
@@ -269,7 +294,7 @@ extension HomeStoreViewModel {
 
         static let bestSellerSectionInsets = NSDirectionalEdgeInsets(top: 7,
                                                                      leading: 17,
-                                                                     bottom: 7,
+                                                                     bottom: 50,
                                                                      trailing: 21)
         static let bestSellerItemInsets = NSDirectionalEdgeInsets(top: 7,
                                                                   leading: 6,

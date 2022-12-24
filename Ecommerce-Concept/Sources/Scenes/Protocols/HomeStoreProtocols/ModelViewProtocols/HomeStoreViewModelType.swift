@@ -5,11 +5,18 @@
 //  Created by Виктор on 23.12.2022.
 //
 
-import UIKit.UICollectionViewLayout
+import UIKit.UICollectionView
 
 protocol HomeStoreViewModelType {
     
-    //Network manager and fetch data method
+    // MakeAttributedWithImage Text (for ExplorerLabel)
+    
+    func makeAttributedText(with image: UIImage,
+                            text: String,
+                            textAttributes: [NSAttributedString.Key: Any]?,
+                            textIsFirst boolProperty: Bool) -> NSAttributedString
+    
+    // Network manager and fetch data method
     var homeStoreNetworkManager: NetworkManager { get }
     func fetchData(completion: @escaping () -> Void)
     

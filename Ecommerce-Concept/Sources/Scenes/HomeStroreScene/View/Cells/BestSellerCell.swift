@@ -19,10 +19,13 @@ class BestSellerCell: UICollectionViewCell {
             currentPriceLabel.text = modelView.discountPrice
             oldPriceLabel.attributedText = modelView.priceWithoutDiscount
             nameLabel.text = modelView.title
+            favoriteButton.isSelected = modelView.isFavorites
         }
     }
     
     //  MARK: - Views
+    
+    private lazy var favoriteButton = CustomButton.createFavoriteButton()
     
     private lazy var fillingView: UIView = {
         let view = UIView()
@@ -82,6 +85,7 @@ class BestSellerCell: UICollectionViewCell {
         parentStack.addArrangedSubviews(mainImageView, descriptionStack)
         descriptionStack.addArrangedSubviews(priceView, nameLabel)
         priceView.addSubviews(currentPriceLabel, oldPriceLabel)
+        addSubview(favoriteButton)
     }
     
     private func setupLayout() {
@@ -108,10 +112,27 @@ class BestSellerCell: UICollectionViewCell {
             oldPriceLabel.bottomAnchor.constraint(equalTo: priceView.bottomAnchor),
             oldPriceLabel.rightAnchor.constraint(lessThanOrEqualTo: priceView.rightAnchor)
         ])
+        
+        NSLayoutConstraint.activate([
+            favoriteButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
+            favoriteButton.topAnchor.constraint(equalTo: topAnchor, constant: 11),
+            favoriteButton.heightAnchor.constraint(equalToConstant: 25),
+            favoriteButton.widthAnchor.constraint(equalToConstant: 25)
+        ])
+
     }
     
     private func setupView() {
         descriptionStack.alignment = .leading
+        favoriteButton.addTarget(self,
+                                 action: #selector(favoritesMark),
+                                 for: .touchUpInside)
+    }
+    
+    // MARK: - Methods
+    
+    @objc func favoritesMark() {
+        favoriteButton.isSelected.toggle()
     }
 }
 

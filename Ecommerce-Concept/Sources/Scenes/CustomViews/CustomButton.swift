@@ -36,6 +36,32 @@ class CustomButton: UIButton {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    // MARK: - Method
+    
+    static func createFavoriteButton() -> UIButton {
+        let button = UIButton()
+        button.setImage(UIImage(named: "noFillHeart"),
+                        for: .normal)
+        button.setImage(UIImage(named: "fillHeart"),
+                        for: .selected)
+        button.backgroundColor = .white
+        button.imageView?.contentMode = .center
+        button.layer.cornerRadius = 25 / 2
+        button.layer.masksToBounds = false
+        button.layer.shadowColor = UIColor.lightGray.cgColor
+        button.layer.shadowOpacity = 0.5
+        button.layer.shadowRadius = 10
+        button.layer.shadowPath = UIBezierPath(roundedRect: CGRect(x: 0,
+                                                                   y: 0,
+                                                                   width: 25,
+                                                                   height: 25),
+                                               cornerRadius: 25/2).cgPath
+        button.layer.shadowOffset = .zero
+        button.translatesAutoresizingMaskIntoConstraints = false
+        
+        return button
+    }
 }
 
 extension CustomButton {

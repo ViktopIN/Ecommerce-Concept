@@ -63,7 +63,10 @@ class HomeStoreViewModel: HomeStoreViewModelType {
             selectedCategorySelectedIndexPath = indexPath
         }
     }
-
+    
+    @objc func favoriteMark(item: BestSellerCell) {
+        
+    }
     
     /// CollectionView dataSource drovider
     func collectionViewDataSourceProvider(collectionView: UICollectionView) -> UICollectionViewDiffableDataSource<HomeStoreSectionsModel, AnyHashable> {
@@ -82,9 +85,11 @@ class HomeStoreViewModel: HomeStoreViewModelType {
                 cell.modelView = self.hotSalesCellViewModel(indexPath: indexPath)
                 return cell
             case .bestSeller:
-                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BestSellerCell.reuseID, for: indexPath) as? BestSellerCell else { fatalError("change HotSalesCell class") }
-                cell.modelView = self.bestSellerCellViewModel(indexPath: indexPath)
-                
+                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BestSellerCell.reuseID,
+                                                                    for: indexPath) as? BestSellerCell
+                else { fatalError("change HotSalesCell class") }
+                let modelView = self.bestSellerCellViewModel(indexPath: indexPath)
+                cell.modelView = modelView
                 return cell
             }
         }
@@ -121,7 +126,7 @@ class HomeStoreViewModel: HomeStoreViewModelType {
         dataSource.apply(recieveSnapShot(), animatingDifferences: false)
         return dataSource
     }
-    
+        
     private func recieveSnapShot() -> NSDiffableDataSourceSnapshot<HomeStoreSectionsModel, AnyHashable> {
         var snapshot = NSDiffableDataSourceSnapshot<HomeStoreSectionsModel, AnyHashable>()
         snapshot.appendSections([homeStoreSections[0]])

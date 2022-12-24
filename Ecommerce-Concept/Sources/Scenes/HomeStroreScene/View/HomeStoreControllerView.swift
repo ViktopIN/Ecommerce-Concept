@@ -40,6 +40,7 @@ class HomeStoreControllerView: UIViewController {
                                 withReuseIdentifier: BestSellerHeader.reuseID)
         collectionView.delegate = self
         collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.showsVerticalScrollIndicator = false
         return collectionView
     }()
     private lazy var homeStoreTabBar = UIView(background: .customDarkBlue,

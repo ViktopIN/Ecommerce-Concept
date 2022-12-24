@@ -32,7 +32,7 @@ class SelectCategoryCell: UICollectionViewCell {
         imageView.layer.shadowOpacity = Metrics.mainImageViewShadowOpacity
         imageView.layer.shadowRadius = Metrics.mainImageViewShadowRadius
         imageView.layer.shadowOffset = Metrics.mainImageViewShadowOffset
-        imageView.layer.masksToBounds = true
+        imageView.layer.masksToBounds = false
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
@@ -86,12 +86,9 @@ extension SelectCategoryCell {
     enum Metrics {
         static let mainImageViewHeight: CGFloat = 71
         static let mainLabelTextSize: CGFloat = 12
-        static let mainImageViewShadowColor: CGColor = UIColor(red: 0.656,
-                                                               green: 0.669,
-                                                               blue: 0.788,
-                                                               alpha: 0.15).cgColor
-        static let mainImageViewShadowOpacity: Float = 1
-        static let mainImageViewShadowRadius: CGFloat = 20
+        static let mainImageViewShadowColor: CGColor = UIColor.lightGray.cgColor
+        static let mainImageViewShadowOpacity: Float = 0.4
+        static let mainImageViewShadowRadius: CGFloat = 8
         static let mainImageViewShadowOffset = CGSize(width: 0,
                                                       height: 0)
         

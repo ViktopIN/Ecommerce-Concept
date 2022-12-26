@@ -9,6 +9,10 @@ import UIKit.UICollectionView
 
 protocol HomeStoreViewModelType {
     
+    // Properties
+    
+    var coordinator: Coordinator? { get set }
+    
     // MakeAttributedWithImage Text (for ExplorerLabel)
     
     func makeAttributedText(with image: UIImage,

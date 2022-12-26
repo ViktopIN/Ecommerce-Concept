@@ -40,10 +40,4 @@ class SelectCategoryCellViewModel: SelectCategoryCellViewModelType {
     init(selectCategoryModel: CategoryItemModel) {
         self.selectCategoryModel = selectCategoryModel
     }
-    
-    // MARK: - Methods
-    
-    func changeCellsView(cell: SelectCategoryCell) {
-        
-    }
 }

@@ -11,7 +11,9 @@ class HomeStoreControllerView: UIViewController {
     
     // MARK: - Properties
     
-    private var viewModel: HomeStoreViewModelType!
+    var viewModel: HomeStoreViewModelType!
+    var coordinator: CoordinatorProtocol?
+    
     
     // MARK: - Views
     
@@ -114,7 +116,7 @@ class HomeStoreControllerView: UIViewController {
     }
     
     private func setupView() {
-        viewModel = HomeStoreViewModel()
+        navigationController?.setNavigationBarHidden(true, animated: false)
         viewModel.fetchData { [weak self] in
             DispatchQueue.main.async {
                 self?.collectionView.reloadData()

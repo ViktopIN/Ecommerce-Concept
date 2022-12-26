@@ -10,6 +10,7 @@ import UIKit
 class HomeStoreViewModel: HomeStoreViewModelType {
         
     // MARK: - Properties
+    var coordinator: Coordinator?
     var homeStoreNetworkManager: NetworkManager = NetworkManager(url: URL(string: "https://run.mocky.io/v3/654bd15e-b121-49ba-a588-960956b15175")!)
 
     var homeStoreSections = HomeStoreSectionsModel.allCases
@@ -101,6 +102,7 @@ class HomeStoreViewModel: HomeStoreViewModelType {
                 guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: elementKind,
                                                                                    withReuseIdentifier: SelectCategoryHeader.reuseID,
                                                                                    for: indexPath) as? SelectCategoryHeader else { fatalError("error in SelectCategoryHeader class") }
+                header.coordinator = self.coordinator
                 return header
             case SelectCategoryFooter.sectionFooter:
                 guard let footer = collectionView.dequeueReusableSupplementaryView(ofKind: elementKind,
@@ -294,7 +296,7 @@ extension HomeStoreViewModel {
                                                                    trailing: 20)
         static let hotSalesGroupInsets = NSDirectionalEdgeInsets(top: 0,
                                                                  leading: 0,
-                                                                 bottom: 0,
+                                                                 bottom: 10,
                                                                  trailing: 35)
 
         static let bestSellerSectionInsets = NSDirectionalEdgeInsets(top: 7,

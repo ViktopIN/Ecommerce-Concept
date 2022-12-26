@@ -13,6 +13,7 @@ class SelectCategoryHeader: UICollectionReusableView {
     
     static let sectionHeader = "selectCategory-section-header-element-kind"
     static let reuseID = "SelectCategoryHeader"
+    var coordinator: Coordinator?
     
     //  MARK: - Views
     
@@ -48,6 +49,7 @@ class SelectCategoryHeader: UICollectionReusableView {
         super.init(frame: .zero)
         setupHierarchy()
         setupLayout()
+        setupView()
     }
     
     required init?(coder: NSCoder) {
@@ -113,6 +115,20 @@ class SelectCategoryHeader: UICollectionReusableView {
             viewAllButton.rightAnchor.constraint(equalTo: titleView.rightAnchor)
         ])
     }
+    
+    private func setupView() {
+        filterButton.addTarget(self,
+                               action: #selector(showOnFilterBottomSheet),
+                               for: .touchUpInside
+        )
+    }
+    
+    // MARK: - Methods
+    
+    @objc func showOnFilterBottomSheet() {
+        coordinator?.showBottomSheetOnHomeStoreView()
+    }
+    
 }
 
 extension SelectCategoryHeader {

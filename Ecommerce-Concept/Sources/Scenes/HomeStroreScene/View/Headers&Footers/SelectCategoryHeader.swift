@@ -30,12 +30,12 @@ class SelectCategoryHeader: UICollectionReusableView {
                                                  and: .medium,
                                                  UIColor.customDarkBlue,
                                                  adjustFontSizeToFit: true)
-    private lazy var locationChangeButton = CustomButton(internalImage: UIImage(systemName: "chevron.down"),
-                                                         imageColor: .lightGray,
+    private lazy var locationChangeButton = CustomButton(internalObject: UIImage(systemName: "chevron.down"),
+                                                         objectColor: .lightGray,
                                                          backgroundView: .none)
-    private lazy var filterButton = CustomButton(internalImage: UIImage(named: "filter"),
-                                             imageColor: UIColor.customDarkBlue,
-                                             backgroundView: .none)
+    private lazy var filterButton = CustomButton(internalObject: UIImage(named: "filter") ?? UIImage(),
+                                                 objectColor: UIColor.customDarkBlue,
+                                                 backgroundView: .none)
     private lazy var selectCategoryTitleLabel = UILabel(constant: Strings.selectCategoryTitleConstantText,
                                                         with: Metrics.selectCategoryTitleLabelTextSize,
                                                         and: .bold, UIColor.customDarkBlue)

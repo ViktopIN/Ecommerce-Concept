@@ -10,15 +10,35 @@ import UIKit.UIButton
 class CustomButton: UIButton {
     
     // MARK: - Initialise
-
-    init(internalImage: UIImage?,
-         imageColor: UIColor,
-         backgroundView: BackgroundViewStyle) {
+    
+    ///  Custom Button initalise
+    /// - Parameters:
+    ///   - internalObject: Attention! internal visual object must be either String object type or UIImage object type
+    ///   - objectColor: image color
+    ///   - backgroundView:  background views corner style
+    ///   - textStyle: internal title label style, occur necessary only with defined internalObject as String type
+    init(internalObject: Any,
+         objectColor: UIColor,
+         backgroundView: BackgroundViewStyle,
+         textStyle: TextStyle = .smallButtomStyle) {
         super.init(frame: .zero)
         translatesAutoresizingMaskIntoConstraints = false
-        self.setImage(internalImage?.withTintColor(imageColor,
-                                                   renderingMode: .alwaysOriginal), for: .normal)
-        self.imageView?.contentMode = .center
+        if let internalImage = internalObject as? UIImage {
+            self.setImage(internalImage.withTintColor(objectColor,
+                                                       renderingMode: .alwaysOriginal), for: .normal)
+            self.imageView?.contentMode = .center
+        } else if let internalString = internalObject as? String {
+            setTitle(internalString, for: .normal)
+            titleLabel?.textAlignment = .center
+            switch textStyle {
+            case .bigButtonStyle:
+                titleLabel?.font = .markProBold(ofSize: 20)
+                setTitleColor(objectColor, for: .normal)
+            case .smallButtomStyle:
+                titleLabel?.font = .markProMedium(ofSize: 18)
+                setTitleColor(objectColor, for: .normal)
+            }
+        }
         switch backgroundView {
         case .circle(let color, let buttonHeight):
             layer.masksToBounds = true
@@ -70,5 +90,9 @@ extension CustomButton {
                     buttonHeight: CGFloat)
         case roundedCorner(color: UIColor)
         case none
+    }
+    
+    enum TextStyle {
+        case smallButtomStyle, bigButtonStyle
     }
 }

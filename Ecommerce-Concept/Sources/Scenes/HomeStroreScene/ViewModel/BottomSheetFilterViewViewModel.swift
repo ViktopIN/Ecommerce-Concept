@@ -8,6 +8,17 @@
 import UIKit
 
 class BottomSheetFilterViewViewModel: BottomSheetFilterViewViewModelType {
+    func selectRowFunctionality(cell: UITableViewCell,
+                                indexPath: IndexPath) -> UIAlertController {
+        let allertController = UIAlertController()
+        guard let cell = cell as? FilterParametersTableViewCell else { fatalError() }
+        addAlertActions(fromDictionary: cellConstantModels,
+                        forKey: headerNames[indexPath.section],
+                        to: allertController,
+                        formatting: cell)
+        return allertController
+    }
+    
     func configure(cell: UITableViewCell,
                    with indexPath: IndexPath) {
         guard let cell = cell as? FilterParametersTableViewCell else { return }
@@ -19,7 +30,7 @@ class BottomSheetFilterViewViewModel: BottomSheetFilterViewViewModelType {
         guard let header = header as? FilterParametersTableViewHeader else { return }
         header.configureHeader(with: headerNames[sectionNumber])
     }
-    
+
     let cellConstantModels = ["Brand": ["Samsung", "Apple", "Xiaomi", "Honor"],
                               "Price": ["\(0.withDollar) - \(100.withDollar)",
                                         "\(100.withDollar) - \(300.withDollar)",
@@ -29,4 +40,17 @@ class BottomSheetFilterViewViewModel: BottomSheetFilterViewViewModelType {
                                         "\(5000.withDollar) - \(10000.withDollar)"],
                               "Size": ["4.5 to 5.5 inches"]]
     private var headerNames = ["Brand", "Price", "Size"]
+    
+    private func addAlertActions(fromDictionary: [String: [String]],
+                                 forKey: String,
+                                 to allertController: UIAlertController,
+                                 formatting cell: FilterParametersTableViewCell) {
+        let array = fromDictionary[forKey] ?? []
+        for i in array {
+            allertController.addAction(UIAlertAction(title: i, style: .default) { _ in
+                cell.configureCell(with: i)
+            })
+        }
+        allertController.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+    }
 }

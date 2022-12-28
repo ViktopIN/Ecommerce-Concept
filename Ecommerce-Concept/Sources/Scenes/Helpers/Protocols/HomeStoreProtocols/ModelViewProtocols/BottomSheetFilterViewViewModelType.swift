@@ -13,4 +13,6 @@ protocol BottomSheetFilterViewViewModelType: AnyObject {
                    with indexPath: IndexPath)
     func configure(header: UITableViewHeaderFooterView,
                    with sectionNumber: Int)
+    func selectRowFunctionality(cell: UITableViewCell,
+                                indexPath: IndexPath) -> UIAlertController
 }

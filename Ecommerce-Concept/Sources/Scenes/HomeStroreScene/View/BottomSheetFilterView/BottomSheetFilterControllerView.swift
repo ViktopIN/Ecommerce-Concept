@@ -42,7 +42,7 @@ class BottomSheetFilterControllerView: UIViewController, UITableViewDelegate {
         tableView.isScrollEnabled = false
         return tableView
     }()
-    
+        
     // MARK: - Lifecycle
     
     override func viewDidLoad() {
@@ -108,6 +108,20 @@ class BottomSheetFilterControllerView: UIViewController, UITableViewDelegate {
         containerView.layer.shadowOffset = CGSize(width: 0,
                                                   height: -5)
         containerView.layer.masksToBounds = false
+        
+        // buttons setup
+        doneButton.addTarget(self, action: #selector(closeBottomSheet),
+                             for: .touchUpInside)
+        closeBottomSheetButton.addTarget(self, action: #selector(closeBottomSheet),
+                                         for: .touchUpInside)
+
+    }
+    
+    // MARK: - Methods
+    
+    @objc
+    func closeBottomSheet() {
+        self.dismiss(animated: false)
     }
 }
 
@@ -121,15 +135,15 @@ extension BottomSheetFilterControllerView: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView,
                    cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: FilterParametersTableViewCell.reuseID,
-                                                 for: indexPath) as! FilterParametersTableViewCell
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: FilterParametersTableViewCell.reuseID,
+                                                       for: indexPath) as? FilterParametersTableViewCell else { fatalError() }
         viewModel.configure(cell: cell,
                             with: indexPath)
         return cell
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: FilterParametersTableViewHeader.reuseID) as! FilterParametersTableViewHeader
+        guard let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: FilterParametersTableViewHeader.reuseID) as? FilterParametersTableViewHeader else {fatalError()}
         viewModel.configure(header: header,
                             with: section)
         
@@ -137,6 +151,12 @@ extension BottomSheetFilterControllerView: UITableViewDataSource {
     }
     func numberOfSections(in tableView: UITableView) -> Int {
         3
+    }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let cell = tableView.cellForRow(at: indexPath) else { fatalError() }
+        let allertController = viewModel.selectRowFunctionality(cell: cell,
+                                                                indexPath: indexPath)
+        present(allertController, animated: true)
     }
 }
 

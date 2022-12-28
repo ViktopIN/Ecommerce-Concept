@@ -73,7 +73,6 @@ class FilterParametersTableViewCell: UITableViewCell {
     func configureCell(with string: String) {
         mainLabel.text = string
     }
-    
 }
 
 extension FilterParametersTableViewCell {

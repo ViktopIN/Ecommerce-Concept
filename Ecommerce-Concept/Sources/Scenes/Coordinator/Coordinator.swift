@@ -36,9 +36,11 @@ class Coordinator: CoordinatorProtocol {
     func showBottomSheetOnHomeStoreView() {
         let homeStoreViewController = navigationController.visibleViewController as? HomeStoreControllerView
         let bottomSheetFilterViewController = BottomSheetFilterControllerView()
+        let bottomSheetFilterViewViewModel = BottomSheetFilterViewViewModel()
         let BottomSheetFilterpresentationControllerViewModel = BottomSheetFilterpresentationControllerViewModel()
         let bottomSheetFilterTransitioningDelegate = BottomSheetFilterTransitioningDelegate()
         bottomSheetFilterTransitioningDelegate.viewModel = BottomSheetFilterpresentationControllerViewModel
+        bottomSheetFilterViewController.viewModel = bottomSheetFilterViewViewModel
         bottomSheetFilterViewController.transitioningDelegate = bottomSheetFilterTransitioningDelegate
         bottomSheetFilterViewController.modalPresentationStyle = .custom
 

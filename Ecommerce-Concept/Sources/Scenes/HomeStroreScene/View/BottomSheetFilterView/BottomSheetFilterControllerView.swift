@@ -7,9 +7,11 @@
 
 import UIKit
 
-class BottomSheetFilterControllerView: UIViewController {
+class BottomSheetFilterControllerView: UIViewController, UITableViewDelegate {
     
     // MARK: - View and Properties
+    
+    var viewModel: BottomSheetFilterViewViewModelType!
     
     private lazy var containerView = UIView(background: .white,
                                             cornerType: .rounded)
@@ -27,6 +29,19 @@ class BottomSheetFilterControllerView: UIViewController {
                                                objectColor: .white,
                                                backgroundView: .roundedCorner(color: .customOrange),
                                                textStyle: .smallButtomStyle)
+    private lazy var filterParametersTableView: UITableView = {
+        let tableView = UITableView(background: .clear)
+        tableView.register(FilterParametersTableViewCell.self,
+                           forCellReuseIdentifier: FilterParametersTableViewCell.reuseID)
+        tableView.register(FilterParametersTableViewHeader.self,
+                           forHeaderFooterViewReuseIdentifier: FilterParametersTableViewHeader.reuseID)
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.rowHeight = Metrics.filterParametersTableViewHeight
+        tableView.isScrollEnabled = false
+        return tableView
+    }()
     
     // MARK: - Lifecycle
     
@@ -42,8 +57,11 @@ class BottomSheetFilterControllerView: UIViewController {
     
     private func setupHierarchy() {
         view.addSubview(containerView)
-        containerView.addSubviews(titleStackView)
-        titleStackView.addArrangedSubviews(closeBottomSheetButton, titleLabel, doneButton)
+        containerView.addSubviews(titleStackView,
+                                  filterParametersTableView)
+        titleStackView.addArrangedSubviews(closeBottomSheetButton,
+                                           titleLabel,
+                                           doneButton)
     }
     
     private func setupLayout() {
@@ -63,6 +81,15 @@ class BottomSheetFilterControllerView: UIViewController {
         ])
         NSLayoutConstraint.activate([
             titleLabel.widthAnchor.constraint(equalToConstant: Metrics.titleLabelWidth)
+        ])
+        NSLayoutConstraint.activate([
+            filterParametersTableView.topAnchor.constraint(equalTo: titleStackView.bottomAnchor),
+            filterParametersTableView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor,
+                                                               constant: Metrics.filterParametersTableViewLayotMargins.left),
+            filterParametersTableView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor,
+                                                                constant: -Metrics.filterParametersTableViewLayotMargins.right),
+            filterParametersTableView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor,
+                                                              constant: Metrics.filterParametersTableViewLayotMargins.bottom)
         ])
     }
     
@@ -84,18 +111,52 @@ class BottomSheetFilterControllerView: UIViewController {
     }
 }
 
+// MARK: - Extensions
+
+extension BottomSheetFilterControllerView: UITableViewDataSource {
+    func tableView(_ tableView: UITableView,
+                   numberOfRowsInSection section: Int) -> Int {
+        1
+    }
+    
+    func tableView(_ tableView: UITableView,
+                   cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: FilterParametersTableViewCell.reuseID,
+                                                 for: indexPath) as! FilterParametersTableViewCell
+        viewModel.configure(cell: cell,
+                            with: indexPath)
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: FilterParametersTableViewHeader.reuseID) as! FilterParametersTableViewHeader
+        viewModel.configure(header: header,
+                            with: section)
+        
+        return header
+    }
+    func numberOfSections(in tableView: UITableView) -> Int {
+        3
+    }
+}
+
 extension BottomSheetFilterControllerView {
     enum Metrics {
-        static let containerViewHeight: CGFloat = 335
+        static let containerViewHeight: CGFloat = 345
         static let screenWidth: CGFloat = UIScreen.main.bounds.width
         static let titleStackViewLayotMargins = UIEdgeInsets(top: 24,
                                                              left: 44,
-                                                             bottom: 28,
+                                                             bottom: 0,
                                                              right: 20)
-        static let titleLabelHeight: CGFloat = 90
+        static let titleLabelHeight: CGFloat = 60
         static let closeButtonWidth: CGFloat = 37
         static let titleLabelTextSize: CGFloat = 18
         static let titleLabelWidth: CGFloat = 215
+        static let filterParametersTableViewLayotMargins = UIEdgeInsets(top: 0,
+                                                                        left: 46,
+                                                                        bottom: 44,
+                                                                        right: 31)
+        static let filterParametersTableViewHeight: CGFloat = 37
     }
     
     enum Strings {

@@ -68,7 +68,6 @@ class BottomSheetFilterControllerView: UIViewController, UITableViewDelegate {
         containerView.fillSuperview()
         preferredContentSize = CGSize(width: Metrics.screenWidth,
                                       height: Metrics.containerViewHeight)
-        view.heightAnchor.constraint(equalToConstant: Metrics.containerViewHeight).isActive = true
         NSLayoutConstraint.activate([
             titleStackView.topAnchor.constraint(equalTo: containerView.topAnchor),
             titleStackView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
@@ -97,7 +96,7 @@ class BottomSheetFilterControllerView: UIViewController, UITableViewDelegate {
         // view setup
         view.backgroundColor = .clear
         titleLabel.textAlignment = .center
-            
+        
         // container view setup
         containerView.layer.shadowColor = UIColor(red: 0.298,
                                                   green: 0.372, 
@@ -143,7 +142,7 @@ extension BottomSheetFilterControllerView: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        guard let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: FilterParametersTableViewHeader.reuseID) as? FilterParametersTableViewHeader else {fatalError()}
+        guard let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: FilterParametersTableViewHeader.reuseID) as? FilterParametersTableViewHeader else { fatalError() }
         viewModel.configure(header: header,
                             with: section)
         

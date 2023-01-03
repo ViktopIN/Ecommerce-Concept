@@ -43,7 +43,7 @@ class SelectCategoryFooter: UICollectionReusableView {
          return searchBar
      }()
      
-     private lazy var qrCodeButton = CustomButton(internalObject: UIImage(named: "qrCode"),
+    private lazy var qrCodeButton = CustomButton(internalObject: UIImage(named: "qrCode")!,
                                                   objectColor: .white,
                                                   backgroundView: .circle(color: UIColor.orange,                                         buttonHeight: Metrics.qrButtonHeight))
      

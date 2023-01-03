@@ -12,7 +12,7 @@ class NetworkManager {
     // MARK: - Properties
         
     private var url: URL
-    let condition = NSCondition()
+    private var condition = NSCondition()
     
     // MARK: - Initialise
     
@@ -24,7 +24,6 @@ class NetworkManager {
     
     func getData<T: Decodable>(completion: @escaping (T) -> Void) {
        let session = URLSession.shared.dataTask(with: url) { data, response, error in
-           self.condition.signal()
             guard let data = data else {
                 guard let response = response as? HTTPURLResponse else { return }
                 fatalError("Wrong data!\nURL response is\n\(response.statusCode)")
@@ -34,6 +33,7 @@ class NetworkManager {
                 decoder.keyDecodingStrategy = .convertFromSnakeCase
                 let returnData = try decoder.decode(T.self, from: data)
                 completion(returnData)
+                self.condition.signal()
             } catch let error {
                 fatalError("something wrong with model or urlRequest - \(error)")
             }

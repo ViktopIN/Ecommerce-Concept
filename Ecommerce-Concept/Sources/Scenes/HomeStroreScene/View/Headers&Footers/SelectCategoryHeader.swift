@@ -30,7 +30,7 @@ class SelectCategoryHeader: UICollectionReusableView {
                                                  and: .medium,
                                                  UIColor.customDarkBlue,
                                                  adjustFontSizeToFit: true)
-    private lazy var locationChangeButton = CustomButton(internalObject: UIImage(systemName: "chevron.down"),
+    private lazy var locationChangeButton = CustomButton(internalObject: UIImage(systemName: "chevron.down")!,
                                                          objectColor: .lightGray,
                                                          backgroundView: .none)
     private lazy var filterButton = CustomButton(internalObject: UIImage(named: "filter") ?? UIImage(),

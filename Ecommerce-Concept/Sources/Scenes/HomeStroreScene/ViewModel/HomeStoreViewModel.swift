@@ -28,10 +28,11 @@ class HomeStoreViewModel: HomeStoreViewModelType {
             self.hotSalesItems = networkModel.homeStore
             self.bestSellerItems = networkModel.bestSeller
         }
+        completion()
     }
-    func selectCategoryCellViewModel(indexPath: IndexPath) -> SelectCategoryCellViewModelType {
+    func selectCategoryCellViewModel(indexPath: IndexPath) -> SelectCategoryCellViewModelType? {
         if indexPath.item == 0 {
-            var model = categoryItems[indexPath.item] as! CategoryItemModel
+            guard var model = categoryItems[indexPath.item] as? CategoryItemModel else { return nil }
             model.isSelected = true
             return SelectCategoryCellViewModel(selectCategoryModel: model)
         } else {
@@ -40,12 +41,14 @@ class HomeStoreViewModel: HomeStoreViewModelType {
         }
     }
     
-    func hotSalesCellViewModel(indexPath: IndexPath) -> HotSalesCellViewModelType {
+    func hotSalesCellViewModel(indexPath: IndexPath) -> HotSalesCellViewModelType? {
+        guard !hotSalesItems.isEmpty else { return nil }
         let model = hotSalesItems[indexPath.item] as! HotSalesModel
         return HotSalesCellViewModel(model: model)
     }
     
-    func bestSellerCellViewModel(indexPath: IndexPath) -> BestSellerCellViewModelType {
+    func bestSellerCellViewModel(indexPath: IndexPath) -> BestSellerCellViewModelType? {
+        guard !bestSellerItems.isEmpty else { return nil }
         let model = bestSellerItems[indexPath.item] as! BestSellerModel
         return BestSellerCellViewModel(bestSellerModel: model)
     }
@@ -167,7 +170,6 @@ class HomeStoreViewModel: HomeStoreViewModelType {
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
         // Group
-        let categoryItemsCount = CGFloat(categoryItems.count)
         let groupWidth = Metrics.selectCategoryItemWidth * 5 + (5 * Metrics.spacingBetweenItemsInCategory)
         let groupSize = NSCollectionLayoutSize(widthDimension: .absolute(groupWidth),
                                                heightDimension: .fractionalHeight(12/100))

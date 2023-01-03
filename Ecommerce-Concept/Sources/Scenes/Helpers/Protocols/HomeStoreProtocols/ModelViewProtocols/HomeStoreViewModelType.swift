@@ -33,10 +33,10 @@ protocol HomeStoreViewModelType {
     var bestSellerItems: [AnyHashable] { get set }
     
     // Cell viewModel providers
-    func selectCategoryCellViewModel(indexPath: IndexPath) -> SelectCategoryCellViewModelType
-//    func hotSalesCellViewModel(indexPath: IndexPath) -> HotSalesCellViewModelType
-    func bestSellerCellViewModel(indexPath: IndexPath) -> BestSellerCellViewModelType
-    
+    func selectCategoryCellViewModel(indexPath: IndexPath) -> SelectCategoryCellViewModelType?
+    func hotSalesCellViewModel(indexPath: IndexPath) -> HotSalesCellViewModelType? 
+    func bestSellerCellViewModel(indexPath: IndexPath) -> BestSellerCellViewModelType?
+        
     // CollectionView setups
     func collectionViewLayoutProvider() -> UICollectionViewLayout
     func collectionViewDataSourceProvider(collectionView: UICollectionView) -> UICollectionViewDiffableDataSource<HomeStoreSectionsModel, AnyHashable>

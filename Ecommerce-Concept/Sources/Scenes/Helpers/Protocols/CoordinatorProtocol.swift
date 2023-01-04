@@ -12,4 +12,5 @@ protocol CoordinatorProtocol: AnyObject {
     func start()
     func showHomeStoreView()
     func showBottomSheetOnHomeStoreView()
+    func showProductDetailView()
 }

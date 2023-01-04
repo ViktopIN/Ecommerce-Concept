@@ -43,6 +43,7 @@
 		8470F1322957AE19005BB3BC /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8470F1312957AE19005BB3BC /* Coordinator.swift */; };
 		8470F1342958575A005BB3BC /* BottomSheetFilterpresentationControllerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8470F1332958575A005BB3BC /* BottomSheetFilterpresentationControllerViewModel.swift */; };
 		8470F13629585783005BB3BC /* BottomSheetFilterpresentationControllerViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8470F13529585783005BB3BC /* BottomSheetFilterpresentationControllerViewModelType.swift */; };
+		849EDF462965D939005DD0FC /* ProductDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849EDF452965D939005DD0FC /* ProductDetailsViewController.swift */; };
 		84A33C9B2950A5970019BB1E /* Int+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A33C9A2950A5970019BB1E /* Int+Extension.swift */; };
 		84DD1FA6294CB6EE009C766F /* HomeStoreSectionsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84DD1FA5294CB6EE009C766F /* HomeStoreSectionsModel.swift */; };
 		84E6C51B295C6FB50050ABA5 /* BottomSheetFilterViewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E6C51A295C6FB50050ABA5 /* BottomSheetFilterViewViewModel.swift */; };
@@ -97,6 +98,7 @@
 		8470F1312957AE19005BB3BC /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
 		8470F1332958575A005BB3BC /* BottomSheetFilterpresentationControllerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetFilterpresentationControllerViewModel.swift; sourceTree = "<group>"; };
 		8470F13529585783005BB3BC /* BottomSheetFilterpresentationControllerViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetFilterpresentationControllerViewModelType.swift; sourceTree = "<group>"; };
+		849EDF452965D939005DD0FC /* ProductDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDetailsViewController.swift; sourceTree = "<group>"; };
 		84A33C9A2950A5970019BB1E /* Int+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+Extension.swift"; sourceTree = "<group>"; };
 		84DD1FA5294CB6EE009C766F /* HomeStoreSectionsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeStoreSectionsModel.swift; sourceTree = "<group>"; };
 		84E6C51A295C6FB50050ABA5 /* BottomSheetFilterViewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetFilterViewViewModel.swift; sourceTree = "<group>"; };
@@ -325,6 +327,7 @@
 				84351C432959A55E00BAEDA8 /* Helpers */,
 				8470F1302957ADFF005BB3BC /* Coordinator */,
 				84E9124E294A391D00812437 /* HomeStroreScene */,
+				849EDF452965D939005DD0FC /* ProductDetailsViewController.swift */,
 			);
 			path = Scenes;
 			sourceTree = "<group>";
@@ -505,6 +508,7 @@
 				84351C402959998E00BAEDA8 /* BottomSheetFilterPresentationController.swift in Sources */,
 				8470F1322957AE19005BB3BC /* Coordinator.swift in Sources */,
 				84E9123F294A000900812437 /* SelectCategoryHeader.swift in Sources */,
+				849EDF462965D939005DD0FC /* ProductDetailsViewController.swift in Sources */,
 				846F56052955C3C30091742F /* HotSalesCellViewModelType.swift in Sources */,
 				8470F12D2957890D005BB3BC /* BottomSheetFilterControllerView.swift in Sources */,
 				8470F13629585783005BB3BC /* BottomSheetFilterpresentationControllerViewModelType.swift in Sources */,

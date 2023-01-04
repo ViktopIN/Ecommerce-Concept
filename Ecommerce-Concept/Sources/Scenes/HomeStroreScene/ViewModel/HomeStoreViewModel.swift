@@ -55,16 +55,22 @@ class HomeStoreViewModel: HomeStoreViewModelType {
     
     func selectItemHighlighting(collectionView: UICollectionView,
                                 indexPath: IndexPath) {
-        guard homeStoreSections[indexPath.section] == .selectCategory else { return }
-        if indexPath != selectedCategorySelectedIndexPath {
-            let cell = collectionView.cellForItem(at: indexPath) as! SelectCategoryCell
-            var model = categoryItems[indexPath.item] as! CategoryItemModel
-            model.isSelected = true
-            cell.modelView = SelectCategoryCellViewModel(selectCategoryModel: model)
-            let unhighlightedCell = collectionView.cellForItem(at: selectedCategorySelectedIndexPath) as! SelectCategoryCell
-            let unhighlightedmodel = categoryItems[selectedCategorySelectedIndexPath.item] as! CategoryItemModel
-            unhighlightedCell.modelView = SelectCategoryCellViewModel(selectCategoryModel: unhighlightedmodel)
-            selectedCategorySelectedIndexPath = indexPath
+        switch homeStoreSections[indexPath.section] {
+        case .selectCategory:
+            if indexPath != selectedCategorySelectedIndexPath {
+                let cell = collectionView.cellForItem(at: indexPath) as! SelectCategoryCell
+                var model = categoryItems[indexPath.item] as! CategoryItemModel
+                model.isSelected = true
+                cell.modelView = SelectCategoryCellViewModel(selectCategoryModel: model)
+                let unhighlightedCell = collectionView.cellForItem(at: selectedCategorySelectedIndexPath) as! SelectCategoryCell
+                let unhighlightedmodel = categoryItems[selectedCategorySelectedIndexPath.item] as! CategoryItemModel
+                unhighlightedCell.modelView = SelectCategoryCellViewModel(selectCategoryModel: unhighlightedmodel)
+                selectedCategorySelectedIndexPath = indexPath
+            }
+        case .bestSeller:
+            coordinator?.showProductDetailView()
+        case .hotSales:
+            break
         }
     }
     

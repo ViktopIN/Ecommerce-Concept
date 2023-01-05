@@ -64,6 +64,60 @@ final class ProductDetailsViewController: UIViewController {
         return stackView
     }()
     
+    // Container view of the segmented control
+    private lazy var segmentedControlContainerView: UIView = {
+        let containerView = UIView()
+        containerView.backgroundColor = .clear
+        containerView.translatesAutoresizingMaskIntoConstraints = false
+        return containerView
+    }()
+    
+    // Customised segmented control
+    private lazy var segmentedControl: UISegmentedControl = {
+        let segmentedControl = UISegmentedControl()
+        
+        // Remove background and divider colors
+        segmentedControl.backgroundColor = .clear
+        segmentedControl.tintColor = .clear
+        
+        // Append segments
+        segmentedControl.insertSegment(withTitle: Strings.shopSegment, at: 0, animated: true)
+        segmentedControl.insertSegment(withTitle: Strings.detailsSegment, at: 1, animated: true)
+        segmentedControl.insertSegment(withTitle: Strings.featuresSegment, at: 2, animated: true)
+        
+        // Select first segment by default
+        segmentedControl.selectedSegmentIndex = 0
+        
+        // Change text color and the font of the NOT selected (normal) segment
+        segmentedControl.setTitleTextAttributes([
+            NSAttributedString.Key.foregroundColor: UIColor.lightGray,
+            NSAttributedString.Key.font: UIFont.markProRegular(ofSize: 20)], for: .normal)
+        
+        // Change text color and the font of the selected segment
+        segmentedControl.setTitleTextAttributes([
+            NSAttributedString.Key.foregroundColor: UIColor.customDarkBlue,
+            NSAttributedString.Key.font: UIFont.markProBold(ofSize: 20)], for: .selected)
+        
+        // Set up event handler to get notified when the selected segment changes
+        segmentedControl.addTarget(self, action: #selector(segmentedControlValueChanged), for: .valueChanged)
+        
+        // Return false because we will set the constraints with Auto Layout
+        segmentedControl.translatesAutoresizingMaskIntoConstraints = false
+        return segmentedControl
+    }()
+        
+    // The underline view below the segmented control
+    private lazy var bottomUnderlineView: UIView = {
+        let underlineView = UIView()
+        underlineView.backgroundColor = .customOrange
+        underlineView.translatesAutoresizingMaskIntoConstraints = false
+        return underlineView
+    }()
+    
+    private lazy var leadingDistanceConstraint: NSLayoutConstraint = {
+           return bottomUnderlineView.leftAnchor.constraint(equalTo: segmentedControl.leftAnchor)
+       }()
+    
     // MARK: - Lifecycle
     
     override func viewDidLoad() {
@@ -85,7 +139,10 @@ final class ProductDetailsViewController: UIViewController {
                                            cartButton)
         detailsContainerView.addSubviews(productNameLabel,
                                          favoriteMarkButton,
-                                         starsStackView)
+                                         starsStackView,
+                                         segmentedControlContainerView)
+        segmentedControlContainerView.addSubviews(segmentedControl,
+                                                  bottomUnderlineView)
     }
     
     private func setupLayout() {
@@ -139,7 +196,27 @@ final class ProductDetailsViewController: UIViewController {
             starsStackView.widthAnchor.constraint(equalToConstant: Metrics.starsStackViewWidth),
             starsStackView.heightAnchor.constraint(equalToConstant: Metrics.starsStackViewHeight)
         ])
-
+        
+        NSLayoutConstraint.activate([
+            segmentedControlContainerView.topAnchor.constraint(equalTo: starsStackView.bottomAnchor, constant: 32),
+            segmentedControlContainerView.leadingAnchor.constraint(equalTo: detailsContainerView.leadingAnchor),
+            segmentedControlContainerView.trailingAnchor.constraint(equalTo: detailsContainerView.trailingAnchor),
+            segmentedControlContainerView.heightAnchor.constraint(equalToConstant: 47)
+        ])
+        
+        NSLayoutConstraint.activate([
+            segmentedControl.topAnchor.constraint(equalTo: segmentedControlContainerView.topAnchor),
+            segmentedControl.leadingAnchor.constraint(equalTo: segmentedControlContainerView.leadingAnchor),
+            segmentedControl.centerXAnchor.constraint(equalTo: segmentedControlContainerView.centerXAnchor),
+            segmentedControl.centerYAnchor.constraint(equalTo: segmentedControlContainerView.centerYAnchor)
+        ])
+        
+        NSLayoutConstraint.activate([
+            bottomUnderlineView.bottomAnchor.constraint(equalTo: segmentedControl.bottomAnchor),
+            bottomUnderlineView.heightAnchor.constraint(equalToConstant: 3),
+            leadingDistanceConstraint,
+            bottomUnderlineView.widthAnchor.constraint(equalTo: segmentedControl.widthAnchor, multiplier: 1 / CGFloat(segmentedControl.numberOfSegments))
+            ])
     }
     
     private func setupView() {
@@ -204,6 +281,10 @@ extension ProductDetailsViewController {
     
     enum Strings {
         static let titleLabelText = "Product Details"
+        
+        static let shopSegment = "Shop"
+        static let detailsSegment = "Details"
+        static let featuresSegment = "Features"
     }
 }
 
@@ -211,6 +292,21 @@ extension ProductDetailsViewController {
     // Configure mainCollectionView Layout
     private func generateCollectionViewLayout() -> UICollectionViewLayout {
         viewModel.generateMainCollectionViewLayout()
+    }
+    
+    @objc private func segmentedControlValueChanged(_ sender: UISegmentedControl) {
+        changeSegmentedControlLinePosition()
+    }
+
+    // Change position of the underline
+    private func changeSegmentedControlLinePosition() {
+        let segmentIndex = CGFloat(segmentedControl.selectedSegmentIndex)
+        let segmentWidth = segmentedControl.frame.width / CGFloat(segmentedControl.numberOfSegments)
+        let leadingDistance = segmentWidth * segmentIndex
+        UIView.animate(withDuration: 0.3, animations: { [weak self] in
+            self?.leadingDistanceConstraint.constant = leadingDistance
+            self?.view.layoutIfNeeded()
+        })
     }
 }
 

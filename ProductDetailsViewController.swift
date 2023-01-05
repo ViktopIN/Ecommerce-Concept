@@ -12,6 +12,7 @@ final class ProductDetailsViewController: UIViewController {
     // MARK: - Properties
     
     weak var coordinator: Coordinator!
+    var viewModel: ProductDetailsViewViewModelType!
     
     // MARK: - Views
     
@@ -30,6 +31,18 @@ final class ProductDetailsViewController: UIViewController {
                                                objectColor: .white,
                                                backgroundView: .roundedCorner(color: .customOrange))
     
+    private lazy var mainCollectionView: UICollectionView = {
+        let collectionView = UICollectionView(frame: .zero,
+                                              collectionViewLayout: generateCollectionViewLayout())
+        collectionView.register(PhonePhotoCell.self,
+                                forCellWithReuseIdentifier: PhonePhotoCell.reuseIdentifier)
+        collectionView.dataSource = self
+        collectionView.showsHorizontalScrollIndicator = false
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.backgroundColor = .clear
+        return collectionView
+    }()
+    
     // MARK: - Lifecycle
     
     override func viewDidLoad() {
@@ -43,7 +56,7 @@ final class ProductDetailsViewController: UIViewController {
     // MARK: - Settings
     
     private func setupHierarchy() {
-        view.addSubviews(titleStackView)
+        view.addSubviews(titleStackView, mainCollectionView)
         titleStackView.addArrangedSubviews(backButton,
                                            titleLabel,
                                            cartButton)
@@ -62,6 +75,14 @@ final class ProductDetailsViewController: UIViewController {
         NSLayoutConstraint.activate([
             cartButton.heightAnchor.constraint(equalToConstant: Metrics.titleButtonHeight),
             cartButton.widthAnchor.constraint(equalToConstant: Metrics.titleButtonHeight)
+        ])
+        
+        NSLayoutConstraint.activate([
+            mainCollectionView.topAnchor.constraint(equalTo: titleStackView.bottomAnchor,
+                                                    constant: Metrics.mainCollectionViewTopInset),
+            mainCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            mainCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            mainCollectionView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 1/2.79)
         ])
     }
     
@@ -89,12 +110,39 @@ extension ProductDetailsViewController {
         static let titleStackViewTopInset: CGFloat = 79
         static let titleStackViewLeadingInset: CGFloat = 42
         static let titleStackViewTrailingInset: CGFloat = -35
+        
         static let titleButtonHeight: CGFloat = 37
+        
         static let titleLabelTextSize: CGFloat = 18
         static let titleLabelWidth: CGFloat = 173
+        
+        static let mainCollectionViewTopInset: CGFloat = 30
+        static let mainCollectionViewHeight: CGFloat = 349
     }
     
     enum Strings {
         static let titleLabelText = "Product Details"
+    }
+}
+
+extension ProductDetailsViewController {
+    // Configure mainCollectionView Layout
+    private func generateCollectionViewLayout() -> UICollectionViewLayout {
+        viewModel.generateMainCollectionViewLayout()
+    }
+}
+
+extension ProductDetailsViewController: UICollectionViewDataSource {
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        1
+    }
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        4
+    }
+    func collectionView(_ collectionView: UICollectionView,
+                        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PhonePhotoCell.reuseIdentifier,
+                                                            for: indexPath) as? PhonePhotoCell else { fatalError() }
+        return cell
     }
 }

@@ -50,6 +50,8 @@ class Coordinator: CoordinatorProtocol {
     
     func showProductDetailView() {
         let productDetailViewController = ProductDetailsViewController()
+        let productDetailViewViewModel = ProductDetailsViewViewModel()
+        productDetailViewController.viewModel = productDetailViewViewModel
         productDetailViewController.coordinator = self
         navigationController.pushViewController(productDetailViewController,
                                                 animated: true)

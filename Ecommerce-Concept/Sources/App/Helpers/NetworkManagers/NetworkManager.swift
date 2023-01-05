@@ -7,7 +7,7 @@
 
 import UIKit
 
-class NetworkManager {
+final class NetworkManager {
     
     // MARK: - Properties
         
@@ -16,7 +16,8 @@ class NetworkManager {
     
     // MARK: - Initialise
     
-    init(url: URL) {
+    init(url: URL?) {
+        guard let url = url else { fatalError() }
         self.url = url
     }
     
@@ -40,5 +41,16 @@ class NetworkManager {
         }
         session.resume()
         condition.wait()
+    }
+    
+    func loadingImageData(completion: @escaping (UIImage) -> Void) {
+        let session = URLSession.shared
+        session.dataTask(with: url) { (data, respond, error) in
+            if let data = data, let image = UIImage(data: data) {
+                completion(image)
+            } else {
+                return
+            }
+        }
     }
 }

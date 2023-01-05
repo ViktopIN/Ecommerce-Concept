@@ -43,6 +43,8 @@ final class ProductDetailsViewController: UIViewController {
         return collectionView
     }()
     
+    private lazy var detailsContainerView = UIView(background: .white,
+                                                   cornerType: .rounded)
     // MARK: - Lifecycle
     
     override func viewDidLoad() {
@@ -56,7 +58,9 @@ final class ProductDetailsViewController: UIViewController {
     // MARK: - Settings
     
     private func setupHierarchy() {
-        view.addSubviews(titleStackView, mainCollectionView)
+        view.addSubviews(titleStackView,
+                         mainCollectionView,
+                         detailsContainerView)
         titleStackView.addArrangedSubviews(backButton,
                                            titleLabel,
                                            cartButton)
@@ -84,15 +88,35 @@ final class ProductDetailsViewController: UIViewController {
             mainCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             mainCollectionView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 1/2.79)
         ])
+        
+        NSLayoutConstraint.activate([
+            detailsContainerView.topAnchor.constraint(equalTo: mainCollectionView.bottomAnchor),
+            detailsContainerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            detailsContainerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            detailsContainerView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
+        
+
     }
     
     private func setupView() {
+        // view setup
         view.backgroundColor = #colorLiteral(red: 0.9725490196, green: 0.9725490196, blue: 0.9725490196, alpha: 1)
         
         // backButton action
         backButton.addTarget(self,
                              action: #selector(returnToHomeStore), 
                              for: .touchUpInside)
+        
+        // detailsContainerView setup
+        detailsContainerView.layer.masksToBounds = false
+        detailsContainerView.layer.shadowColor = UIColor(red: 0.298,
+                                                         green: 0.372,
+                                                         blue: 0.562,
+                                                         alpha: 0.1).cgColor
+        detailsContainerView.layer.shadowOpacity = 1
+        detailsContainerView.layer.shadowRadius = 20
+        detailsContainerView.layer.shadowOffset = CGSize(width: 0, height: -5)
     }
     
     @objc

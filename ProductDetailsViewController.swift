@@ -45,6 +45,11 @@ final class ProductDetailsViewController: UIViewController {
     
     private lazy var detailsContainerView = UIView(background: .white,
                                                    cornerType: .rounded)
+    private lazy var productNameLabel = UILabel(constant: "Untitled",
+                                                with: Metrics.productNameLabelTextSize,
+                                                and: .medium,
+                                                .customDarkBlue)
+    
     // MARK: - Lifecycle
     
     override func viewDidLoad() {
@@ -64,6 +69,7 @@ final class ProductDetailsViewController: UIViewController {
         titleStackView.addArrangedSubviews(backButton,
                                            titleLabel,
                                            cartButton)
+        detailsContainerView.addSubviews(productNameLabel)
     }
     
     private func setupLayout() {
@@ -96,7 +102,12 @@ final class ProductDetailsViewController: UIViewController {
             detailsContainerView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
         
-
+        NSLayoutConstraint.activate([
+            productNameLabel.topAnchor.constraint(equalTo: detailsContainerView.topAnchor, constant: Metrics.productNameLabelTopInset),
+            productNameLabel.leadingAnchor.constraint(equalTo: detailsContainerView.leadingAnchor, constant: Metrics.productNameLabelLeadingInset),
+            productNameLabel.trailingAnchor.constraint(equalTo: detailsContainerView.trailingAnchor,constant: Metrics.productNameLabelTrailingInset),
+            productNameLabel.heightAnchor.constraint(equalToConstant: Metrics.productNameLabelHeight)
+            ])
     }
     
     private func setupView() {
@@ -142,6 +153,12 @@ extension ProductDetailsViewController {
         
         static let mainCollectionViewTopInset: CGFloat = 30
         static let mainCollectionViewHeight: CGFloat = 349
+        
+        static let productNameLabelTextSize: CGFloat = 24
+        static let productNameLabelTopInset: CGFloat = 28
+        static let productNameLabelLeadingInset: CGFloat = 38
+        static let productNameLabelTrailingInset: CGFloat = 132
+        static let productNameLabelHeight: CGFloat = 30
     }
     
     enum Strings {

@@ -52,6 +52,17 @@ final class ProductDetailsViewController: UIViewController {
     private lazy var favoriteMarkButton = CustomButton(internalObject: UIImage(named: "noFillHeart")!,
                                                        objectColor: .white,
                                                        backgroundView: .roundedCorner(color: .customDarkBlue))
+    private lazy var starsStackView: UIStackView = {
+        let stackView = UIStackView(with: .horizontal,
+                                    distribution: .fillEqually,
+                                    spacing: Metrics.starsStackViewSpacing)
+        for _ in 1...5 {
+            let starImageView = UIImageView(image: UIImage(named: "Star 5"))
+            stackView.addArrangedSubview(starImageView)
+        }
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
+    }()
     
     // MARK: - Lifecycle
     
@@ -73,7 +84,8 @@ final class ProductDetailsViewController: UIViewController {
                                            titleLabel,
                                            cartButton)
         detailsContainerView.addSubviews(productNameLabel,
-                                         favoriteMarkButton)
+                                         favoriteMarkButton,
+                                         starsStackView)
     }
     
     private func setupLayout() {
@@ -118,6 +130,14 @@ final class ProductDetailsViewController: UIViewController {
             favoriteMarkButton.trailingAnchor.constraint(equalTo: detailsContainerView.trailingAnchor, constant: Metrics.favoriteMarkButtonTrailingInset),
             favoriteMarkButton.heightAnchor.constraint(equalToConstant: Metrics.favoriteMarkButtonHeight),
             favoriteMarkButton.widthAnchor.constraint(equalToConstant: Metrics.favoriteMarkButtonWidth)
+        ])
+        
+        NSLayoutConstraint.activate([
+            starsStackView.topAnchor.constraint(equalTo: productNameLabel.bottomAnchor,
+                                                constant: Metrics.starsStackViewTopInset),
+            starsStackView.leadingAnchor.constraint(equalTo: productNameLabel.leadingAnchor),
+            starsStackView.widthAnchor.constraint(equalToConstant: Metrics.starsStackViewWidth),
+            starsStackView.heightAnchor.constraint(equalToConstant: Metrics.starsStackViewHeight)
         ])
 
     }
@@ -175,6 +195,11 @@ extension ProductDetailsViewController {
         static let favoriteMarkButtonHeight: CGFloat = 33
         static let favoriteMarkButtonWidth: CGFloat = 37
         static let favoriteMarkButtonTrailingInset: CGFloat = -37
+        
+        static let starsStackViewSpacing: CGFloat = 9
+        static let starsStackViewTopInset: CGFloat = 7
+        static let starsStackViewWidth: CGFloat = 126
+        static let starsStackViewHeight: CGFloat = 18
     }
     
     enum Strings {

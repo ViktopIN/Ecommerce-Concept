@@ -49,6 +49,9 @@ final class ProductDetailsViewController: UIViewController {
                                                 with: Metrics.productNameLabelTextSize,
                                                 and: .medium,
                                                 .customDarkBlue)
+    private lazy var favoriteMarkButton = CustomButton(internalObject: UIImage(named: "noFillHeart")!,
+                                                       objectColor: .white,
+                                                       backgroundView: .roundedCorner(color: .customDarkBlue))
     
     // MARK: - Lifecycle
     
@@ -69,7 +72,8 @@ final class ProductDetailsViewController: UIViewController {
         titleStackView.addArrangedSubviews(backButton,
                                            titleLabel,
                                            cartButton)
-        detailsContainerView.addSubviews(productNameLabel)
+        detailsContainerView.addSubviews(productNameLabel,
+                                         favoriteMarkButton)
     }
     
     private func setupLayout() {
@@ -107,7 +111,15 @@ final class ProductDetailsViewController: UIViewController {
             productNameLabel.leadingAnchor.constraint(equalTo: detailsContainerView.leadingAnchor, constant: Metrics.productNameLabelLeadingInset),
             productNameLabel.trailingAnchor.constraint(equalTo: detailsContainerView.trailingAnchor,constant: Metrics.productNameLabelTrailingInset),
             productNameLabel.heightAnchor.constraint(equalToConstant: Metrics.productNameLabelHeight)
-            ])
+        ])
+        
+        NSLayoutConstraint.activate([
+            favoriteMarkButton.centerYAnchor.constraint(equalTo: productNameLabel.centerYAnchor),
+            favoriteMarkButton.trailingAnchor.constraint(equalTo: detailsContainerView.trailingAnchor, constant: Metrics.favoriteMarkButtonTrailingInset),
+            favoriteMarkButton.heightAnchor.constraint(equalToConstant: Metrics.favoriteMarkButtonHeight),
+            favoriteMarkButton.widthAnchor.constraint(equalToConstant: Metrics.favoriteMarkButtonWidth)
+        ])
+
     }
     
     private func setupView() {
@@ -159,6 +171,10 @@ extension ProductDetailsViewController {
         static let productNameLabelLeadingInset: CGFloat = 38
         static let productNameLabelTrailingInset: CGFloat = 132
         static let productNameLabelHeight: CGFloat = 30
+        
+        static let favoriteMarkButtonHeight: CGFloat = 33
+        static let favoriteMarkButtonWidth: CGFloat = 37
+        static let favoriteMarkButtonTrailingInset: CGFloat = -37
     }
     
     enum Strings {

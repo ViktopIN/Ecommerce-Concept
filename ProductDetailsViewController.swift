@@ -79,6 +79,15 @@ final class ProductDetailsViewController: UIViewController {
         // Remove background and divider colors
         segmentedControl.backgroundColor = .clear
         segmentedControl.tintColor = .clear
+        segmentedControl.selectedSegmentTintColor = .clear
+        segmentedControl.setBackgroundImage(UIImage(), for: .normal, barMetrics: .default)
+        segmentedControl.setBackgroundImage(UIImage(), for: .selected, barMetrics: .default)
+        segmentedControl.setDividerImage(UIImage(),
+                                         forLeftSegmentState: .normal,
+                                         rightSegmentState: .normal,
+                                         barMetrics: .default)
+        
+
         
         // Append segments
         segmentedControl.insertSegment(withTitle: Strings.shopSegment, at: 0, animated: true)
@@ -114,9 +123,30 @@ final class ProductDetailsViewController: UIViewController {
         return underlineView
     }()
     
-    private lazy var leadingDistanceConstraint: NSLayoutConstraint = {
-           return bottomUnderlineView.leftAnchor.constraint(equalTo: segmentedControl.leftAnchor)
+    private lazy var centerXConstraintUnderLine: NSLayoutConstraint = {
+        return bottomUnderlineView.centerXAnchor.constraint(equalTo: segmentedControl.centerXAnchor,
+                                                            constant: -((UIScreen.main.bounds.width - 67) / CGFloat(segmentedControl.numberOfSegments)))
        }()
+    private lazy var underlineWidthConstraint: NSLayoutConstraint = {
+        return bottomUnderlineView.widthAnchor.constraint(equalToConstant: (segmentedControl.titleForSegment(at: 0)?.width(withConstrainedHeight: 11,
+                                                                                                                           font: .markProBold(ofSize: 20)))!)
+    }()
+    private lazy var productSpecificationStack = UIStackView.addProductSpecificationStack(cpuLabel: cpuLabel,
+                                                                                          cameraLabel: cameraLabel,
+                                                                                          ramLabel: ramLabel,
+                                                                                          hddLabel: hddLabel)
+    
+    private lazy var cpuLabel = UILabel(constant: "Unknown",
+                                        with: Metrics.specificationLabelsTextSize,
+                                        and: .regular,
+                                        .lightGray)
+    private lazy var cameraLabel = cpuLabel.copy() as! UILabel
+    private lazy var ramLabel = cpuLabel.copy() as! UILabel
+    private lazy var hddLabel = cpuLabel.copy() as! UILabel
+    private lazy var selectColorAndCapacityTitleLabel = UILabel(constant: Strings.selectColorAndCapacityTitleLabelText,
+                                                                with: Metrics.selectColorAndCapacityTitleLabelTextSize,
+                                                                and: .medium,
+                                                                .customDarkBlue)
     
     // MARK: - Lifecycle
     
@@ -140,7 +170,9 @@ final class ProductDetailsViewController: UIViewController {
         detailsContainerView.addSubviews(productNameLabel,
                                          favoriteMarkButton,
                                          starsStackView,
-                                         segmentedControlContainerView)
+                                         segmentedControlContainerView,
+                                         productSpecificationStack,
+                                         selectColorAndCapacityTitleLabel)
         segmentedControlContainerView.addSubviews(segmentedControl,
                                                   bottomUnderlineView)
     }
@@ -198,25 +230,46 @@ final class ProductDetailsViewController: UIViewController {
         ])
         
         NSLayoutConstraint.activate([
-            segmentedControlContainerView.topAnchor.constraint(equalTo: starsStackView.bottomAnchor, constant: 32),
-            segmentedControlContainerView.leadingAnchor.constraint(equalTo: detailsContainerView.leadingAnchor),
-            segmentedControlContainerView.trailingAnchor.constraint(equalTo: detailsContainerView.trailingAnchor),
-            segmentedControlContainerView.heightAnchor.constraint(equalToConstant: 47)
+            segmentedControlContainerView.topAnchor.constraint(equalTo: starsStackView.bottomAnchor,
+                                                               constant: Metrics.segmentedControlContainerViewTopInset),
+            segmentedControlContainerView.leadingAnchor.constraint(equalTo: detailsContainerView.leadingAnchor,
+                                                                   constant: Metrics.segmentedControlContainerViewLeadingInset),
+            segmentedControlContainerView.trailingAnchor.constraint(equalTo: detailsContainerView.trailingAnchor,
+                                                                    constant: Metrics.segmentedControlContainerViewTrailingInset),
+            segmentedControlContainerView.heightAnchor.constraint(equalToConstant: Metrics.segmentedControlContainerViewHeight)
         ])
         
         NSLayoutConstraint.activate([
             segmentedControl.topAnchor.constraint(equalTo: segmentedControlContainerView.topAnchor),
             segmentedControl.leadingAnchor.constraint(equalTo: segmentedControlContainerView.leadingAnchor),
-            segmentedControl.centerXAnchor.constraint(equalTo: segmentedControlContainerView.centerXAnchor),
-            segmentedControl.centerYAnchor.constraint(equalTo: segmentedControlContainerView.centerYAnchor)
+            segmentedControl.trailingAnchor.constraint(equalTo: segmentedControlContainerView.trailingAnchor),
+            segmentedControl.heightAnchor.constraint(equalTo: segmentedControlContainerView.heightAnchor)
         ])
         
         NSLayoutConstraint.activate([
             bottomUnderlineView.bottomAnchor.constraint(equalTo: segmentedControl.bottomAnchor),
             bottomUnderlineView.heightAnchor.constraint(equalToConstant: 3),
-            leadingDistanceConstraint,
-            bottomUnderlineView.widthAnchor.constraint(equalTo: segmentedControl.widthAnchor, multiplier: 1 / CGFloat(segmentedControl.numberOfSegments))
+            centerXConstraintUnderLine,
+            underlineWidthConstraint
             ])
+        
+        NSLayoutConstraint.activate([
+            productSpecificationStack.leadingAnchor.constraint(equalTo: segmentedControlContainerView.leadingAnchor),
+            productSpecificationStack.topAnchor.constraint(equalTo: segmentedControlContainerView.bottomAnchor,
+                                                           constant: Metrics.productSpecificationStackTopInset),
+            productSpecificationStack.trailingAnchor.constraint(equalTo: segmentedControlContainerView.trailingAnchor),
+            productSpecificationStack.heightAnchor.constraint(equalToConstant: Metrics.productSpecificationStackHeight)
+        ])
+        
+        NSLayoutConstraint.activate([
+            selectColorAndCapacityTitleLabel.topAnchor.constraint(equalTo: productSpecificationStack.bottomAnchor, constant: Metrics.selectColorAndCapacityTitleLabelTopInset),
+            selectColorAndCapacityTitleLabel.leadingAnchor.constraint(equalTo: productSpecificationStack.leadingAnchor),
+            selectColorAndCapacityTitleLabel.heightAnchor.constraint(equalToConstant: (selectColorAndCapacityTitleLabel.text?.height(withConstrainedWidth: 0,
+                                                                                                                                     font: .markProMedium(ofSize: Metrics.selectColorAndCapacityTitleLabelTextSize)))!),
+            selectColorAndCapacityTitleLabel.widthAnchor.constraint(equalToConstant: (selectColorAndCapacityTitleLabel.text?.width(withConstrainedHeight: 8,
+                                                                                                                                   font: .markProMedium(ofSize: Metrics.selectColorAndCapacityTitleLabelTextSize)))!),
+
+        ])
     }
     
     private func setupView() {
@@ -240,7 +293,7 @@ final class ProductDetailsViewController: UIViewController {
     }
     
     @objc
-    func returnToHomeStore() {
+    private func returnToHomeStore() {
         coordinator.showHomeStoreView()
     }
 
@@ -277,6 +330,19 @@ extension ProductDetailsViewController {
         static let starsStackViewTopInset: CGFloat = 7
         static let starsStackViewWidth: CGFloat = 126
         static let starsStackViewHeight: CGFloat = 18
+        
+        static let segmentedControlContainerViewTopInset: CGFloat = 32
+        static let segmentedControlContainerViewLeadingInset: CGFloat = 35
+        static let segmentedControlContainerViewTrailingInset: CGFloat = -40
+        static let segmentedControlContainerViewHeight: CGFloat = 36
+    
+        static let specificationLabelsTextSize: CGFloat = 11
+        
+        static let productSpecificationStackHeight: CGFloat = 50
+        static let productSpecificationStackTopInset: CGFloat = 33
+        
+        static let selectColorAndCapacityTitleLabelTextSize: CGFloat = 16
+        static let selectColorAndCapacityTitleLabelTopInset: CGFloat = 29
     }
     
     enum Strings {
@@ -285,6 +351,8 @@ extension ProductDetailsViewController {
         static let shopSegment = "Shop"
         static let detailsSegment = "Details"
         static let featuresSegment = "Features"
+        
+        static let selectColorAndCapacityTitleLabelText = "Select color and capacity"
     }
 }
 
@@ -294,17 +362,21 @@ extension ProductDetailsViewController {
         viewModel.generateMainCollectionViewLayout()
     }
     
-    @objc private func segmentedControlValueChanged(_ sender: UISegmentedControl) {
+    @objc
+    private func segmentedControlValueChanged(_ sender: UISegmentedControl) {
         changeSegmentedControlLinePosition()
     }
 
     // Change position of the underline
     private func changeSegmentedControlLinePosition() {
-        let segmentIndex = CGFloat(segmentedControl.selectedSegmentIndex)
+        // index relative to the middle segment
+        let segmentIndex = CGFloat(segmentedControl.selectedSegmentIndex) - 1
         let segmentWidth = segmentedControl.frame.width / CGFloat(segmentedControl.numberOfSegments)
         let leadingDistance = segmentWidth * segmentIndex
         UIView.animate(withDuration: 0.3, animations: { [weak self] in
-            self?.leadingDistanceConstraint.constant = leadingDistance
+            self?.centerXConstraintUnderLine.constant = leadingDistance
+            self?.underlineWidthConstraint.constant = (self?.segmentedControl.titleForSegment(at: Int(segmentIndex + 1))?.width(withConstrainedHeight: 11,
+                                                                                                                 font: .markProBold(ofSize: 20)))!
             self?.view.layoutIfNeeded()
         })
     }
@@ -315,7 +387,7 @@ extension ProductDetailsViewController: UICollectionViewDataSource {
         1
     }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        4
+        3
     }
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {

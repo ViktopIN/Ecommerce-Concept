@@ -29,5 +29,8 @@ extension String {
     
         return ceil(boundingBox.height)
     }
-
+    
+    func addToCartTransformText() -> String {
+        return "Add to Cart       \(self)"
+    }
 }

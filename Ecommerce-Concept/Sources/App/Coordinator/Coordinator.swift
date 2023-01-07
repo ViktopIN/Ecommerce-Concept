@@ -22,15 +22,16 @@ class Coordinator: CoordinatorProtocol {
     // MARK: - Methods
     
     func start() {
-        showHomeStoreView()
-    }
-    
-    func showHomeStoreView() {
         let homeStoreViewController = HomeStoreControllerView()
         homeStoreViewController.coordinator = self
         homeStoreViewController.viewModel = HomeStoreViewModel()
         homeStoreViewController.viewModel.coordinator = self
-        navigationController.pushViewController(homeStoreViewController, animated: false)
+        navigationController.pushViewController(homeStoreViewController,
+                                                animated: false)
+    }
+    
+    func showHomeStoreView() {
+        navigationController.popToRootViewController(animated: true)
     }
     
     func showBottomSheetOnHomeStoreView() {
@@ -45,5 +46,14 @@ class Coordinator: CoordinatorProtocol {
         bottomSheetFilterViewController.modalPresentationStyle = .custom
 
         homeStoreViewController?.present(bottomSheetFilterViewController, animated: true)
+    }
+    
+    func showProductDetailView() {
+        let productDetailViewController = ProductDetailsViewController()
+        let productDetailViewViewModel = ProductDetailsViewViewModel()
+        productDetailViewController.viewModel = productDetailViewViewModel
+        productDetailViewController.coordinator = self
+        navigationController.pushViewController(productDetailViewController,
+                                                animated: true)
     }
 }

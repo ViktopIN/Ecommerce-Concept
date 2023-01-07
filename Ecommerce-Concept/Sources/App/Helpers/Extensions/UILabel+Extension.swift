@@ -32,4 +32,13 @@ extension UILabel {
             self.font = UIFont.markProRegular(ofSize: textSize)
         }
     }
+    
+    open override func copy() -> Any {
+        let copy = UILabel()
+        copy.text = self.text
+        copy.textColor = self.textColor
+        copy.font = self.font
+        copy.translatesAutoresizingMaskIntoConstraints = false
+        return copy
+    }
 }

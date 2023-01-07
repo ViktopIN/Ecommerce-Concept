@@ -28,7 +28,7 @@ class BottomSheetFilterControllerView: UIViewController, UITableViewDelegate {
     private lazy var doneButton = CustomButton(internalObject: Strings.constantDoneButtonText,
                                                objectColor: .white,
                                                backgroundView: .roundedCorner(color: .customOrange),
-                                               textStyle: .smallButtomStyle)
+                                               textStyle: .mediumButtonStyle)
     private lazy var filterParametersTableView: UITableView = {
         let tableView = UITableView(background: .clear)
         tableView.register(FilterParametersTableViewCell.self,

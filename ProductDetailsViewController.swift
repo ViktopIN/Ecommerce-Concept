@@ -147,6 +147,24 @@ final class ProductDetailsViewController: UIViewController {
                                                                 with: Metrics.selectColorAndCapacityTitleLabelTextSize,
                                                                 and: .medium,
                                                                 .customDarkBlue)
+    private lazy var firstColorTypeButton = CustomButton(internalObject: nil,
+                                                         objectColor: nil,
+                                                         backgroundView: .circle(color: .gray,
+                                                                                 buttonHeight: Metrics.colorTypeButtonHeight))
+    
+    private lazy var secondColorTypeButton = CustomButton(internalObject: nil,
+                                                          objectColor: nil,
+                                                          backgroundView: .circle(color: .gray,
+                                                                                  buttonHeight: Metrics.colorTypeButtonHeight))
+    
+    private lazy var firstAmountOfMemoryButton = CustomButton(internalObject: "? Gb",
+                                                              objectColor: .white,
+                                                              backgroundView: .roundedCorner(color: .customOrange),
+                                                              textStyle: .smallButtonStyle)
+    private lazy var secondAmountOfMemoryButton = CustomButton(internalObject: "? Gb",
+                                                               objectColor: .lightGray,
+                                                               backgroundView: .roundedCorner(color: .white),
+                                                               textStyle: .smallButtonStyle)
     
     // MARK: - Lifecycle
     
@@ -172,7 +190,11 @@ final class ProductDetailsViewController: UIViewController {
                                          starsStackView,
                                          segmentedControlContainerView,
                                          productSpecificationStack,
-                                         selectColorAndCapacityTitleLabel)
+                                         selectColorAndCapacityTitleLabel,
+                                         firstColorTypeButton,
+                                         secondColorTypeButton,
+                                         firstAmountOfMemoryButton,
+                                         secondAmountOfMemoryButton)
         segmentedControlContainerView.addSubviews(segmentedControl,
                                                   bottomUnderlineView)
     }
@@ -270,6 +292,29 @@ final class ProductDetailsViewController: UIViewController {
                                                                                                                                    font: .markProMedium(ofSize: Metrics.selectColorAndCapacityTitleLabelTextSize)))!),
 
         ])
+        
+        NSLayoutConstraint.activate([
+            firstColorTypeButton.topAnchor.constraint(equalTo: selectColorAndCapacityTitleLabel.bottomAnchor, constant: Metrics.firstColorTypeButtonTopInset),
+            firstColorTypeButton.leadingAnchor.constraint(equalTo: selectColorAndCapacityTitleLabel.leadingAnchor),
+            firstColorTypeButton.heightAnchor.constraint(equalToConstant: Metrics.colorTypeButtonHeight),
+            firstColorTypeButton.widthAnchor.constraint(equalToConstant: Metrics.colorTypeButtonHeight),
+            secondColorTypeButton.topAnchor.constraint(equalTo: firstColorTypeButton.topAnchor),
+            secondColorTypeButton.leadingAnchor.constraint(equalTo: firstColorTypeButton.trailingAnchor, constant: Metrics.secondColorTypeButtonLeadingInset),
+            secondColorTypeButton.heightAnchor.constraint(equalToConstant: Metrics.colorTypeButtonHeight),
+            secondColorTypeButton.widthAnchor.constraint(equalToConstant: Metrics.colorTypeButtonHeight)
+        ])
+        
+        NSLayoutConstraint.activate([
+            firstAmountOfMemoryButton.centerYAnchor.constraint(equalTo: secondColorTypeButton.centerYAnchor),
+            firstAmountOfMemoryButton.leadingAnchor.constraint(equalTo: secondColorTypeButton.trailingAnchor,
+                                                               constant: Metrics.firstAmountOfMemoryButtonLeadingInset),
+            firstAmountOfMemoryButton.widthAnchor.constraint(equalToConstant: Metrics.amountOfMemoryButtonsWidht),
+            firstAmountOfMemoryButton.heightAnchor.constraint(equalToConstant: Metrics.amountOfMemoryButtonsHeight),
+            secondAmountOfMemoryButton.centerYAnchor.constraint(equalTo: firstAmountOfMemoryButton.centerYAnchor),
+            secondAmountOfMemoryButton.leadingAnchor.constraint(equalTo: firstAmountOfMemoryButton.trailingAnchor, constant: Metrics.secondAmountOfMemoryButtonLeadingInset),
+            secondAmountOfMemoryButton.heightAnchor.constraint(equalToConstant: Metrics.amountOfMemoryButtonsHeight),
+            secondAmountOfMemoryButton.widthAnchor.constraint(equalToConstant: Metrics.amountOfMemoryButtonsWidht)
+        ])
     }
     
     private func setupView() {
@@ -290,13 +335,59 @@ final class ProductDetailsViewController: UIViewController {
         detailsContainerView.layer.shadowOpacity = 1
         detailsContainerView.layer.shadowRadius = 20
         detailsContainerView.layer.shadowOffset = CGSize(width: 0, height: -5)
+        
+        // colorButton setup
+        firstColorTypeButton.addCheckMarkToButton()
+        firstColorTypeButton.addTarget(self,
+                                       action: #selector(colorTypeButtonTap),
+                                       for: .touchUpInside)
+        firstColorTypeButton.isSelected = true
+        secondColorTypeButton.addCheckMarkToButton()
+        secondColorTypeButton.addTarget(self,
+                                        action: #selector(colorTypeButtonTap),
+                                        for: .touchUpInside)
+        // amountButton setup
+        firstAmountOfMemoryButton.addTarget(self,
+                                            action: #selector(amountOfMemoryButton),
+                                            for: .touchUpInside)
+        secondAmountOfMemoryButton.addTarget(self,
+                                             action: #selector(amountOfMemoryButton),
+                                             for: .touchUpInside)
     }
+    
+    // MARK: - Methods
     
     @objc
     private func returnToHomeStore() {
         coordinator.showHomeStoreView()
     }
-
+    
+    @objc
+    private func colorTypeButtonTap(_ sender: CustomButton) {
+        guard sender.isSelected != true else { return }
+        sender.isSelected.toggle()
+        if sender == firstColorTypeButton {
+            secondColorTypeButton.isSelected = !firstColorTypeButton.isSelected
+        } else {
+            firstColorTypeButton.isSelected = !secondColorTypeButton.isSelected
+        }
+    }
+    
+    @objc
+    private func amountOfMemoryButton(_ sender: CustomButton) {
+        guard sender.backgroundColor != .customOrange else { return }
+        if sender == firstAmountOfMemoryButton {
+            firstAmountOfMemoryButton.backgroundColor = .customOrange
+            firstAmountOfMemoryButton.setTitleColor(.white, for: .normal)
+            secondAmountOfMemoryButton.backgroundColor = .white
+            secondAmountOfMemoryButton.setTitleColor(.lightGray, for: .normal)
+        } else {
+            secondAmountOfMemoryButton.backgroundColor = .customOrange
+            secondAmountOfMemoryButton.setTitleColor(.white, for: .normal)
+            firstAmountOfMemoryButton.backgroundColor = .white
+            firstAmountOfMemoryButton.setTitleColor(.lightGray, for: .normal)
+        }
+    }
 }
 
 // MARK: - Metrics extension
@@ -304,7 +395,7 @@ final class ProductDetailsViewController: UIViewController {
 extension ProductDetailsViewController {
     enum Metrics {
         static let titleStackViewSpacing: CGFloat = 51
-        static let titleStackViewTopInset: CGFloat = 79
+        static let titleStackViewTopInset: CGFloat = 73
         static let titleStackViewLeadingInset: CGFloat = 42
         static let titleStackViewTrailingInset: CGFloat = -35
         
@@ -313,11 +404,11 @@ extension ProductDetailsViewController {
         static let titleLabelTextSize: CGFloat = 18
         static let titleLabelWidth: CGFloat = 173
         
-        static let mainCollectionViewTopInset: CGFloat = 30
+        static let mainCollectionViewTopInset: CGFloat = 25
         static let mainCollectionViewHeight: CGFloat = 349
         
         static let productNameLabelTextSize: CGFloat = 24
-        static let productNameLabelTopInset: CGFloat = 28
+        static let productNameLabelTopInset: CGFloat = 23
         static let productNameLabelLeadingInset: CGFloat = 38
         static let productNameLabelTrailingInset: CGFloat = 132
         static let productNameLabelHeight: CGFloat = 30
@@ -327,11 +418,11 @@ extension ProductDetailsViewController {
         static let favoriteMarkButtonTrailingInset: CGFloat = -37
         
         static let starsStackViewSpacing: CGFloat = 9
-        static let starsStackViewTopInset: CGFloat = 7
+        static let starsStackViewTopInset: CGFloat = 5
         static let starsStackViewWidth: CGFloat = 126
         static let starsStackViewHeight: CGFloat = 18
         
-        static let segmentedControlContainerViewTopInset: CGFloat = 32
+        static let segmentedControlContainerViewTopInset: CGFloat = 28
         static let segmentedControlContainerViewLeadingInset: CGFloat = 35
         static let segmentedControlContainerViewTrailingInset: CGFloat = -40
         static let segmentedControlContainerViewHeight: CGFloat = 36
@@ -339,10 +430,20 @@ extension ProductDetailsViewController {
         static let specificationLabelsTextSize: CGFloat = 11
         
         static let productSpecificationStackHeight: CGFloat = 50
-        static let productSpecificationStackTopInset: CGFloat = 33
+        static let productSpecificationStackTopInset: CGFloat = 30
         
         static let selectColorAndCapacityTitleLabelTextSize: CGFloat = 16
-        static let selectColorAndCapacityTitleLabelTopInset: CGFloat = 29
+        static let selectColorAndCapacityTitleLabelTopInset: CGFloat = 27
+        
+        static let colorTypeButtonHeight: CGFloat = 39
+        static let firstColorTypeButtonTopInset: CGFloat = 12
+        static let secondColorTypeButtonLeadingInset: CGFloat = 18
+        
+        static let firstAmountOfMemoryButtonLeadingInset: CGFloat = 73
+        static let amountOfMemoryButtonsWidht: CGFloat = 71
+        static let amountOfMemoryButtonsHeight: CGFloat = 30
+        
+        static let secondAmountOfMemoryButtonLeadingInset: CGFloat = 20
     }
     
     enum Strings {

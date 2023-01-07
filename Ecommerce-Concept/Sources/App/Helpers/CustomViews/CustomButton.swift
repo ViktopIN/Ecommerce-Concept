@@ -17,28 +17,34 @@ class CustomButton: UIButton {
     ///   - objectColor: image color
     ///   - backgroundView:  background views corner style
     ///   - textStyle: internal title label style, occur necessary only with defined internalObject as String type
-    init(internalObject: Any,
-         objectColor: UIColor,
+    init(internalObject: Any?,
+         objectColor: UIColor?,
          backgroundView: BackgroundViewStyle,
-         textStyle: TextStyle = .smallButtomStyle) {
+         textStyle: TextStyle = .mediumButtonStyle) {
         super.init(frame: .zero)
-        translatesAutoresizingMaskIntoConstraints = false
-        if let internalImage = internalObject as? UIImage {
-            self.setImage(internalImage.withTintColor(objectColor,
-                                                       renderingMode: .alwaysOriginal), for: .normal)
-            self.imageView?.contentMode = .center
-        } else if let internalString = internalObject as? String {
-            setTitle(internalString, for: .normal)
-            titleLabel?.textAlignment = .center
-            switch textStyle {
-            case .bigButtonStyle:
-                titleLabel?.font = .markProBold(ofSize: 20)
-                setTitleColor(objectColor, for: .normal)
-            case .smallButtomStyle:
-                titleLabel?.font = .markProMedium(ofSize: 18)
-                setTitleColor(objectColor, for: .normal)
+        if let internalObject = internalObject, let objectColor = objectColor {
+            if let internalImage = internalObject as? UIImage {
+                self.setImage(internalImage.withTintColor(objectColor,
+                                                           renderingMode: .alwaysOriginal), for: .normal)
+                self.imageView?.contentMode = .center
+            } else if let internalString = internalObject as? String {
+                setTitle(internalString, for: .normal)
+                titleLabel?.textAlignment = .center
+                switch textStyle {
+                case .smallButtonStyle:
+                    titleLabel?.font = .markProBold(ofSize: 13)
+                    setTitleColor(objectColor, for: .normal)
+                case .bigButtonStyle:
+                    titleLabel?.font = .markProBold(ofSize: 20)
+                    setTitleColor(objectColor, for: .normal)
+                case .mediumButtonStyle:
+                    titleLabel?.font = .markProMedium(ofSize: 18)
+                    setTitleColor(objectColor, for: .normal)
+                }
+
             }
         }
+        translatesAutoresizingMaskIntoConstraints = false
         switch backgroundView {
         case .circle(let color, let buttonHeight):
             layer.masksToBounds = true
@@ -82,6 +88,10 @@ class CustomButton: UIButton {
         
         return button
     }
+    
+    func addCheckMarkToButton() {
+        setImage(UIImage(named: "checkmark"), for: .selected)
+    }
 }
 
 extension CustomButton {
@@ -93,6 +103,6 @@ extension CustomButton {
     }
     
     enum TextStyle {
-        case smallButtomStyle, bigButtonStyle
+        case smallButtonStyle, mediumButtonStyle, bigButtonStyle
     }
 }

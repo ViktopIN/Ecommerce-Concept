@@ -131,10 +131,10 @@ final class ProductDetailsViewController: UIViewController {
         return bottomUnderlineView.widthAnchor.constraint(equalToConstant: (segmentedControl.titleForSegment(at: 0)?.width(withConstrainedHeight: 11,
                                                                                                                            font: .markProBold(ofSize: 20)))!)
     }()
-    private lazy var productSpecificationStack = UIStackView.addProductSpecificationStack(cpuLabel: cpuLabel,
-                                                                                          cameraLabel: cameraLabel,
-                                                                                          ramLabel: ramLabel,
-                                                                                          hddLabel: hddLabel)
+    private lazy var productSpecificationStack = ProductSpecificationStackView(cpuLabel: cpuLabel,
+                                                                               cameraLabel: cameraLabel,
+                                                                               ramLabel: ramLabel,
+                                                                               hddLabel: hddLabel)
     
     private lazy var cpuLabel = UILabel(constant: "Unknown",
                                         with: Metrics.specificationLabelsTextSize,
@@ -337,6 +337,11 @@ final class ProductDetailsViewController: UIViewController {
             DispatchQueue.main.async {
                 self.mainCollectionView.reloadData()
                 self.productNameLabel.text = self.viewModel.provideProductTitle()
+                self.viewModel.fillSpecifications(cpuSpecication: self.cpuLabel,
+                                                  cameraSpecification: self.cameraLabel,
+                                                  ramSpecification: self.ramLabel,
+                                                  hddSpecification: self.hddLabel,
+                                                  within: self.productSpecificationStack)
             }
         }
         

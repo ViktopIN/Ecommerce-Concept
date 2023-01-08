@@ -8,8 +8,20 @@
 import UIKit
 
 final class ProductDetailsViewViewModel: ProductDetailsViewViewModelType {
-    func numberOfItemsInSection() -> Int? {
-        productDetailData?.images.count
+    func fillSpecifications(cpuSpecication: UILabel,
+                            cameraSpecification: UILabel,
+                            ramSpecification: UILabel,
+                            hddSpecification: UILabel,
+                            within: ProductSpecificationStackView) {
+        let labels = [cpuSpecication: productDetailData?.cpu,
+                 cameraSpecification: productDetailData?.camera,
+                    ramSpecification: productDetailData?.sd,
+                    hddSpecification: productDetailData?.ssd]
+        for (label, text) in labels {
+            label.text = text
+        }
+        within.updateLabelWidthConstraints()
+        within.layoutIfNeeded()
     }
     
     

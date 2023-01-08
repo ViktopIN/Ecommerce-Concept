@@ -13,4 +13,9 @@ protocol ProductDetailsViewViewModelType: AnyObject {
     func provideLoadingImageURL(indexPath: IndexPath) -> String?
     func numberOfItemsInSection() -> Int?
     func provideProductTitle() -> String?
+    func fillSpecifications(cpuSpecication: UILabel,
+                            cameraSpecification: UILabel,
+                            ramSpecification: UILabel,
+                            hddSpecification: UILabel,
+                            within view: ProductSpecificationStackView)
 }

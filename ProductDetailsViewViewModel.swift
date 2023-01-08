@@ -62,4 +62,12 @@ final class ProductDetailsViewViewModel: ProductDetailsViewViewModelType {
     func provideLoadingImageURL(indexPath: IndexPath) -> String? {
         productDetailData?.images[indexPath.item]
     }
+    
+    func provideProductTitle() -> String? {
+        productDetailData?.title
+    }
+    
+    func numberOfItemsInSection() -> Int? {
+        productDetailData?.images.count
+    }
 }

@@ -336,6 +336,7 @@ final class ProductDetailsViewController: UIViewController {
         viewModel.fetchData {
             DispatchQueue.main.async {
                 self.mainCollectionView.reloadData()
+                self.productNameLabel.text = self.viewModel.provideProductTitle()
             }
         }
         
@@ -441,7 +442,7 @@ extension ProductDetailsViewController {
         static let starsStackViewHeight: CGFloat = 18
         
         static let segmentedControlContainerViewTopInset: CGFloat = 25
-        static let segmentedControlContainerViewLeadingInset: CGFloat = 35
+        static let segmentedControlContainerViewLeadingInset: CGFloat = 25
         static let segmentedControlContainerViewTrailingInset: CGFloat = -40
         static let segmentedControlContainerViewHeight: CGFloat = 36
     

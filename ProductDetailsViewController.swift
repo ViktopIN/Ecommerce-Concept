@@ -346,6 +346,7 @@ final class ProductDetailsViewController: UIViewController {
                                                                second: self.secondColorTypeButton)
                 self.viewModel.provideMemoryAmounts(first: self.firstAmountOfMemoryButton,
                                                     second: self.secondAmountOfMemoryButton)
+                self.viewModel.provideToAddToCartButtonText(button: self.addToCartButton)
             }
         }
         

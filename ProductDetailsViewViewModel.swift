@@ -8,6 +8,10 @@
 import UIKit
 
 final class ProductDetailsViewViewModel: ProductDetailsViewViewModelType {
+    func provideToAddToCartButtonText(button: CustomButton) {
+        button.setTitle(productDetailData?.price.withDollar.addToCartTransformText(), for: .normal)
+    }
+    
     func provideMemoryAmounts(first: CustomButton,
                               second: CustomButton) {
         first.setTitle("\(productDetailData?.capacity[0] ?? "?") Gb", for: .normal)

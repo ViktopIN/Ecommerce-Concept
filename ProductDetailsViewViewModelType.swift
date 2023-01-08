@@ -22,4 +22,5 @@ protocol ProductDetailsViewViewModelType: AnyObject {
                                          second: CustomButton)
     func provideMemoryAmounts(first: CustomButton,
                               second: CustomButton)
+    func provideToAddToCartButtonText(button: CustomButton)
 }

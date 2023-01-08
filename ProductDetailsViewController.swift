@@ -344,6 +344,8 @@ final class ProductDetailsViewController: UIViewController {
                                                   within: self.productSpecificationStack)
                 self.viewModel.provideColorsToColorTypeButtons(first: self.firstColorTypeButton,
                                                                second: self.secondColorTypeButton)
+                self.viewModel.provideMemoryAmounts(first: self.firstAmountOfMemoryButton,
+                                                    second: self.secondAmountOfMemoryButton)
             }
         }
         
@@ -403,14 +405,18 @@ final class ProductDetailsViewController: UIViewController {
     private func amountOfMemoryButton(_ sender: CustomButton) {
         guard sender.backgroundColor != .customOrange else { return }
         if sender == firstAmountOfMemoryButton {
-            firstAmountOfMemoryButton.backgroundColor = .customOrange
+            firstAmountOfMemoryButton.setBackgroundImage(UIImage(color: .customOrange),
+                                                         for: .normal)
             firstAmountOfMemoryButton.setTitleColor(.white, for: .normal)
-            secondAmountOfMemoryButton.backgroundColor = .white
+            secondAmountOfMemoryButton.setBackgroundImage(UIImage(color: .white),
+                                                          for: .normal)
             secondAmountOfMemoryButton.setTitleColor(.lightGray, for: .normal)
         } else {
-            secondAmountOfMemoryButton.backgroundColor = .customOrange
+            secondAmountOfMemoryButton.setBackgroundImage(UIImage(color: .customOrange),
+                                                          for: .normal)
             secondAmountOfMemoryButton.setTitleColor(.white, for: .normal)
-            firstAmountOfMemoryButton.backgroundColor = .white
+            firstAmountOfMemoryButton.setBackgroundImage(UIImage(color: .white),
+                                                         for: .normal)
             firstAmountOfMemoryButton.setTitleColor(.lightGray, for: .normal)
         }
     }

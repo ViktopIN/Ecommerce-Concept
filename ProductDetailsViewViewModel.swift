@@ -8,6 +8,12 @@
 import UIKit
 
 final class ProductDetailsViewViewModel: ProductDetailsViewViewModelType {
+    func provideMemoryAmounts(first: CustomButton,
+                              second: CustomButton) {
+        first.setTitle("\(productDetailData?.capacity[0] ?? "?") Gb", for: .normal)
+        second.setTitle("\(productDetailData?.capacity[1] ?? "?") Gb", for: .normal)
+    }
+    
     func provideColorsToColorTypeButtons(first: CustomButton,
                                          second: CustomButton) {
         first.setBackgroundImage(UIImage(color: UIColor(hexaRGBA: productDetailData?.color[0] ?? "#bcbcbc") ?? .gray ,

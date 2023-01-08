@@ -20,4 +20,6 @@ protocol ProductDetailsViewViewModelType: AnyObject {
                             within view: ProductSpecificationStackView)
     func provideColorsToColorTypeButtons(first: CustomButton,
                                          second: CustomButton)
+    func provideMemoryAmounts(first: CustomButton,
+                              second: CustomButton)
 }

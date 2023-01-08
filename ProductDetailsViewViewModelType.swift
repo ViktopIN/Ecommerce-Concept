@@ -18,4 +18,6 @@ protocol ProductDetailsViewViewModelType: AnyObject {
                             ramSpecification: UILabel,
                             hddSpecification: UILabel,
                             within view: ProductSpecificationStackView)
+    func provideColorsToColorTypeButtons(first: CustomButton,
+                                         second: CustomButton)
 }

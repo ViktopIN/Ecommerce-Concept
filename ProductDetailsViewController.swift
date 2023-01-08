@@ -342,6 +342,8 @@ final class ProductDetailsViewController: UIViewController {
                                                   ramSpecification: self.ramLabel,
                                                   hddSpecification: self.hddLabel,
                                                   within: self.productSpecificationStack)
+                self.viewModel.provideColorsToColorTypeButtons(first: self.firstColorTypeButton,
+                                                               second: self.secondColorTypeButton)
             }
         }
         

@@ -8,6 +8,16 @@
 import UIKit
 
 final class ProductDetailsViewViewModel: ProductDetailsViewViewModelType {
+    func provideColorsToColorTypeButtons(first: CustomButton,
+                                         second: CustomButton) {
+        first.setBackgroundImage(UIImage(color: UIColor(hexaRGBA: productDetailData?.color[0] ?? "#bcbcbc") ?? .gray ,
+                                         size: CGSize(width: 40, height: 40)),
+                                 for: .normal)
+        second.setBackgroundImage(UIImage(color: UIColor(hexaRGBA: productDetailData?.color[1] ?? "#bcbcbc") ?? .gray ,
+                                         size: CGSize(width: 40, height: 40)),
+                                 for: .normal)
+    }
+    
     func fillSpecifications(cpuSpecication: UILabel,
                             cameraSpecification: UILabel,
                             ramSpecification: UILabel,

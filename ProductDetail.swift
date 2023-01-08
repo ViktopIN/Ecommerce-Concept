@@ -7,6 +7,17 @@
 
 import UIKit
 
-struct ProductDetail {
+class ProductDetail {
     
+    // MARK: - Properties
+    
+    var title: String
+    var images: [UIImage]
+    
+    // MARK: - Initialiser
+    
+    init(model: ProductDetailData) {
+        self.title = model.title
+        }
+    }
 }

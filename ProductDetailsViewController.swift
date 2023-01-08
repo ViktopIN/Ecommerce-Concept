@@ -331,8 +331,13 @@ final class ProductDetailsViewController: UIViewController {
     }
     
     private func setupView() {
-        // view setup
+        // view and viewModel setup
         view.backgroundColor = #colorLiteral(red: 0.9725490196, green: 0.9725490196, blue: 0.9725490196, alpha: 1)
+        viewModel.fetchData {
+            DispatchQueue.main.async {
+                self.mainCollectionView.reloadData()
+            }
+        }
         
         // backButton action
         backButton.addTarget(self,
@@ -500,16 +505,16 @@ extension ProductDetailsViewController {
 }
 
 extension ProductDetailsViewController: UICollectionViewDataSource {
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        1
-    }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        3
+        viewModel.numberOfItemsInSection() ?? 1
     }
+    
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PhonePhotoCell.reuseIdentifier,
                                                             for: indexPath) as? PhonePhotoCell else { fatalError() }
+        
+        cell.loadingImageURLAdress = viewModel.provideLoadingImageURL(indexPath: indexPath)
         return cell
     }
 }

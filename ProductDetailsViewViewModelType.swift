@@ -8,5 +8,8 @@
 import UIKit
 
 protocol ProductDetailsViewViewModelType: AnyObject {
-    func generateMainCollectionViewLayout() -> UICollectionViewLayout 
+    func generateMainCollectionViewLayout() -> UICollectionViewLayout
+    func fetchData(completion: @escaping () -> Void)
+    func provideLoadingImageURL(indexPath: IndexPath) -> String?
+    func numberOfItemsInSection() -> Int?
 }

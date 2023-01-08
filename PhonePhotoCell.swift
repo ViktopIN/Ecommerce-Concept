@@ -12,7 +12,12 @@ final class PhonePhotoCell: UICollectionViewCell {
     // MARK: - Propertiex
     
     static let reuseIdentifier = "PhonePhotoCell"
-    weak var viewModel: PhonePhotoCellViewModelType!
+    var loadingImageURLAdress: String? {
+        willSet(loadingImageURLAdress) {
+            guard let loadingImageURLAdress = loadingImageURLAdress else { return }
+            handleImageURL(imageURLString: loadingImageURLAdress)
+        }
+    }
     
     // MARK: - Views
     
@@ -23,11 +28,12 @@ final class PhonePhotoCell: UICollectionViewCell {
         activityIndicator.translatesAutoresizingMaskIntoConstraints = false
         return activityIndicator
     }()
-    
+        
     private lazy var mainImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.contentMode = .scaleAspectFill
+        imageView.layer.cornerRadius = 20
+        imageView.clipsToBounds = true
         return imageView
     }()
     
@@ -66,7 +72,17 @@ final class PhonePhotoCell: UICollectionViewCell {
         layer.shadowOffset = CGSize(width: 0, height: 5)
         layer.shadowRadius = 5
         layer.shadowOpacity = 0.4
-        
-        
+    }
+    
+    // MARK: - Private method
+    
+    private func handleImageURL(imageURLString: String) {
+        NetworkManager.loadingImageData(imageURL: URL(string: imageURLString)) { image in
+            DispatchQueue.main.async {
+                self.mainImageView.image = image
+                self.placeHolderActivityIndicator.hidesWhenStopped = true
+                self.placeHolderActivityIndicator.stopAnimating()
+            }
+        }
     }
 }

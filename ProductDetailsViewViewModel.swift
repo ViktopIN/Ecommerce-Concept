@@ -8,9 +8,18 @@
 import UIKit
 
 final class ProductDetailsViewViewModel: ProductDetailsViewViewModelType {
+    func numberOfItemsInSection() -> Int? {
+        productDetailData?.images.count
+    }
     
-    private var networkManager = NetworkManager(url: URL(string: "https://run.mocky.io/v3/53539a72-3c5f-4f30-bbb1-6ca10d42c149"))
-
+    
+    // MARK: - Properties
+    
+    var productDetailData: ProductDetailData?
+    private var networkManager = NetworkManager(url: URL(string: "https://run.mocky.io/v3/6c14c560-15c6-4248-b9d2-b4508df7d4f5"))
+    
+    // MARK: - Methods
+    
     func generateMainCollectionViewLayout() -> UICollectionViewLayout {
         
         // Item
@@ -41,5 +50,16 @@ final class ProductDetailsViewViewModel: ProductDetailsViewViewModelType {
         }
         
         return UICollectionViewCompositionalLayout(section: section)
+    }
+    
+    func fetchData(completion: @escaping () -> Void) {
+        networkManager.getData2 { (productDetailData: ProductDetailData) in
+            self.productDetailData = productDetailData
+            completion()
+        }
+    }
+    
+    func provideLoadingImageURL(indexPath: IndexPath) -> String? {
+        productDetailData?.images[indexPath.item]
     }
 }

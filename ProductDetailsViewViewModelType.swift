@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Cosmos
 
 protocol ProductDetailsViewViewModelType: AnyObject {
     func amountOfMemotyButtonTap(firstButton: CustomButton,
@@ -29,4 +30,5 @@ protocol ProductDetailsViewViewModelType: AnyObject {
     func provideMemoryAmounts(first: CustomButton,
                               second: CustomButton)
     func provideToAddToCartButtonText(button: CustomButton)
+    func provideRating(to ratingStack: CosmosView)
 }

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Cosmos
 
 final class ProductDetailsViewController: UIViewController {
     
@@ -52,17 +53,13 @@ final class ProductDetailsViewController: UIViewController {
     private lazy var favoriteMarkButton = CustomButton(internalObject: UIImage(named: "noFillHeart")!,
                                                        objectColor: .white,
                                                        backgroundView: .roundedCorner(color: .customDarkBlue))
-    // TODO: - Make rating stars stack
-    private lazy var starsStackView: UIStackView = {
-        let stackView = UIStackView(with: .horizontal,
-                                    distribution: .fillEqually,
-                                    spacing: Metrics.starsStackViewSpacing)
-        for _ in 1...5 {
-            let starImageView = UIImageView(image: UIImage(named: "Star 5"))
-            stackView.addArrangedSubview(starImageView)
-        }
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        return stackView
+    
+    private lazy var starsView: CosmosView = {
+        let cosmosView = CosmosView()
+        cosmosView.settings.updateOnTouch = false
+        cosmosView.settings.fillMode = .precise
+        cosmosView.translatesAutoresizingMaskIntoConstraints = false
+        return cosmosView
     }()
     
     // Container view of the segmented control
@@ -191,7 +188,7 @@ final class ProductDetailsViewController: UIViewController {
                                            cartButton)
         detailsContainerView.addSubviews(productNameLabel,
                                          favoriteMarkButton,
-                                         starsStackView,
+                                         starsView,
                                          segmentedControlContainerView,
                                          productSpecificationStack,
                                          selectColorAndCapacityTitleLabel,
@@ -249,15 +246,15 @@ final class ProductDetailsViewController: UIViewController {
         ])
         
         NSLayoutConstraint.activate([
-            starsStackView.topAnchor.constraint(equalTo: productNameLabel.bottomAnchor,
+            starsView.topAnchor.constraint(equalTo: productNameLabel.bottomAnchor,
                                                 constant: Metrics.starsStackViewTopInset),
-            starsStackView.leadingAnchor.constraint(equalTo: productNameLabel.leadingAnchor),
-            starsStackView.widthAnchor.constraint(equalToConstant: Metrics.starsStackViewWidth),
-            starsStackView.heightAnchor.constraint(equalToConstant: Metrics.starsStackViewHeight)
+            starsView.leadingAnchor.constraint(equalTo: productNameLabel.leadingAnchor),
+            starsView.widthAnchor.constraint(equalToConstant: Metrics.starsStackViewWidth),
+            starsView.heightAnchor.constraint(equalToConstant: Metrics.starsStackViewHeight)
         ])
         
         NSLayoutConstraint.activate([
-            segmentedControlContainerView.topAnchor.constraint(equalTo: starsStackView.bottomAnchor,
+            segmentedControlContainerView.topAnchor.constraint(equalTo: starsView.bottomAnchor,
                                                                constant: Metrics.segmentedControlContainerViewTopInset),
             segmentedControlContainerView.leadingAnchor.constraint(equalTo: detailsContainerView.leadingAnchor,
                                                                    constant: Metrics.segmentedControlContainerViewLeadingInset),
@@ -347,6 +344,8 @@ final class ProductDetailsViewController: UIViewController {
                 self.viewModel.provideMemoryAmounts(first: self.firstAmountOfMemoryButton,
                                                     second: self.secondAmountOfMemoryButton)
                 self.viewModel.provideToAddToCartButtonText(button: self.addToCartButton)
+                self.viewModel.provideRating(to: self.starsView)
+                
             }
         }
         

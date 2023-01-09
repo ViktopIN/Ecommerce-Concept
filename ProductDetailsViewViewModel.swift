@@ -6,8 +6,13 @@
 //
 
 import UIKit
+import Cosmos
 
 final class ProductDetailsViewViewModel: ProductDetailsViewViewModelType {
+    func provideRating(to ratingStack: Cosmos.CosmosView) {
+        ratingStack.rating = productDetailData?.rating ?? 0
+    }
+    
     
     // MARK: - Properties
     

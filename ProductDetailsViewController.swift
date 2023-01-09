@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Cosmos
 
 final class ProductDetailsViewController: UIViewController {
     
@@ -52,16 +53,13 @@ final class ProductDetailsViewController: UIViewController {
     private lazy var favoriteMarkButton = CustomButton(internalObject: UIImage(named: "noFillHeart")!,
                                                        objectColor: .white,
                                                        backgroundView: .roundedCorner(color: .customDarkBlue))
-    private lazy var starsStackView: UIStackView = {
-        let stackView = UIStackView(with: .horizontal,
-                                    distribution: .fillEqually,
-                                    spacing: Metrics.starsStackViewSpacing)
-        for _ in 1...5 {
-            let starImageView = UIImageView(image: UIImage(named: "Star 5"))
-            stackView.addArrangedSubview(starImageView)
-        }
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        return stackView
+    
+    private lazy var starsView: CosmosView = {
+        let cosmosView = CosmosView()
+        cosmosView.settings.updateOnTouch = false
+        cosmosView.settings.fillMode = .precise
+        cosmosView.translatesAutoresizingMaskIntoConstraints = false
+        return cosmosView
     }()
     
     // Container view of the segmented control
@@ -81,7 +79,6 @@ final class ProductDetailsViewController: UIViewController {
         segmentedControl.tintColor = .clear
         segmentedControl.selectedSegmentTintColor = .clear
         segmentedControl.setBackgroundImage(UIImage(), for: .normal, barMetrics: .default)
-        segmentedControl.setBackgroundImage(UIImage(), for: .selected, barMetrics: .default)
         segmentedControl.setDividerImage(UIImage(),
                                          forLeftSegmentState: .normal,
                                          rightSegmentState: .normal,
@@ -131,10 +128,10 @@ final class ProductDetailsViewController: UIViewController {
         return bottomUnderlineView.widthAnchor.constraint(equalToConstant: (segmentedControl.titleForSegment(at: 0)?.width(withConstrainedHeight: 11,
                                                                                                                            font: .markProBold(ofSize: 20)))!)
     }()
-    private lazy var productSpecificationStack = UIStackView.addProductSpecificationStack(cpuLabel: cpuLabel,
-                                                                                          cameraLabel: cameraLabel,
-                                                                                          ramLabel: ramLabel,
-                                                                                          hddLabel: hddLabel)
+    private lazy var productSpecificationStack = ProductSpecificationStackView(cpuLabel: cpuLabel,
+                                                                               cameraLabel: cameraLabel,
+                                                                               ramLabel: ramLabel,
+                                                                               hddLabel: hddLabel)
     
     private lazy var cpuLabel = UILabel(constant: "Unknown",
                                         with: Metrics.specificationLabelsTextSize,
@@ -191,7 +188,7 @@ final class ProductDetailsViewController: UIViewController {
                                            cartButton)
         detailsContainerView.addSubviews(productNameLabel,
                                          favoriteMarkButton,
-                                         starsStackView,
+                                         starsView,
                                          segmentedControlContainerView,
                                          productSpecificationStack,
                                          selectColorAndCapacityTitleLabel,
@@ -249,15 +246,15 @@ final class ProductDetailsViewController: UIViewController {
         ])
         
         NSLayoutConstraint.activate([
-            starsStackView.topAnchor.constraint(equalTo: productNameLabel.bottomAnchor,
+            starsView.topAnchor.constraint(equalTo: productNameLabel.bottomAnchor,
                                                 constant: Metrics.starsStackViewTopInset),
-            starsStackView.leadingAnchor.constraint(equalTo: productNameLabel.leadingAnchor),
-            starsStackView.widthAnchor.constraint(equalToConstant: Metrics.starsStackViewWidth),
-            starsStackView.heightAnchor.constraint(equalToConstant: Metrics.starsStackViewHeight)
+            starsView.leadingAnchor.constraint(equalTo: productNameLabel.leadingAnchor),
+            starsView.widthAnchor.constraint(equalToConstant: Metrics.starsStackViewWidth),
+            starsView.heightAnchor.constraint(equalToConstant: Metrics.starsStackViewHeight)
         ])
         
         NSLayoutConstraint.activate([
-            segmentedControlContainerView.topAnchor.constraint(equalTo: starsStackView.bottomAnchor,
+            segmentedControlContainerView.topAnchor.constraint(equalTo: starsView.bottomAnchor,
                                                                constant: Metrics.segmentedControlContainerViewTopInset),
             segmentedControlContainerView.leadingAnchor.constraint(equalTo: detailsContainerView.leadingAnchor,
                                                                    constant: Metrics.segmentedControlContainerViewLeadingInset),
@@ -331,8 +328,32 @@ final class ProductDetailsViewController: UIViewController {
     }
     
     private func setupView() {
-        // view setup
+        // view and viewModel setup
         view.backgroundColor = #colorLiteral(red: 0.9725490196, green: 0.9725490196, blue: 0.9725490196, alpha: 1)
+        viewModel.fetchData {
+            DispatchQueue.main.async {
+                self.mainCollectionView.reloadData()
+                self.productNameLabel.text = self.viewModel.provideProductTitle()
+                self.viewModel.fillSpecifications(cpuSpecication: self.cpuLabel,
+                                                  cameraSpecification: self.cameraLabel,
+                                                  ramSpecification: self.ramLabel,
+                                                  hddSpecification: self.hddLabel,
+                                                  within: self.productSpecificationStack)
+                self.viewModel.provideColorsToColorTypeButtons(first: self.firstColorTypeButton,
+                                                               second: self.secondColorTypeButton)
+                self.viewModel.provideMemoryAmounts(first: self.firstAmountOfMemoryButton,
+                                                    second: self.secondAmountOfMemoryButton)
+                self.viewModel.provideToAddToCartButtonText(button: self.addToCartButton)
+                self.viewModel.provideRating(to: self.starsView)
+                self.viewModel.provideFavoriteStatus(to: self.favoriteMarkButton)
+                
+            }
+            
+            // setup favoriteMarkButton
+            self.favoriteMarkButton.setImage(UIImage(named: "fillHeart")?.withTintColor(.white,
+                                                                                   renderingMode: .alwaysOriginal),
+                                        for: .selected)
+        }
         
         // backButton action
         backButton.addTarget(self,
@@ -377,29 +398,16 @@ final class ProductDetailsViewController: UIViewController {
     
     @objc
     private func colorTypeButtonTap(_ sender: CustomButton) {
-        guard sender.isSelected != true else { return }
-        sender.isSelected.toggle()
-        if sender == firstColorTypeButton {
-            secondColorTypeButton.isSelected = !firstColorTypeButton.isSelected
-        } else {
-            firstColorTypeButton.isSelected = !secondColorTypeButton.isSelected
-        }
+        viewModel.colorTypeButtonTap(firstButton: firstColorTypeButton,
+                                     secondButton: secondColorTypeButton,
+                                     sender: sender)
     }
     
     @objc
     private func amountOfMemoryButton(_ sender: CustomButton) {
-        guard sender.backgroundColor != .customOrange else { return }
-        if sender == firstAmountOfMemoryButton {
-            firstAmountOfMemoryButton.backgroundColor = .customOrange
-            firstAmountOfMemoryButton.setTitleColor(.white, for: .normal)
-            secondAmountOfMemoryButton.backgroundColor = .white
-            secondAmountOfMemoryButton.setTitleColor(.lightGray, for: .normal)
-        } else {
-            secondAmountOfMemoryButton.backgroundColor = .customOrange
-            secondAmountOfMemoryButton.setTitleColor(.white, for: .normal)
-            firstAmountOfMemoryButton.backgroundColor = .white
-            firstAmountOfMemoryButton.setTitleColor(.lightGray, for: .normal)
-        }
+        viewModel.amountOfMemotyButtonTap(firstButton: firstAmountOfMemoryButton,
+                                          secondButton: secondAmountOfMemoryButton,
+                                          sender: sender)
     }
 }
 
@@ -436,7 +444,7 @@ extension ProductDetailsViewController {
         static let starsStackViewHeight: CGFloat = 18
         
         static let segmentedControlContainerViewTopInset: CGFloat = 25
-        static let segmentedControlContainerViewLeadingInset: CGFloat = 35
+        static let segmentedControlContainerViewLeadingInset: CGFloat = 25
         static let segmentedControlContainerViewTrailingInset: CGFloat = -40
         static let segmentedControlContainerViewHeight: CGFloat = 36
     
@@ -500,16 +508,16 @@ extension ProductDetailsViewController {
 }
 
 extension ProductDetailsViewController: UICollectionViewDataSource {
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        1
-    }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        3
+        viewModel.numberOfItemsInSection() ?? 1
     }
+    
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PhonePhotoCell.reuseIdentifier,
                                                             for: indexPath) as? PhonePhotoCell else { fatalError() }
+        
+        cell.loadingImageURLAdress = viewModel.provideLoadingImageURL(indexPath: indexPath)
         return cell
     }
 }

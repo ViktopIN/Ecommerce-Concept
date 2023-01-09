@@ -31,6 +31,6 @@ extension String {
     }
     
     func addToCartTransformText() -> String {
-        return "Add to Cart       \(self)"
+        return "Add to Cart          \(self)"
     }
 }

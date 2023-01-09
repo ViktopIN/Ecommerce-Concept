@@ -48,11 +48,13 @@ class CustomButton: UIButton {
         switch backgroundView {
         case .circle(let color, let buttonHeight):
             layer.masksToBounds = true
-            layer.backgroundColor = color.cgColor
+            setBackgroundImage(UIImage(color: color,
+                                       size: CGSize(width: 40, height: 40)), for: .normal)
             layer.cornerRadius = buttonHeight / 2
         case .roundedCorner(let color):
             layer.masksToBounds = true
-            layer.backgroundColor = color.cgColor
+            setBackgroundImage(UIImage(color: color,
+                                       size: CGSize(width: 40, height: 40)), for: .normal)
             layer.cornerRadius = 10
         case .none:
             return

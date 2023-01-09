@@ -31,4 +31,5 @@ protocol ProductDetailsViewViewModelType: AnyObject {
                               second: CustomButton)
     func provideToAddToCartButtonText(button: CustomButton)
     func provideRating(to ratingStack: CosmosView)
+    func provideFavoriteStatus(to button: UIButton)
 }

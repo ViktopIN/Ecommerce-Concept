@@ -9,6 +9,10 @@ import UIKit
 import Cosmos
 
 final class ProductDetailsViewViewModel: ProductDetailsViewViewModelType {
+    func provideFavoriteStatus(to button: UIButton) {
+        button.isSelected = productDetailData?.isFavorites ?? false
+    }
+    
     func provideRating(to ratingStack: Cosmos.CosmosView) {
         ratingStack.rating = productDetailData?.rating ?? 0
     }

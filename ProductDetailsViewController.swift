@@ -345,8 +345,14 @@ final class ProductDetailsViewController: UIViewController {
                                                     second: self.secondAmountOfMemoryButton)
                 self.viewModel.provideToAddToCartButtonText(button: self.addToCartButton)
                 self.viewModel.provideRating(to: self.starsView)
+                self.viewModel.provideFavoriteStatus(to: self.favoriteMarkButton)
                 
             }
+            
+            // setup favoriteMarkButton
+            self.favoriteMarkButton.setImage(UIImage(named: "fillHeart")?.withTintColor(.white,
+                                                                                   renderingMode: .alwaysOriginal),
+                                        for: .selected)
         }
         
         // backButton action

@@ -10,7 +10,8 @@ import UIKit
 protocol CoordinatorProtocol: AnyObject {
     var navigationController: UINavigationController { get set }
     func start()
-    func showHomeStoreView()
+    func returnBack()
     func showBottomSheetOnHomeStoreView()
     func showProductDetailView()
+    func showCartView()
 }

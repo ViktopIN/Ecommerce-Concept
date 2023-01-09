@@ -60,7 +60,7 @@ class HomeStoreControllerView: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    private lazy var cartButton = makeButton(image: UIImage(named: "cart") ?? UIImage(),
+    private lazy var showCartButton = makeButton(image: UIImage(named: "cart") ?? UIImage(),
                                              action: action)
     private lazy var favoritesButton = makeButton(image: UIImage(named: "heart") ?? UIImage(),
                                                   action: action)
@@ -88,7 +88,7 @@ class HomeStoreControllerView: UIViewController {
         homeStoreTabBar.addSubview(tabBarStack)
         tabBarStack.addArrangedSubviews(explorerLabel,
                                         buttonStack)
-        buttonStack.addArrangedSubviews(cartButton,
+        buttonStack.addArrangedSubviews(showCartButton,
                                         favoritesButton,
                                         profileButton)
     }
@@ -123,8 +123,12 @@ class HomeStoreControllerView: UIViewController {
             }
         }
         dataSourceConfigure()
+        
         // Explorer label setup
         explorerLabel.textAlignment = .left
+        
+        // showCartButton Action
+        showCartButton.addTarget(self, action: #selector(showCart), for: .touchUpInside)
     }
     
     // MARK: - Private Methods
@@ -137,6 +141,11 @@ class HomeStoreControllerView: UIViewController {
                                             renderingMode: .alwaysOriginal),
                         for: .normal)
         return button
+    }
+    
+    @objc
+    private func showCart() {
+        coordinator?.showCartView()
     }
 }
 

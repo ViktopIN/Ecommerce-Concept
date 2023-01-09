@@ -21,14 +21,15 @@ final class ProductDetailsViewController: UIViewController {
                                                   distribution: .fill,
                                                   spacing: Metrics.titleStackViewSpacing)
     
-    private lazy var backButton = CustomButton(internalObject: UIImage(named: "left-shield")!,
-                                               objectColor: .white,
-                                               backgroundView: .roundedCorner(color: .customDarkBlue))
+    private lazy var backButton = CustomButton(internalObject: nil,
+                                               objectColor: nil,
+                                               backgroundView: .roundedCorner(color: .customDarkBlue),
+                                               isBackButton: true)
     private lazy var titleLabel = UILabel(constant: Strings.titleLabelText,
                                           with: Metrics.titleLabelTextSize,
                                           and: .medium,
                                           .customDarkBlue)
-    private lazy var cartButton = CustomButton(internalObject: UIImage(named: "mini-cart")!,
+    private lazy var showCartButton = CustomButton(internalObject: UIImage(named: "mini-cart")!,
                                                objectColor: .white,
                                                backgroundView: .roundedCorner(color: .customOrange))
     
@@ -185,7 +186,7 @@ final class ProductDetailsViewController: UIViewController {
                          detailsContainerView)
         titleStackView.addArrangedSubviews(backButton,
                                            titleLabel,
-                                           cartButton)
+                                           showCartButton)
         detailsContainerView.addSubviews(productNameLabel,
                                          favoriteMarkButton,
                                          starsView,
@@ -212,8 +213,8 @@ final class ProductDetailsViewController: UIViewController {
             backButton.widthAnchor.constraint(equalToConstant: Metrics.titleButtonHeight)
         ])
         NSLayoutConstraint.activate([
-            cartButton.heightAnchor.constraint(equalToConstant: Metrics.titleButtonHeight),
-            cartButton.widthAnchor.constraint(equalToConstant: Metrics.titleButtonHeight)
+            showCartButton.heightAnchor.constraint(equalToConstant: Metrics.titleButtonHeight),
+            showCartButton.widthAnchor.constraint(equalToConstant: Metrics.titleButtonHeight)
         ])
         
         NSLayoutConstraint.activate([
@@ -332,33 +333,24 @@ final class ProductDetailsViewController: UIViewController {
         view.backgroundColor = #colorLiteral(red: 0.9725490196, green: 0.9725490196, blue: 0.9725490196, alpha: 1)
         viewModel.fetchData {
             DispatchQueue.main.async {
-                self.mainCollectionView.reloadData()
-                self.productNameLabel.text = self.viewModel.provideProductTitle()
-                self.viewModel.fillSpecifications(cpuSpecication: self.cpuLabel,
-                                                  cameraSpecification: self.cameraLabel,
-                                                  ramSpecification: self.ramLabel,
-                                                  hddSpecification: self.hddLabel,
-                                                  within: self.productSpecificationStack)
-                self.viewModel.provideColorsToColorTypeButtons(first: self.firstColorTypeButton,
-                                                               second: self.secondColorTypeButton)
-                self.viewModel.provideMemoryAmounts(first: self.firstAmountOfMemoryButton,
-                                                    second: self.secondAmountOfMemoryButton)
-                self.viewModel.provideToAddToCartButtonText(button: self.addToCartButton)
-                self.viewModel.provideRating(to: self.starsView)
-                self.viewModel.provideFavoriteStatus(to: self.favoriteMarkButton)
-                
+                self.loadingDataToUI()
             }
-            
-            // setup favoriteMarkButton
+        }
+        
+        // setup favoriteMarkButton
+        DispatchQueue.main.async {
             self.favoriteMarkButton.setImage(UIImage(named: "fillHeart")?.withTintColor(.white,
                                                                                    renderingMode: .alwaysOriginal),
                                         for: .selected)
+
         }
         
         // backButton action
-        backButton.addTarget(self,
-                             action: #selector(returnToHomeStore), 
-                             for: .touchUpInside)
+        backButton.setupBackButton(viewControllersCoordinator: coordinator)
+        
+        // showCartButton action
+        
+        showCartButton.addTarget(self, action: #selector(showCart), for: .touchUpInside)
         
         // detailsContainerView setup
         detailsContainerView.layer.masksToBounds = false
@@ -392,8 +384,8 @@ final class ProductDetailsViewController: UIViewController {
     // MARK: - Methods
     
     @objc
-    private func returnToHomeStore() {
-        coordinator.showHomeStoreView()
+    private func showCart() {
+        coordinator.showCartView()
     }
     
     @objc
@@ -408,6 +400,24 @@ final class ProductDetailsViewController: UIViewController {
         viewModel.amountOfMemotyButtonTap(firstButton: firstAmountOfMemoryButton,
                                           secondButton: secondAmountOfMemoryButton,
                                           sender: sender)
+    }
+    
+    private func loadingDataToUI() {
+        self.mainCollectionView.reloadData()
+        self.productNameLabel.text = self.viewModel.provideProductTitle()
+        self.viewModel.fillSpecifications(cpuSpecication: self.cpuLabel,
+                                          cameraSpecification: self.cameraLabel,
+                                          ramSpecification: self.ramLabel,
+                                          hddSpecification: self.hddLabel,
+                                          within: self.productSpecificationStack)
+        self.viewModel.provideColorsToColorTypeButtons(first: self.firstColorTypeButton,
+                                                       second: self.secondColorTypeButton)
+        self.viewModel.provideMemoryAmounts(first: self.firstAmountOfMemoryButton,
+                                            second: self.secondAmountOfMemoryButton)
+        self.viewModel.provideToAddToCartButtonText(button: self.addToCartButton)
+        self.viewModel.provideRating(to: self.starsView)
+        self.viewModel.provideFavoriteStatus(to: self.favoriteMarkButton)
+
     }
 }
 

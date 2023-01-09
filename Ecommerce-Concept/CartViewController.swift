@@ -30,6 +30,21 @@ class CartViewController: UIViewController {
                                               and: .bold, .customDarkBlue)
     private lazy var cartContainerView = UIView(background: .customDarkBlue,
                                                 cornerType: .rounded)
+    private lazy var cartListTabelView: UITableView = {
+        let tableView = UITableView()
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "UITableViewCell")
+        tableView.dataSource = self
+        tableView.rowHeight = 40
+        return tableView
+    }()
+    
+    private lazy var tableViewUnderline: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.25)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
     
     // MARK: - Lifecycle
     
@@ -49,6 +64,7 @@ class CartViewController: UIViewController {
                          addAddressLabel,
                          cartTitleLabel,
                          cartContainerView)
+        cartContainerView.addSubviews(cartListTabelView, tableViewUnderline)
     }
     
     private func setupLayout() {
@@ -83,7 +99,19 @@ class CartViewController: UIViewController {
             cartContainerView.topAnchor.constraint(equalTo: cartTitleLabel.bottomAnchor, constant: Metrics.cartContainerViewTopInset),
             cartContainerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             cartContainerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            cartContainerView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            cartContainerView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            
+            // MARK: CartListTableView Constraints
+            cartListTabelView.topAnchor.constraint(equalTo: cartContainerView.topAnchor, constant: Metrics.cartListTabelViewTopInset),
+            cartListTabelView.leadingAnchor.constraint(equalTo: cartContainerView.leadingAnchor, constant: Metrics.cartListTabelViewLeadingInset),
+            cartListTabelView.trailingAnchor.constraint(equalTo: cartContainerView.trailingAnchor),
+            cartListTabelView.heightAnchor.constraint(equalToConstant: Metrics.cartListTabelViewHeight),
+            
+            // MARK: TableViewUnderline
+            tableViewUnderline.topAnchor.constraint(equalTo: cartListTabelView.bottomAnchor),
+            tableViewUnderline.leadingAnchor.constraint(equalTo: cartContainerView.leadingAnchor, constant: Metrics.tableViewUnderlineSideInset),
+            tableViewUnderline.trailingAnchor.constraint(equalTo: cartContainerView.trailingAnchor, constant: -Metrics.tableViewUnderlineSideInset),
+            tableViewUnderline.heightAnchor.constraint(equalToConstant: Metrics.tableViewUnderlineHeight)
         ])
     }
     
@@ -114,6 +142,13 @@ extension CartViewController {
         
         static let cartContainerViewTopInset: CGFloat = 49
         
+        static let cartListTabelViewTopInset: CGFloat = 80
+        static let cartListTabelViewLeadingInset: CGFloat = 23
+        static let cartListTabelViewHeight: CGFloat = 394
+        
+        static let tableViewUnderlineHeight: CGFloat = 2
+        static let tableViewUnderlineSideInset: CGFloat = 4
+
         static func returnLabelsWidth(text: String,
                                       with constrainedHeight: CGFloat,
                                       and font: UIFont) -> CGFloat {
@@ -125,5 +160,21 @@ extension CartViewController {
     enum Strings {
         static let addAddressLabelText = "Add address"
         static let cartTitleLabelText = "Cart"
+    }
+}
+
+extension CartViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        3
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "UITableViewCell", for: indexPath)
+        cell.backgroundColor = .gray
+        var content = cell.defaultContentConfiguration()
+        content.text = "хуй"
+        cell.contentConfiguration = content
+        return cell
+        
     }
 }

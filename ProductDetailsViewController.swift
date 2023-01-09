@@ -52,6 +52,7 @@ final class ProductDetailsViewController: UIViewController {
     private lazy var favoriteMarkButton = CustomButton(internalObject: UIImage(named: "noFillHeart")!,
                                                        objectColor: .white,
                                                        backgroundView: .roundedCorner(color: .customDarkBlue))
+    // TODO: - Make rating stars stack
     private lazy var starsStackView: UIStackView = {
         let stackView = UIStackView(with: .horizontal,
                                     distribution: .fillEqually,
@@ -81,7 +82,6 @@ final class ProductDetailsViewController: UIViewController {
         segmentedControl.tintColor = .clear
         segmentedControl.selectedSegmentTintColor = .clear
         segmentedControl.setBackgroundImage(UIImage(), for: .normal, barMetrics: .default)
-        segmentedControl.setBackgroundImage(UIImage(), for: .selected, barMetrics: .default)
         segmentedControl.setDividerImage(UIImage(),
                                          forLeftSegmentState: .normal,
                                          rightSegmentState: .normal,
@@ -393,33 +393,16 @@ final class ProductDetailsViewController: UIViewController {
     
     @objc
     private func colorTypeButtonTap(_ sender: CustomButton) {
-        guard sender.isSelected != true else { return }
-        sender.isSelected.toggle()
-        if sender == firstColorTypeButton {
-            secondColorTypeButton.isSelected = !firstColorTypeButton.isSelected
-        } else {
-            firstColorTypeButton.isSelected = !secondColorTypeButton.isSelected
-        }
+        viewModel.colorTypeButtonTap(firstButton: firstColorTypeButton,
+                                     secondButton: secondColorTypeButton,
+                                     sender: sender)
     }
     
     @objc
     private func amountOfMemoryButton(_ sender: CustomButton) {
-        guard sender.backgroundColor != .customOrange else { return }
-        if sender == firstAmountOfMemoryButton {
-            firstAmountOfMemoryButton.setBackgroundImage(UIImage(color: .customOrange),
-                                                         for: .normal)
-            firstAmountOfMemoryButton.setTitleColor(.white, for: .normal)
-            secondAmountOfMemoryButton.setBackgroundImage(UIImage(color: .white),
-                                                          for: .normal)
-            secondAmountOfMemoryButton.setTitleColor(.lightGray, for: .normal)
-        } else {
-            secondAmountOfMemoryButton.setBackgroundImage(UIImage(color: .customOrange),
-                                                          for: .normal)
-            secondAmountOfMemoryButton.setTitleColor(.white, for: .normal)
-            firstAmountOfMemoryButton.setBackgroundImage(UIImage(color: .white),
-                                                         for: .normal)
-            firstAmountOfMemoryButton.setTitleColor(.lightGray, for: .normal)
-        }
+        viewModel.amountOfMemotyButtonTap(firstButton: firstAmountOfMemoryButton,
+                                          secondButton: secondAmountOfMemoryButton,
+                                          sender: sender)
     }
 }
 

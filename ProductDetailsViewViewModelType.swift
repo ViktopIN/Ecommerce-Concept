@@ -8,6 +8,12 @@
 import UIKit
 
 protocol ProductDetailsViewViewModelType: AnyObject {
+    func amountOfMemotyButtonTap(firstButton: CustomButton,
+                                 secondButton: CustomButton,
+                                 sender: CustomButton)
+    func colorTypeButtonTap(firstButton: CustomButton,
+                            secondButton: CustomButton,
+                            sender: CustomButton)
     func generateMainCollectionViewLayout() -> UICollectionViewLayout
     func fetchData(completion: @escaping () -> Void)
     func provideLoadingImageURL(indexPath: IndexPath) -> String?

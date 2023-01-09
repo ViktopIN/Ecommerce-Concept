@@ -8,42 +8,6 @@
 import UIKit
 
 final class ProductDetailsViewViewModel: ProductDetailsViewViewModelType {
-    func provideToAddToCartButtonText(button: CustomButton) {
-        button.setTitle(productDetailData?.price.withDollar.addToCartTransformText(), for: .normal)
-    }
-    
-    func provideMemoryAmounts(first: CustomButton,
-                              second: CustomButton) {
-        first.setTitle("\(productDetailData?.capacity[0] ?? "?") Gb", for: .normal)
-        second.setTitle("\(productDetailData?.capacity[1] ?? "?") Gb", for: .normal)
-    }
-    
-    func provideColorsToColorTypeButtons(first: CustomButton,
-                                         second: CustomButton) {
-        first.setBackgroundImage(UIImage(color: UIColor(hexaRGBA: productDetailData?.color[0] ?? "#bcbcbc") ?? .gray ,
-                                         size: CGSize(width: 40, height: 40)),
-                                 for: .normal)
-        second.setBackgroundImage(UIImage(color: UIColor(hexaRGBA: productDetailData?.color[1] ?? "#bcbcbc") ?? .gray ,
-                                         size: CGSize(width: 40, height: 40)),
-                                 for: .normal)
-    }
-    
-    func fillSpecifications(cpuSpecication: UILabel,
-                            cameraSpecification: UILabel,
-                            ramSpecification: UILabel,
-                            hddSpecification: UILabel,
-                            within: ProductSpecificationStackView) {
-        let labels = [cpuSpecication: productDetailData?.cpu,
-                 cameraSpecification: productDetailData?.camera,
-                    ramSpecification: productDetailData?.sd,
-                    hddSpecification: productDetailData?.ssd]
-        for (label, text) in labels {
-            label.text = text
-        }
-        within.updateLabelWidthConstraints()
-        within.layoutIfNeeded()
-    }
-    
     
     // MARK: - Properties
     
@@ -101,5 +65,75 @@ final class ProductDetailsViewViewModel: ProductDetailsViewViewModelType {
     
     func numberOfItemsInSection() -> Int? {
         productDetailData?.images.count
+    }
+    
+    func amountOfMemotyButtonTap(firstButton: CustomButton,
+                                 secondButton: CustomButton,
+                                 sender: CustomButton) {
+        guard sender.backgroundColor != .customOrange else { return }
+        if sender == firstButton {
+            firstButton.setBackgroundImage(UIImage(color: .customOrange),
+                                           for: .normal)
+            firstButton.setTitleColor(.white, for: .normal)
+            secondButton.setBackgroundImage(UIImage(color: .white),
+                                            for: .normal)
+            secondButton.setTitleColor(.lightGray, for: .normal)
+        } else {
+            secondButton.setBackgroundImage(UIImage(color: .customOrange),
+                                            for: .normal)
+            secondButton.setTitleColor(.white, for: .normal)
+            firstButton.setBackgroundImage(UIImage(color: .white),
+                                           for: .normal)
+            firstButton.setTitleColor(.lightGray, for: .normal)
+        }
+
+    }
+    
+    func colorTypeButtonTap(firstButton: CustomButton,
+                            secondButton: CustomButton,
+                            sender: CustomButton) {
+        guard sender.isSelected != true else { return }
+        sender.isSelected.toggle()
+        if sender == firstButton {
+            secondButton.isSelected = !firstButton.isSelected
+        } else {
+            firstButton.isSelected = !secondButton.isSelected
+        }
+    }
+    
+    func provideToAddToCartButtonText(button: CustomButton) {
+        button.setTitle(productDetailData?.price.withDollar.addToCartTransformText(), for: .normal)
+    }
+    
+    func provideMemoryAmounts(first: CustomButton,
+                              second: CustomButton) {
+        first.setTitle("\(productDetailData?.capacity[0] ?? "?") Gb", for: .normal)
+        second.setTitle("\(productDetailData?.capacity[1] ?? "?") Gb", for: .normal)
+    }
+    
+    func provideColorsToColorTypeButtons(first: CustomButton,
+                                         second: CustomButton) {
+        first.setBackgroundImage(UIImage(color: UIColor(hexaRGBA: productDetailData?.color[0] ?? "#bcbcbc") ?? .gray ,
+                                         size: CGSize(width: 40, height: 40)),
+                                 for: .normal)
+        second.setBackgroundImage(UIImage(color: UIColor(hexaRGBA: productDetailData?.color[1] ?? "#bcbcbc") ?? .gray ,
+                                         size: CGSize(width: 40, height: 40)),
+                                 for: .normal)
+    }
+    
+    func fillSpecifications(cpuSpecication: UILabel,
+                            cameraSpecification: UILabel,
+                            ramSpecification: UILabel,
+                            hddSpecification: UILabel,
+                            within: ProductSpecificationStackView) {
+        let labels = [cpuSpecication: productDetailData?.cpu,
+                 cameraSpecification: productDetailData?.camera,
+                    ramSpecification: productDetailData?.sd,
+                    hddSpecification: productDetailData?.ssd]
+        for (label, text) in labels {
+            label.text = text
+        }
+        within.updateLabelWidthConstraints()
+        within.layoutIfNeeded()
     }
 }

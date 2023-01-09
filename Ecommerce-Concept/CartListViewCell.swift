@@ -33,8 +33,10 @@ final class CartListViewCell: UITableViewCell {
                                                 with: Metrics.labelsTextSize,
                                                 and: .medium,
                                                 .customOrange)
-    
-    
+    private lazy var editAmountStepper = EditModelAmountStepper(frame: .zero)
+    private lazy var deleteButton = CustomButton(internalObject: UIImage(named: "bin"),
+                                                 objectColor: UIColor(red: 0.213, green: 0.211, blue: 0.3, alpha: 1),
+                                                 backgroundView: .none)
     
     // MARK: - Initialize
     

@@ -33,9 +33,11 @@ class CartViewController: UIViewController {
     private lazy var cartListTabelView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "UITableViewCell")
+        tableView.register(CartListViewCell.self,
+                           forCellReuseIdentifier: CartListViewCell.reuseIdentifier)
         tableView.dataSource = self
-        tableView.rowHeight = 40
+        tableView.rowHeight = Metrics.cartListTabelViewRowHeight
+        tableView.backgroundColor = .clear
         return tableView
     }()
     private lazy var tableViewUnderline: UIView = {
@@ -199,11 +201,12 @@ extension CartViewController {
         static let cartListTabelViewTopInset: CGFloat = 51
         static let cartListTabelViewLeadingInset: CGFloat = 23
         static let cartListTabelViewHeight: CGFloat = 394
+        static let cartListTabelViewRowHeight: CGFloat = 135
         
         static let tableViewUnderlineHeight: CGFloat = 2
         static let tableViewUnderlineSideInset: CGFloat = 4
         
-        static let totalParentStackViewSpacing: CGFloat = 194
+        static let totalParentStackViewSpacing: CGFloat = 190
         static let totalParentStackViewTopInset: CGFloat = 15
         static let totalParentStackViewLeadingInset: CGFloat = 55
         static let totalParentStackViewHeight: CGFloat = 50
@@ -240,15 +243,12 @@ extension CartViewController {
 
 extension CartViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        3
+        2
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "UITableViewCell", for: indexPath)
-        cell.backgroundColor = .gray
-        var content = cell.defaultContentConfiguration()
-        content.text = "хуй"
-        cell.contentConfiguration = content
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: CartListViewCell.reuseIdentifier,
+                                                       for: indexPath) as? CartListViewCell else { fatalError("not found cell") }
         return cell
         
     }

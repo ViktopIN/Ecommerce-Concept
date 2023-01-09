@@ -13,12 +13,14 @@ final class EditModelAmountStepper: UIStackView {
     
     private lazy var minusButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setImage(UIImage(named: "minus"), for: .normal)
+        button.setImage(UIImage(named: "minus")?.withTintColor(.white, renderingMode: .alwaysOriginal),
+                        for: .normal)
         return button
     }()
     private lazy var plusButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setImage(UIImage(named: "plus"), for: .normal)
+        button.setImage(UIImage(named: "plus")?.withTintColor(.white, renderingMode: .alwaysOriginal),
+                        for: .normal)
         return button
     }()
     private lazy var countLabel = UILabel(constant: "0",
@@ -49,20 +51,22 @@ final class EditModelAmountStepper: UIStackView {
     }
     
     private func setupLayout() {
-        
+        minusButton.heightAnchor.constraint(equalTo: plusButton.heightAnchor, constant: -5).isActive = true
     }
     
     private func setupView() {
         // stackView setup
         translatesAutoresizingMaskIntoConstraints = false
         axis = .vertical
-        spacing = 6
+        alignment = .center
+        spacing = 3
+        distribution = .equalCentering
         isLayoutMarginsRelativeArrangement = true
-        layoutMargins = UIEdgeInsets(top: 8,
-                                     left: 8,
-                                     bottom: 8,
-                                     right: 8)
+        layoutMargins = UIEdgeInsets(top: 4,
+                                     left: 4,
+                                     bottom: 4,
+                                     right: 4)
         backgroundColor = UIColor(red: 0.158, green: 0.156, blue: 0.262, alpha: 1)
-        layer.cornerRadius = 26
+        layer.cornerRadius = 13
     }
 }

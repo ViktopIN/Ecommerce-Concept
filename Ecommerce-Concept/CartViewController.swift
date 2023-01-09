@@ -38,14 +38,41 @@ class CartViewController: UIViewController {
         tableView.rowHeight = 40
         return tableView
     }()
-    
     private lazy var tableViewUnderline: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.25)
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
+    private lazy var totalParentStackView = UIStackView(with: .horizontal,
+                                                        spacing: Metrics.totalParentStackViewSpacing)
+    private lazy var keysStack = UIStackView(with: .vertical, distribution: .fillEqually)
+    private lazy var valueStack = UIStackView(with: .vertical, distribution: .fillEqually)
+    private lazy var totalLabel = UILabel(constant: Strings.totalLabelText,
+                                          with: Metrics.totalLabelTextSize,
+                                          and: .regular,
+                                          .white)
+    private lazy var deliveryLabel = UILabel(constant: Strings.deliveryLabelText,
+                                             with: Metrics.deliveryLabelTextSize,
+                                             and: .regular,
+                                             .white)
     
+    private lazy var totalValueLabel = UILabel(constant: Strings.valueLabelsPlaceholderText,
+                                               with: Metrics.totalValueLabelTextSize,
+                                               and: .bold,
+                                               .white)
+    private lazy var deliveryValueLabel = totalValueLabel.copy() as! UILabel
+    private lazy var totalStackUnderline: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.25)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    private lazy var checkoutButton = CustomButton(internalObject: Strings.checkoutButtonText,
+                                                   objectColor: .white,
+                                                   backgroundView: .roundedCorner(color: .customOrange),
+                                                   textStyle: .bigButtonStyle)
+        
     // MARK: - Lifecycle
     
     override func viewDidLoad() {
@@ -64,7 +91,16 @@ class CartViewController: UIViewController {
                          addAddressLabel,
                          cartTitleLabel,
                          cartContainerView)
-        cartContainerView.addSubviews(cartListTabelView, tableViewUnderline)
+        cartContainerView.addSubviews(cartListTabelView,
+                                      tableViewUnderline,
+                                      totalParentStackView,
+                                      totalStackUnderline,
+                                      checkoutButton)
+        totalParentStackView.addArrangedSubviews(keysStack, valueStack)
+        keysStack.addArrangedSubviews(totalLabel,
+                                      deliveryLabel)
+        valueStack.addArrangedSubviews(totalValueLabel,
+                                       deliveryValueLabel)
     }
     
     private func setupLayout() {
@@ -106,12 +142,30 @@ class CartViewController: UIViewController {
             cartListTabelView.leadingAnchor.constraint(equalTo: cartContainerView.leadingAnchor, constant: Metrics.cartListTabelViewLeadingInset),
             cartListTabelView.trailingAnchor.constraint(equalTo: cartContainerView.trailingAnchor),
             cartListTabelView.heightAnchor.constraint(equalToConstant: Metrics.cartListTabelViewHeight),
-            
-            // MARK: TableViewUnderline
+             
+            // MARK: TableViewUnderline Constraints
             tableViewUnderline.topAnchor.constraint(equalTo: cartListTabelView.bottomAnchor),
             tableViewUnderline.leadingAnchor.constraint(equalTo: cartContainerView.leadingAnchor, constant: Metrics.tableViewUnderlineSideInset),
             tableViewUnderline.trailingAnchor.constraint(equalTo: cartContainerView.trailingAnchor, constant: -Metrics.tableViewUnderlineSideInset),
-            tableViewUnderline.heightAnchor.constraint(equalToConstant: Metrics.tableViewUnderlineHeight)
+            tableViewUnderline.heightAnchor.constraint(equalToConstant: Metrics.tableViewUnderlineHeight),
+            
+            // MARK: Total Stack Constraints
+            totalParentStackView.topAnchor.constraint(equalTo: tableViewUnderline.bottomAnchor, constant: Metrics.totalParentStackViewTopInset),
+            totalParentStackView.leadingAnchor.constraint(equalTo: cartContainerView.leadingAnchor, constant: Metrics.totalParentStackViewLeadingInset),
+            totalParentStackView.trailingAnchor.constraint(equalTo: cartContainerView.trailingAnchor, constant: Metrics.totalParentStackViewTrailingInset),
+            totalParentStackView.heightAnchor.constraint(equalToConstant: Metrics.totalParentStackViewHeight),
+            
+            // MARK: TotalStackUnderline Constraints
+            totalStackUnderline.topAnchor.constraint(equalTo: totalParentStackView.bottomAnchor, constant: Metrics.totalStackUnderlineTopInset),
+            totalStackUnderline.leadingAnchor.constraint(equalTo: cartContainerView.leadingAnchor, constant: Metrics.tableViewUnderlineSideInset),
+            totalStackUnderline.trailingAnchor.constraint(equalTo: cartContainerView.trailingAnchor, constant: -Metrics.tableViewUnderlineSideInset),
+            totalStackUnderline.heightAnchor.constraint(equalToConstant: Metrics.totalStackUnderlineHeight),
+            
+            // MARK: CheckoutButton Constraints
+            checkoutButton.topAnchor.constraint(equalTo: totalStackUnderline.bottomAnchor, constant: Metrics.checkoutButtonTopInset),
+            checkoutButton.leadingAnchor.constraint(equalTo: cartContainerView.leadingAnchor, constant: Metrics.checkoutButtonLeadingInset),
+            checkoutButton.trailingAnchor.constraint(equalTo: cartContainerView.trailingAnchor, constant: Metrics.checkoutButtonTrailingInset),
+            checkoutButton.bottomAnchor.constraint(equalTo: cartContainerView.bottomAnchor, constant: Metrics.checkoutButtonBottomInset)
         ])
     }
     
@@ -125,7 +179,7 @@ class CartViewController: UIViewController {
 
 extension CartViewController {
     enum Metrics {
-        static let backButtonTopInset: CGFloat = 79
+        static let backButtonTopInset: CGFloat = 65
         static let backButtonLeadingInset: CGFloat = 42
         static let titleButtonsMainSize: CGFloat = 37
         
@@ -136,30 +190,51 @@ extension CartViewController {
         static let addAddressLabelHeight: CGFloat = 19
         
         static let cartTitleLabelTextSize: CGFloat = 35
-        static let cartTitleLabelTopInset: CGFloat = 50
+        static let cartTitleLabelTopInset: CGFloat = 28
         static let cartTitleLabelLeadingInset: CGFloat = 42
         static let cartTitleLabelHeight: CGFloat = 44
         
-        static let cartContainerViewTopInset: CGFloat = 49
+        static let cartContainerViewTopInset: CGFloat = 30
         
-        static let cartListTabelViewTopInset: CGFloat = 80
+        static let cartListTabelViewTopInset: CGFloat = 51
         static let cartListTabelViewLeadingInset: CGFloat = 23
         static let cartListTabelViewHeight: CGFloat = 394
         
         static let tableViewUnderlineHeight: CGFloat = 2
         static let tableViewUnderlineSideInset: CGFloat = 4
-
+        
+        static let totalParentStackViewSpacing: CGFloat = 194
+        static let totalParentStackViewTopInset: CGFloat = 15
+        static let totalParentStackViewLeadingInset: CGFloat = 55
+        static let totalParentStackViewHeight: CGFloat = 50
+        static let totalParentStackViewTrailingInset: CGFloat = -20
+        
+        static let totalLabelTextSize: CGFloat = 15
+        static let deliveryLabelTextSize: CGFloat = 15
+        static let totalValueLabelTextSize: CGFloat = 15
+        
+        static let totalStackUnderlineTopInset: CGFloat = 16
+        static let totalStackUnderlineHeight: CGFloat = 1
+        
+        static let checkoutButtonTopInset: CGFloat = 21
+        static let checkoutButtonLeadingInset: CGFloat = 44
+        static let checkoutButtonTrailingInset: CGFloat = -44
+        static let checkoutButtonBottomInset: CGFloat = -44
+        
         static func returnLabelsWidth(text: String,
                                       with constrainedHeight: CGFloat,
                                       and font: UIFont) -> CGFloat {
             return text.width(withConstrainedHeight: constrainedHeight, font: font)
         }
-        
     }
     
     enum Strings {
         static let addAddressLabelText = "Add address"
         static let cartTitleLabelText = "Cart"
+        static let totalLabelText = "Total"
+        static let deliveryLabelText = "Delivery"
+        static let valueLabelsPlaceholderText = "Unknown"
+        static let checkoutButtonText = "Checkout"
     }
 }
 

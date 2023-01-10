@@ -6,5 +6,6 @@ target 'Ecommerce-Concept' do
   use_frameworks!
 
 pod 'Cosmos', '~> 23.0'
+pod 'RealmSwift', '~>10'
 
 end

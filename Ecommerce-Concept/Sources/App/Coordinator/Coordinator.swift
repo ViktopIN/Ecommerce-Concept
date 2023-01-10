@@ -30,8 +30,8 @@ class Coordinator: CoordinatorProtocol {
                                                 animated: false)
     }
     
-    func showHomeStoreView() {
-        navigationController.popToRootViewController(animated: true)
+    func returnBack() {
+        navigationController.popViewController(animated: true)
     }
     
     func showBottomSheetOnHomeStoreView() {
@@ -54,6 +54,13 @@ class Coordinator: CoordinatorProtocol {
         productDetailViewController.viewModel = productDetailViewViewModel
         productDetailViewController.coordinator = self
         navigationController.pushViewController(productDetailViewController,
+                                                animated: true)
+    }
+    
+    func showCartView() {
+        let cartViewController = CartViewController()
+        cartViewController.coordinator = self
+        navigationController.pushViewController(cartViewController,
                                                 animated: true)
     }
 }

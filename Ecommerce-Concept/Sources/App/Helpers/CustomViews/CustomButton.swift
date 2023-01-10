@@ -9,6 +9,12 @@ import UIKit.UIButton
 
 class CustomButton: UIButton {
     
+    // MARK: - Properties
+    
+    // Optional coordinator necessary for back-type button
+    
+    private var coordinator: CoordinatorProtocol?
+    
     // MARK: - Initialise
     
     ///  Custom Button initalise
@@ -17,10 +23,12 @@ class CustomButton: UIButton {
     ///   - objectColor: image color
     ///   - backgroundView:  background views corner style
     ///   - textStyle: internal title label style, occur necessary only with defined internalObject as String type
+    ///   - isBackButton: setup default back-type buttons view, for setup back action must implement     [setupBackButton](x-source-tag://setupBackButton)  method
     init(internalObject: Any?,
          objectColor: UIColor?,
          backgroundView: BackgroundViewStyle,
-         textStyle: TextStyle = .mediumButtonStyle) {
+         textStyle: TextStyle = .mediumButtonStyle,
+         isBackButton: Bool = false) {
         super.init(frame: .zero)
         if let internalObject = internalObject, let objectColor = objectColor {
             if let internalImage = internalObject as? UIImage {
@@ -41,8 +49,11 @@ class CustomButton: UIButton {
                     titleLabel?.font = .markProMedium(ofSize: 18)
                     setTitleColor(objectColor, for: .normal)
                 }
-
             }
+        } else if isBackButton  {
+            self.setImage(UIImage(named: "left-shield")?.withTintColor(.white, renderingMode: .alwaysOriginal),
+                          for: .normal)
+            
         }
         translatesAutoresizingMaskIntoConstraints = false
         switch backgroundView {
@@ -93,6 +104,21 @@ class CustomButton: UIButton {
     
     func addCheckMarkToButton() {
         setImage(UIImage(named: "checkmark"), for: .selected)
+    }
+    
+    /// - Tag: setupBackButton
+    func setupBackButton(viewControllersCoordinator: CoordinatorProtocol) {
+        coordinator = viewControllersCoordinator
+        self.addTarget(self, action: #selector(backAction),
+                       for: .touchUpInside)
+    }
+    
+    // MARK: - Private Methods
+    
+    @objc
+    private func backAction() {
+        guard let coordinator = coordinator else { return }
+        coordinator.returnBack()
     }
 }
 
